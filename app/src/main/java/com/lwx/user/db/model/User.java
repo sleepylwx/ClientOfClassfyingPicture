@@ -12,9 +12,6 @@ public class User {
     @DatabaseField(columnName = "uid", id = true)
     public long uid;
 
-    @DatabaseField(columnName = "username")
-    public String username;
-
     @DatabaseField(columnName = "token")
     public String token;
 
