@@ -8,6 +8,8 @@ import android.content.Context;
 
 public class LoginPresenter {
 
+    private Context context;
+
     public LoginPresenter(Context context){
 
 
