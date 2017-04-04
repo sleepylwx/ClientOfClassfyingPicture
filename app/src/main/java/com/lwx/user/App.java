@@ -1,3 +1,5 @@
+package com.lwx.user;
+
 import android.app.Application;
 import android.support.annotation.NonNull;
 
@@ -19,7 +21,7 @@ public class App extends Application {
         sInstance = this;
     }
 
-    public App getInstance(){
+    public static App getInstance(){
 
         return sInstance;
     }
