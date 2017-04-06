@@ -15,4 +15,18 @@ public class User {
     @DatabaseField(columnName = "token")
     public String token;
 
+    public User(long uid, String token) {
+        this.uid = uid;
+        this.token = token;
+    }
+
+    public User(){}
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "uid=" + uid +
+                ", token='" + token + '\'' +
+                '}';
+    }
 }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.lwx.user">
+    package="com.lwx.user">
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:name=".App"
@@ -11,16 +12,18 @@
         android:theme="@style/AppTheme">
         <activity android:name=".ui.SplashActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.MainActivity">
-        </activity>
-        <activity android:name=".ui.LoginActivity">
-        </activity>
-        <activity android:name=".ui.SignUpActivity">
+        <activity android:name=".ui.MainActivity"></activity>
+        <activity android:name=".ui.LoginActivity"></activity>
+        <activity android:name=".ui.SignUpActivity"></activity>
+        <activity android:name=".debug.DebugActivity">
+            <intent-filter>
+                <action android:name="acoder.me.debug" />
+            </intent-filter>
         </activity>
     </application>
 
