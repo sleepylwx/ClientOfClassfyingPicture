@@ -11,7 +11,11 @@ import com.lwx.user.net.LoginAgent;
 import com.lwx.user.ui.LoginActivity;
 import com.lwx.user.utils.PreferenceHelper;
 
+import org.reactivestreams.Subscriber;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -50,6 +54,8 @@ public class SplashPresenter implements SplashContract.Presenter{
         userRepo.getToken(uid)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(x->loginAgent.checkToken(x));
+                .subscribe()
     }
+
+
 }
