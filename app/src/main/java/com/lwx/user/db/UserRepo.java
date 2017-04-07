@@ -1,5 +1,9 @@
 package com.lwx.user.db;
 
+import com.lwx.user.db.model.UserDetail;
+
+import java.util.List;
+
 import io.reactivex.Observable;
 
 /**
@@ -24,4 +28,6 @@ public interface UserRepo {
      * @return
      */
     Observable<Boolean> saveToken(long uid,String token);
+
+    Observable<List<UserDetail>> getAllUserDetails();
 }

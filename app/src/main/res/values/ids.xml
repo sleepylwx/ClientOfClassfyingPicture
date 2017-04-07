@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item name="edittext_var" type="id"/>
+
+    <item name="imageview1_var" type="id"/>
+    <item name="imageview2_var" type="id"/>
+    <item name="imageview3_var" type="id"/>
+
+</resources>

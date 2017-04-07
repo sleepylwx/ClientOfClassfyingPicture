@@ -28,7 +28,7 @@ import retrofit2.Retrofit;
 /**
  * Created by henry on 17-4-6.
  */
-public class UserAgentImpl {
+public class UserAgentImpl implements UserAgent{
 
     UserService userService = null;
 

@@ -1,17 +1,13 @@
-package com.lwx.user.ui;
+package com.lwx.user.ui.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.WindowManager;
 
-import com.j256.ormlite.stmt.query.In;
 import com.lwx.user.R;
 import com.lwx.user.contracts.SplashContract;
-import com.lwx.user.presenter.LoginPresenter;
 import com.lwx.user.presenter.SplashPresenter;
-import com.lwx.user.utils.PreferenceHelper;
 
 public class SplashActivity extends AppCompatActivity implements SplashContract.View{
 
@@ -28,6 +24,13 @@ public class SplashActivity extends AppCompatActivity implements SplashContract.
         checkLogin();
     }
 
+    @Override
+    protected void onDestroy(){
+
+        presenter = null;
+        super.onDestroy();
+
+    }
     private void checkLogin(){
 
         presenter.doAutoLogin();
@@ -50,9 +53,5 @@ public class SplashActivity extends AppCompatActivity implements SplashContract.
         finish();
     }
 
-    @Override
-    public void showNetworkFailure() {
 
-
-    }
 }

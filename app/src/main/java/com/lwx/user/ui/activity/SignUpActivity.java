@@ -1,4 +1,4 @@
-package com.lwx.user.ui;
+package com.lwx.user.ui.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
