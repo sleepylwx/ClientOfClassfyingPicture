@@ -1,7 +1,6 @@
 package com.lwx.user.contracts;
 
 import com.lwx.user.db.model.User;
-import com.lwx.user.db.model.UserDetail;
 
 import java.util.List;
 
@@ -11,17 +10,22 @@ import java.util.List;
 
 public interface LoginContract {
 
-    interface View{
+    interface View extends BaseContract.View<LoginContract.Presenter>{
 
         void showNetWorkError();
         void showLoginSuccess();
-        void onAllUserDetailLoaded(List<UserDetail> list);
+        void onAllUsersLoaded(List<User> list);
+        void onUsersEmpty();
+        void onLoginSucceed();
     }
 
     interface Presenter{
 
-        void loadAllUserDetails();
+        void loadAllUsers();
         void login(String user,String passwd);
+        void login(String token);
+        void deleteUser(User user);
+        void saveUser(User user);
 
     }
 }

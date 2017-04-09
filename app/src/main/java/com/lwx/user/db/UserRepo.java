@@ -1,6 +1,6 @@
 package com.lwx.user.db;
 
-import com.lwx.user.db.model.UserDetail;
+import com.lwx.user.db.model.User;
 
 import java.util.List;
 
@@ -29,5 +29,9 @@ public interface UserRepo {
      */
     Observable<Boolean> saveToken(long uid,String token);
 
-    Observable<List<UserDetail>> getAllUserDetails();
+    Observable<List<User>> getAllUsers();
+
+    Observable<Boolean> deleteUser(User user);
+
+    Observable<Boolean> saveUser(User user);
 }

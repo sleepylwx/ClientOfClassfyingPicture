@@ -15,6 +15,12 @@ public class User {
     @DatabaseField(columnName = "token")
     public String token;
 
+    @DatabaseField(columnName = "user")
+    public String user;
+
+    @DatabaseField(columnName = "headPath")
+    public String headPath;
+
     public User(long uid, String token) {
         this.uid = uid;
         this.token = token;

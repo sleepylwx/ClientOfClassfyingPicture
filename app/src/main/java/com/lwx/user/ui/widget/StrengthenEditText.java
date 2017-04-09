@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Build;
 import android.text.InputFilter;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.widget.EditText;
@@ -21,7 +22,7 @@ import java.lang.reflect.Field;
 import java.util.List;
 
 /**
- * Created by 36249 on 2017/3/16.
+ * Created by 36249 on 2017/4/8.
  */
 
 public class StrengthenEditText extends RelativeLayout {
@@ -354,4 +355,21 @@ public class StrengthenEditText extends RelativeLayout {
 
         return (LayoutParams)imageViewList.get(index).getLayoutParams();
     }
+
+    public void addTextChangedListener(TextWatcher textWatcher){
+
+        editText.addTextChangedListener(textWatcher);
+    }
+
+    public ImageView getComponentItem(int index){
+
+        return imageViewList.get(index);
+    }
+
+    public EditText getEditText(){
+
+        return editText;
+    }
+
+
 }
