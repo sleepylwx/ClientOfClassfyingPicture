@@ -20,10 +20,14 @@
 
         </activity>
 
-        <activity android:name=".ui.activity.MainActivity"></activity>
-        <activity android:name=".ui.activity.LoginActivity"></activity>
-        <activity android:name=".ui.activity.SignUpActivity"></activity>
-        <activity android:name=".ui.activity.FindPasswdActivity"></activity>
+        <activity android:name=".ui.activity.MainActivity"
+            android:launchMode="singleTask"/>
+
+        <activity android:name=".ui.activity.LoginActivity"
+            />
+        <activity android:name=".ui.activity.SignUpActivity"/>
+
+        <activity android:name=".ui.activity.FindPasswdActivity"/>
 
         <activity android:name=".debug.DebugActivity">
             <intent-filter>

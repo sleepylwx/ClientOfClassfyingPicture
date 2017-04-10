@@ -12,19 +12,19 @@ import com.lwx.user.App;
 public class PreferenceHelper {
 
     private static final String LOGINUSERID = "LOGINUSERID";
-    public void setLogInUID(int id){
+    public void setLogInUID(long id){
 
         SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(App.getInstance());
         SharedPreferences.Editor editor = preference.edit();
-        editor.putInt(LOGINUSERID,id);
+        editor.putLong(LOGINUSERID,id);
         editor.apply();
 
     }
 
-    public int getLogInUID(){
+    public long getLogInUID(){
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(App.getInstance());
-        return preferences.getInt(LOGINUSERID,-1);
+        return preferences.getLong(LOGINUSERID,-1);
 
     }
 }

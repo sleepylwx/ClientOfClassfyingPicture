@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.lwx.user.R;
 import com.lwx.user.contracts.SplashContract;
@@ -46,12 +47,17 @@ public class SplashActivity extends AppCompatActivity implements SplashContract.
     }
 
     @Override
-    public void jumpToMainActivity() {
+    public void jumpToMainActivity(long uid) {
 
         Intent intent = new Intent(this,MainActivity.class);
+        intent.putExtra(MainActivity.MATCH_NUM,uid);
         startActivity(intent);
         finish();
     }
 
+    @Override
+    public void showNetWorkError() {
 
+        Toast.makeText(this,"网络开小差了噢...",Toast.LENGTH_SHORT).show();
+    }
 }

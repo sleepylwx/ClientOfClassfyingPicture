@@ -13,17 +13,16 @@ public interface LoginContract {
     interface View extends BaseContract.View<LoginContract.Presenter>{
 
         void showNetWorkError();
-        void showLoginSuccess();
         void onAllUsersLoaded(List<User> list);
         void onUsersEmpty();
-        void onLoginSucceed();
+        void onLoginSucceed(long uid);
     }
 
     interface Presenter{
 
         void loadAllUsers();
         void login(String user,String passwd);
-        void login(String token);
+        void login(long uid,String token);
         void deleteUser(User user);
         void saveUser(User user);
 

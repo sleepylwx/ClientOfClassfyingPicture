@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.reactivex.Flowable;
@@ -64,6 +65,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     private List<User> users;
     private String curToken;
     private boolean editState;
+    private long curUid;
 
     private boolean isClicked;
     private ImageLoader imageLoader;
@@ -80,7 +82,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         }
         else{
 
-            presenter.login(curToken);
+            presenter.login(curUid,curToken);
         }
 
     }
@@ -107,6 +109,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        ButterKnife.bind(this);
         presenter = new LoginPresenter(this);
         imageLoader = new ImageLoader();
         init();
@@ -176,7 +179,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         list.add(new ImageView(this));
         imageLoader.loadImage(this,R.drawable.clear,list.get(0));
         imageLoader.loadImage(this,R.drawable.arrowdown,list.get(1));
-
+        imageLoader.loadImage(this,R.mipmap.ic_launcher,circleImageView);
 
         userEdittext.setComponent(list);
         userEdittext.setComponentPadding(10);
@@ -192,14 +195,18 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
             @Override
             public void onClick(View v) {
 
+
                 if(!isClicked){
 
                     imageLoader.loadImage(LoginActivity.this,R.drawable.arrowup,userEdittext.getComponentItem(1));
 
                     isClicked = true;
 
-                    InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    inputMethodManager.hideSoftInputFromWindow(userEdittext.getWindowToken(),0);
+                    if(users != null){
+
+                        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        inputMethodManager.hideSoftInputFromWindow(userEdittext.getWindowToken(),0);
+                    }
 
                     //SystemClock.sleep(100);
 
@@ -312,8 +319,9 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
                         }
                         if(flag == -1){
 
-
-                            e.onNext(null);
+                            User temp = new User();
+                            temp.uid = -1;
+                            e.onNext(temp);
                         }
                         else{
 
@@ -328,7 +336,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
                             @Override
                             public void accept(User user) throws Exception {
 
-                                if(user == null){
+                                if(user.uid == -1){
 
                                     curToken = null;
                                     editState = false;
@@ -338,7 +346,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
                                     editState = true;
                                     curToken = user.token;
-
+                                    curUid = user.uid;
                                     imageLoader.loadImage(LoginActivity.this,user.headPath,circleImageView);
 
                                     passwdEdittext.setText(MASKED_PASSWD);
@@ -450,13 +458,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         Toast.makeText(this,"网络出现问题了噢...",Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    public void showLoginSuccess() {
 
-        Intent intent = new Intent(this,MainActivity.class);
-        startActivity(intent);
-        finish();
-    }
 
     @Override
     public void onAllUsersLoaded(List<User> list) {
@@ -490,9 +492,10 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     }
 
     @Override
-    public void onLoginSucceed() {
+    public void onLoginSucceed(long uid) {
 
         Intent intent = new Intent(this,MainActivity.class);
+        intent.putExtra(MainActivity.MATCH_NUM,uid);
         startActivity(intent);
         finish();
     }

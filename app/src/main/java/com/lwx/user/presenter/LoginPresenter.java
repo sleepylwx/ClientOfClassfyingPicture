@@ -13,9 +13,11 @@ import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 
 import io.reactivex.CompletableObserver;
+import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.observers.SafeObserver;
 import io.reactivex.schedulers.Schedulers;
 
@@ -53,21 +55,35 @@ public class LoginPresenter implements LoginContract.Presenter{
         userAgent.login(user,passwd)
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
-                .subscribe(new Subscriber<User>(){
+                .subscribe(new Observer<User>(){
 
                     @Override
-                    public void onSubscribe(Subscription s) {
-                        s.request(Long.MAX_VALUE);
+                    public void onSubscribe(Disposable d) {
+                        d.dispose();
                     }
 
                     @Override
                     public void onNext(User user) {
 
-                        context.onLoginSucceed();
+
                         userRepo.saveUser(user)
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe();
+                                .subscribe(new Consumer<Boolean>() {
+                                    @Override
+                                    public void accept(@NonNull Boolean aBoolean) throws Exception {
+
+                                        if(aBoolean){
+
+                                            context.onLoginSucceed(user.uid);
+                                        }
+                                        else{
+
+                                            //
+                                        }
+                                        //
+                                    }
+                                });
                     }
 
                     @Override
@@ -84,7 +100,7 @@ public class LoginPresenter implements LoginContract.Presenter{
     }
 
     @Override
-    public void login(String token) {
+    public void login(long uid,String token) {
 
         userAgent.auth(token)
                 .subscribeOn(Schedulers.io())
@@ -99,7 +115,7 @@ public class LoginPresenter implements LoginContract.Presenter{
                     @Override
                     public void onComplete() {
 
-                        context.onLoginSucceed();
+                        context.onLoginSucceed(uid);
                     }
 
                     @Override

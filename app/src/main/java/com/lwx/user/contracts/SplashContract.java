@@ -9,8 +9,8 @@ public interface SplashContract {
     interface View{
 
         void jumpToLoginActivity();
-        void jumpToMainActivity();
-
+        void jumpToMainActivity(long uid);
+        void showNetWorkError();
 
     }
 

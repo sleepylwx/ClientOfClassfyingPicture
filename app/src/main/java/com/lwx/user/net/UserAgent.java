@@ -20,4 +20,6 @@ public interface UserAgent {
     Observable<String> getNickName(long uid);
 
     Completable setNickName(String token, String nickName);
+
+    Completable signUp(String username,String password);
 }
