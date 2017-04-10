@@ -4,6 +4,8 @@ import com.elvishew.xlog.XLog;
 import com.j256.ormlite.dao.Dao;
 import com.lwx.user.db.model.User;
 
+import java.util.List;
+
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
@@ -23,6 +25,39 @@ public class UserImpl implements UserRepo {
         }catch (Exception e){
             XLog.e("SQL Exception");
         }
+    }
+
+    @Override
+    public Observable<List<User>> getAllUsers() {
+        return Observable.create(new ObservableOnSubscribe<List<User>>() {
+            @Override
+            public void subscribe(@NonNull ObservableEmitter<List<User>> observableEmitter) throws Exception {
+                observableEmitter.onNext(userDao.queryForAll());
+                observableEmitter.onComplete();
+            }
+        });
+    }
+
+    @Override
+    public Observable<Boolean> deleteUser(User user) {
+        return Observable.create(new ObservableOnSubscribe<Boolean>() {
+            @Override
+            public void subscribe(@NonNull ObservableEmitter<Boolean> observableEmitter) throws Exception {
+                userDao.delete(user);
+                observableEmitter.onComplete();
+            }
+        });
+    }
+
+    @Override
+    public Observable<Boolean> saveUser(User user) {
+        return Observable.create(new ObservableOnSubscribe<Boolean>() {
+            @Override
+            public void subscribe(@NonNull ObservableEmitter<Boolean> observableEmitter) throws Exception {
+                userDao.create(user);
+                observableEmitter.onComplete();
+            }
+        });
     }
 
     @Override
