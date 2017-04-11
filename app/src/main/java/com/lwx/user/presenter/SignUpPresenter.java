@@ -54,4 +54,11 @@ public class SignUpPresenter implements SignUpContract.Presenter {
                     }
                 });
     }
+
+    @Override
+    public SignUpContract.View getView() {
+
+        return context;
+    }
+
 }

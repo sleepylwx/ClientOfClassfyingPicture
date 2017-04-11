@@ -43,7 +43,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="hello"/>
+            />
 
 
     </LinearLayout>
@@ -68,7 +68,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="hello"/>
+            />
 
 
     </LinearLayout>
@@ -93,7 +93,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="hello"/>
+            />
 
 
     </LinearLayout>
@@ -103,7 +103,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_margin="20dp"
-        android:text="提交"/>
+        android:text="@string/button_submit"/>
 
 
 </LinearLayout>

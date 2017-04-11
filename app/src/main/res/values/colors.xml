@@ -4,4 +4,8 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="white">#ffffff</color>
+
+    <drawable name="arrow_down">@android:drawable/arrow_down_float</drawable>
+    <drawable name="arrow_up">@android:drawable/arrow_up_float</drawable>
+
 </resources>

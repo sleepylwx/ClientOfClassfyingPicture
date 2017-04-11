@@ -89,7 +89,7 @@ public class SplashPresenter implements SplashContract.Presenter {
 
 
                                             checkTimeMatched(startTime);
-                                            context.showNetWorkError();
+                                            context.onNetWorkError();
                                             context.jumpToLoginActivity();
                                             e.printStackTrace();
                                         }
@@ -111,4 +111,9 @@ public class SplashPresenter implements SplashContract.Presenter {
         }
     }
 
+    @Override
+    public SplashContract.View getView() {
+
+        return context;
+    }
 }

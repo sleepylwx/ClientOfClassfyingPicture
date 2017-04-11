@@ -138,4 +138,9 @@ public class LoginPresenter implements LoginContract.Presenter{
 
         userRepo.saveUser(user);
     }
+
+    @Override
+    public LoginContract.View getView() {
+        return context;
+    }
 }

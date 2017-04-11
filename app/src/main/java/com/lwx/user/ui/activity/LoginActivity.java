@@ -70,7 +70,9 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     private boolean isClicked;
     private ImageLoader imageLoader;
     public static final String MATCH_NUM = "1";
+    public static final String SIGN_UP_STATE = "2";
     private static final String MASKED_PASSWD = "111111111111";
+
     @OnClick(R.id.button_login)
     public void onClick(){
 
@@ -452,11 +454,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
 
 
-    @Override
-    public void showNetWorkError() {
 
-        Toast.makeText(this,"网络出现问题了噢...",Toast.LENGTH_SHORT).show();
-    }
 
 
 
@@ -492,11 +490,30 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     }
 
     @Override
+    public void onNetWorkError() {
+
+        Toast.makeText(this,R.string.network_error,Toast.LENGTH_SHORT).show();
+
+    }
+
+    @Override
     public void onLoginSucceed(long uid) {
 
         Intent intent = new Intent(this,MainActivity.class);
         intent.putExtra(MainActivity.MATCH_NUM,uid);
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    public void onNewIntent(Intent intent){
+
+        String user = intent.getStringExtra(SIGN_UP_STATE);
+        if(user != null){
+
+
+            userEdittext.setText(user);
+        }
+
     }
 }

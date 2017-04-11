@@ -9,6 +9,7 @@ public interface BaseContract {
     public interface View<T>{
 
         T getPresenter();
+        void onNetWorkError();
     }
 
     public interface Presenter<T>{

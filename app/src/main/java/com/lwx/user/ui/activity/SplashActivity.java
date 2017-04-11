@@ -32,6 +32,7 @@ public class SplashActivity extends AppCompatActivity implements SplashContract.
         super.onDestroy();
 
     }
+
     private void checkLogin(){
 
         presenter.doAutoLogin();
@@ -55,9 +56,18 @@ public class SplashActivity extends AppCompatActivity implements SplashContract.
         finish();
     }
 
-    @Override
-    public void showNetWorkError() {
 
-        Toast.makeText(this,"网络开小差了噢...",Toast.LENGTH_SHORT).show();
+
+    @Override
+    public SplashContract.Presenter getPresenter() {
+
+        return presenter;
     }
+
+    @Override
+    public void onNetWorkError() {
+
+        Toast.makeText(this,R.string.network_error,Toast.LENGTH_SHORT).show();
+    }
+
 }

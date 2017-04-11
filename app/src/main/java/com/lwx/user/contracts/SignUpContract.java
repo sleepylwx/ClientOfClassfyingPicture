@@ -6,13 +6,13 @@ package com.lwx.user.contracts;
 
 public interface SignUpContract {
 
-    public interface View{
+    public interface View extends BaseContract.View<SignUpContract.Presenter>{
 
         void onSignUpSucceed(String user);
 
     }
 
-    public interface Presenter{
+    public interface Presenter extends BaseContract.Presenter<SignUpContract.View>{
 
 
         void doSignUp(String user,String passwd);

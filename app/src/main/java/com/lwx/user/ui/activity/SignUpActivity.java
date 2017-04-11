@@ -1,5 +1,6 @@
 package com.lwx.user.ui.activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.lwx.user.R;
 import com.lwx.user.contracts.SignUpContract;
@@ -33,6 +35,17 @@ public class SignUpActivity extends AppCompatActivity implements SignUpContract.
     @OnClick(R.id.submit)
     public void onClick(){
 
+        String user = userEdit.getText().toString();
+        String passwd = passwdEdit.getText().toString();
+        String passwdTwo = passwdTwoEdit.getText().toString();
+        if(passwd.equals(passwdTwo)){
+
+            presenter.doSignUp(user,passwd);
+        }
+        else{
+
+            Toast.makeText(this, R.string.passwd_repeat_error, Toast.LENGTH_SHORT).show();
+        }
 
     }
 
@@ -45,7 +58,6 @@ public class SignUpActivity extends AppCompatActivity implements SignUpContract.
 
         presenter = new SignUpPresenter(this);
         init();
-
 
 
 
@@ -65,7 +77,7 @@ public class SignUpActivity extends AppCompatActivity implements SignUpContract.
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(v->finish());
-
+        toolbar.setTitle(R.string.sign_up);
 
     }
 
@@ -86,6 +98,15 @@ public class SignUpActivity extends AppCompatActivity implements SignUpContract.
             @Override
             public void afterTextChanged(Editable s) {
 
+                String str = s.toString();
+                if(!str.contains("@") || str.startsWith("@")){
+
+                    userCheck.setText(R.string.user_format_error);
+                }
+                else{
+                    userCheck.setText(R.string.user_format_right);
+                }
+
             }
         });
 
@@ -102,6 +123,7 @@ public class SignUpActivity extends AppCompatActivity implements SignUpContract.
 
             @Override
             public void afterTextChanged(Editable s) {
+
 
             }
         });
@@ -120,6 +142,17 @@ public class SignUpActivity extends AppCompatActivity implements SignUpContract.
             @Override
             public void afterTextChanged(Editable s) {
 
+                String passwd = passwdEdit.getText().toString();
+                String passwdRepeat = s.toString();
+
+                if(passwd.equals(passwdRepeat)){
+
+                    passwdTwoCheck.setText(R.string.passwd_repeat_right);
+                }
+                else{
+
+                    passwdTwoCheck.setText(R.string.passwd_repeat_error);
+                }
             }
         });
     }
@@ -127,5 +160,23 @@ public class SignUpActivity extends AppCompatActivity implements SignUpContract.
     @Override
     public void onSignUpSucceed(String user) {
 
+        Intent intent = new Intent(this,LoginActivity.class);
+        intent.putExtra(LoginActivity.SIGN_UP_STATE,user);
+        startActivity(intent);
+
     }
+
+    @Override
+    public SignUpContract.Presenter getPresenter() {
+
+        return presenter;
+    }
+
+    @Override
+    public void onNetWorkError() {
+
+        Toast.makeText(this,R.string.network_error,Toast.LENGTH_SHORT).show();
+
+    }
+
 }
