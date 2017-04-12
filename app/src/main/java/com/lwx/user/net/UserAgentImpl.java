@@ -5,6 +5,7 @@ import android.icu.lang.UScript;
 import com.elvishew.xlog.XLog;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.lwx.user.App;
 import com.lwx.user.db.model.User;
 import com.lwx.user.net.rx.StringConverterFactory;
 import com.lwx.user.net.rx.UserService;
@@ -14,6 +15,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.List;
 
 import io.reactivex.Completable;
 import io.reactivex.CompletableEmitter;
@@ -40,7 +42,7 @@ public class UserAgentImpl implements UserAgent{
 
     private UserAgentImpl() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://ttxs.ac.cn:8080/")
+                .baseUrl(App.BASE_URL)
                 .addConverterFactory(StringConverterFactory.create())
                 .build();
 
@@ -156,5 +158,47 @@ public class UserAgentImpl implements UserAgent{
         });
     }
 
+    @Override
+    public Observable<List<String>> getMarkedTags(long uid) {
+        return Observable.create(new ObservableOnSubscribe<List<String>>() {
+            @Override
+            public void subscribe(@NonNull ObservableEmitter<List<String>> e) throws Exception {
+                try {
+                    Response<String> response = userService.getUserMarkedTag(uid).execute();
+                    String content = response.body();
+                    JSONObject jsonObject = new JSONObject(content);
 
+                    if(jsonObject.getBoolean("err")) {
+                        e.onError(new Exception(jsonObject.getString("msg")));
+                        return;
+                    }
+                    e.onNext((List<String>) jsonObject.get("tags"));
+                } catch (IOException|JSONException ex) {
+                    e.onError(ex);
+                }
+            }
+        });
+    }
+
+    @Override
+    public Completable signUp(String username, String password) {
+        return Completable.create(new CompletableOnSubscribe() {
+            @Override
+            public void subscribe(@NonNull CompletableEmitter e) throws Exception {
+                try {
+                    Response<String> response = userService.signUp(username, password, username).execute();
+                    String content = response.body();
+                    JSONObject jsonObject = new JSONObject(content);
+
+                    if(jsonObject.getBoolean("err")) {
+                        e.onError(new Exception(jsonObject.getString("msg")));
+                        return;
+                    }
+                    e.onComplete();
+                } catch (IOException|JSONException ex) {
+                    e.onError(ex);
+                }
+            }
+        });
+    }
 }

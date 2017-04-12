@@ -27,4 +27,9 @@ public interface UserService {
     @POST("/gsnickname.action") @FormUrlEncoded
     Call<String> setNickName( @Field("token") String token, @Field("nick") String nickName);
 
+    @POST("/register.action")
+    Call<String> signUp(@Field("username") String username, @Field("password") String password, @Field("nickname") String nickname);
+
+    @POST("/getusermarkedtag.action")
+    Call<String> getUserMarkedTag(@Field("uid") long uid);
 }

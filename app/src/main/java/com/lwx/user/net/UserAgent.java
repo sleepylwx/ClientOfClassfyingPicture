@@ -2,6 +2,8 @@ package com.lwx.user.net;
 
 import com.lwx.user.db.model.User;
 
+import java.util.List;
+
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 
@@ -22,4 +24,6 @@ public interface UserAgent {
     Completable setNickName(String token, String nickName);
 
     Completable signUp(String username,String password);
+
+    Observable<List<String>> getMarkedTags(long uid);
 }

@@ -16,6 +16,7 @@ public class App extends Application {
 
     private  static App sInstance;
 
+    public static final String BASE_URL = "http://ttxs.ac.cn:8088/";
 
     @Override
     public void onCreate() {
