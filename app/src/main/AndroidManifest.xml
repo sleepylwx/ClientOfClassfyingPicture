@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.lwx.user">
+          package="com.lwx.user">
+
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
@@ -10,30 +11,28 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".ui.activity.SplashActivity"
+        <activity
+            android:name=".ui.activity.SplashActivity"
             android:theme="@style/AppTheme.NoActionBar.Splash">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-
         </activity>
-
-        <activity android:name=".ui.activity.MainActivity"
+        <activity
+            android:name=".ui.activity.MainActivity"
             android:launchMode="singleTask"/>
-
-        <activity android:name=".ui.activity.LoginActivity"
-                  android:launchMode="singleTask"
-            />
+        <activity
+            android:name=".ui.activity.LoginActivity"
+            android:launchMode="singleTask"/>
         <activity android:name=".ui.activity.SignUpActivity"/>
-
-        <activity android:name=".ui.activity.FindPasswdActivity"/>
-
         <activity android:name=".debug.DebugActivity">
             <intent-filter>
-                <action android:name="acoder.me.debug" />
+                <action android:name="acoder.me.debug"/>
             </intent-filter>
+        </activity>
+        <activity android:name=".ui.activity.FindPasswdActivity">
         </activity>
     </application>
 

@@ -13,4 +13,6 @@
     <string name="button_submit">提交</string>
 
 
+    <!--MainActivity-->
+    <string name="user_loaded_failed">用户数据不存在，请重新登录</string>
 </resources>

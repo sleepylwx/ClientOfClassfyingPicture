@@ -9,4 +9,5 @@ import io.reactivex.Observable;
 public interface PictureAgent {
     Observable<String> getRandPic();
     Observable<String> getPicTags(String uuid);
+
 }

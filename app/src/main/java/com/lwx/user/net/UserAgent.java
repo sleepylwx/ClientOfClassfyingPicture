@@ -26,4 +26,6 @@ public interface UserAgent {
     Completable signUp(String username,String password);
 
     Observable<List<String>> getMarkedTags(long uid);
+
+
 }
