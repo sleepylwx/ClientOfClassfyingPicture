@@ -1,8 +1,6 @@
 package com.lwx.user.net;
 
-import com.google.gson.JsonArray;
 import com.lwx.user.App;
-import com.lwx.user.db.model.User;
 import com.lwx.user.net.rx.PictureService;
 import com.lwx.user.net.rx.StringConverterFactory;
 

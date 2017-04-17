@@ -1,9 +1,13 @@
 package com.lwx.user.net.rx;
 
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 
 /**
@@ -32,4 +36,11 @@ public interface UserService {
 
     @POST("/getusermarkedtag.action")
     Call<String> getUserMarkedTag(@Field("uid") long uid);
+
+    @POST("/markpictag.action")
+    Call<String> markPicTag(@Field("token") String token, @Field("uuid") String uuid, @Field("tagname") String tagName);
+
+    @Multipart
+    @POST("/uploadheadpic.action")
+    Call<ResponseBody> uploadFile(@Part("pic") RequestBody file, @Field("token") String token);
 }

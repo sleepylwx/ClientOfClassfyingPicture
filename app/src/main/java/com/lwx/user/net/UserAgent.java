@@ -26,4 +26,8 @@ public interface UserAgent {
     Completable signUp(String username,String password);
 
     Observable<List<String>> getMarkedTags(long uid);
+
+    Completable markPicTag(String token, String uuid, String tagName);
+
+    Completable uploadHeadPic(String token, String absolutePath);
 }

@@ -181,12 +181,56 @@ public class UserAgentImpl implements UserAgent{
     }
 
     @Override
+    public Completable uploadHeadPic(String absolutePath) {
+        return Completable.create(new CompletableOnSubscribe() {
+            @Override
+            public void subscribe(@NonNull CompletableEmitter e) throws Exception {
+                try {
+                    Response<String> response = userService.getUserMarkedTag(uid).execute();
+                    String content = response.body();
+                    JSONObject jsonObject = new JSONObject(content);
+
+                    if(jsonObject.getBoolean("err")) {
+                        e.onError(new Exception(jsonObject.getString("msg")));
+                        return;
+                    }
+                    e.onNext((List<String>) jsonObject.get("tags"));
+                } catch (IOException|JSONException ex) {
+                    e.onError(ex);
+                }
+            }
+        });
+    }
+
+    @Override
     public Completable signUp(String username, String password) {
         return Completable.create(new CompletableOnSubscribe() {
             @Override
             public void subscribe(@NonNull CompletableEmitter e) throws Exception {
                 try {
                     Response<String> response = userService.signUp(username, password, username).execute();
+                    String content = response.body();
+                    JSONObject jsonObject = new JSONObject(content);
+
+                    if(jsonObject.getBoolean("err")) {
+                        e.onError(new Exception(jsonObject.getString("msg")));
+                        return;
+                    }
+                    e.onComplete();
+                } catch (IOException|JSONException ex) {
+                    e.onError(ex);
+                }
+            }
+        });
+    }
+
+    @Override
+    public Completable markPicTag(String token, String uuid, String tagName) {
+        return Completable.create(new CompletableOnSubscribe() {
+            @Override
+            public void subscribe(@NonNull CompletableEmitter e) throws Exception {
+                try {
+                    Response<String> response = userService.markPicTag(token, uuid, tagName).execute();
                     String content = response.body();
                     JSONObject jsonObject = new JSONObject(content);
 
