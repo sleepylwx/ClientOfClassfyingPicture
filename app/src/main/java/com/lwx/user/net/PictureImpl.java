@@ -1,6 +1,7 @@
 package com.lwx.user.net;
 
 import com.lwx.user.App;
+import com.lwx.user.db.model.Image;
 import com.lwx.user.net.rx.PictureService;
 import com.lwx.user.net.rx.StringConverterFactory;
 
@@ -8,6 +9,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -35,10 +37,10 @@ public class PictureImpl implements PictureAgent {
     }
 
     @Override
-    public Observable<String> getRandPic() {
-        return Observable.create(new ObservableOnSubscribe<String>() {
+    public Observable<Image> getRandPic() {
+        return Observable.create(new ObservableOnSubscribe<Image>() {
             @Override
-            public void subscribe(@NonNull ObservableEmitter<String> e) throws Exception {
+            public void subscribe(@NonNull ObservableEmitter<Image> e) throws Exception {
                 try {
                     Response<String> response = picService.getRandPic().execute();
                     String content = response.body();
@@ -49,7 +51,9 @@ public class PictureImpl implements PictureAgent {
                         return;
                     }
 
-                    e.onNext(App.BASE_URL + "/getpic.action?uuid=" + jsonObject.getString("uuid"));
+                    e.onNext(new Image(jsonObject.getString("uuid"),
+                            App.BASE_URL + "/getpic.action?uuid=" + jsonObject.getString("uuid"),
+                            null));
 
                 } catch (IOException |JSONException ex) {
                     e.onError(ex);
@@ -59,10 +63,10 @@ public class PictureImpl implements PictureAgent {
     }
 
     @Override
-    public Observable<String> getPicTags(String uuid) {
-        return Observable.create(new ObservableOnSubscribe<String>() {
+    public Observable<List<String>> getPicTags(String uuid) {
+        return Observable.create(new ObservableOnSubscribe<List<String>>() {
             @Override
-            public void subscribe(@NonNull ObservableEmitter<String> e) throws Exception {
+            public void subscribe(@NonNull ObservableEmitter<List<String>> e) throws Exception {
                 try {
                     Response<String> response = picService.getPickTags(uuid).execute();
                     String content = response.body();
@@ -72,6 +76,7 @@ public class PictureImpl implements PictureAgent {
                         e.onError(new Exception(jsonObject.getString("msg")));
                         return;
                     }
+
                     //e.onNext();
 
                 } catch (IOException |JSONException ex) {

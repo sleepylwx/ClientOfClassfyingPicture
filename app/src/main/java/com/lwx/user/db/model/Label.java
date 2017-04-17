@@ -1,5 +1,7 @@
 package com.lwx.user.db.model;
 
+import com.j256.ormlite.field.DatabaseField;
+
 import java.util.List;
 
 /**
@@ -8,8 +10,12 @@ import java.util.List;
 
 public class Label {
 
+    @DatabaseField(id = true, columnName = "id")
+    public Long id;
 
+    @DatabaseField
     public String label;
+
     public List<Long> imageUids;
 
 }

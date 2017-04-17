@@ -6,6 +6,9 @@ import com.lwx.user.db.model.User;
 
 import java.util.List;
 
+import io.reactivex.Completable;
+import io.reactivex.CompletableEmitter;
+import io.reactivex.CompletableOnSubscribe;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
@@ -50,14 +53,20 @@ public class UserImpl implements UserRepo {
     }
 
     @Override
-    public Observable<Boolean> saveUser(User user) {
-        return Observable.create(new ObservableOnSubscribe<Boolean>() {
+    public Completable saveUser(User user) {
+        return Completable.create(new CompletableOnSubscribe() {
             @Override
-            public void subscribe(@NonNull ObservableEmitter<Boolean> observableEmitter) throws Exception {
-                userDao.create(user);
-                observableEmitter.onComplete();
+            public void subscribe(@NonNull CompletableEmitter e) throws Exception {
+                userDao.createOrUpdate(user);
+                e.onComplete();
             }
         });
+    }
+
+    @Override
+    public Observable<User> getUser(long uid) {
+        //TODO
+        return null;
     }
 
     @Override

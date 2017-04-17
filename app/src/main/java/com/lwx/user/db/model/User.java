@@ -24,18 +24,13 @@ public class User {
     @DatabaseField(columnName = "nickName")
     public String nickName;
 
-    public User(long uid, String token) {
+    public User(long uid, String token, String user, String nickName) {
         this.uid = uid;
         this.token = token;
+        this.user = user;
+        this.nickName = nickName;
     }
 
     public User(){}
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "uid=" + uid +
-                ", token='" + token + '\'' +
-                '}';
-    }
 }

@@ -6,6 +6,8 @@ import android.support.annotation.NonNull;
 import com.elvishew.xlog.LogLevel;
 import com.elvishew.xlog.XLog;
 
+import io.reactivex.plugins.RxJavaPlugins;
+
 /**
  * Created by 36249 on 2017/4/4.
  */
@@ -26,6 +28,7 @@ public class App extends Application {
 
         XLog.init(BuildConfig.DEBUG ? LogLevel.ALL : LogLevel.NONE);
 
+        RxJavaPlugins.setErrorHandler(t->{});
     }
 
     public static App getInstance(){

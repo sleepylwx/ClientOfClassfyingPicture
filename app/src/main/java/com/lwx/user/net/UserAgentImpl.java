@@ -63,8 +63,10 @@ public class UserAgentImpl implements UserAgent{
                         return;
                     }
 
-                    e.onNext(new User(jsonObject.getLong("uid"), jsonObject.getString("token")));
-
+                    e.onNext(new User(jsonObject.getLong("uid"),
+                            jsonObject.getString("token"),
+                            jsonObject.getString("username"),
+                            jsonObject.getString("nickname")));
                 } catch (IOException|JSONException ex) {
                     e.onError(ex);
                 }
@@ -172,7 +174,8 @@ public class UserAgentImpl implements UserAgent{
                         e.onError(new Exception(jsonObject.getString("msg")));
                         return;
                     }
-                    e.onNext((List<String>) jsonObject.get("tags"));
+                    //e.onNext((List<String>) jsonObject.get("tags"));
+                    //TODO parse json list
                 } catch (IOException|JSONException ex) {
                     e.onError(ex);
                 }
@@ -181,23 +184,11 @@ public class UserAgentImpl implements UserAgent{
     }
 
     @Override
-    public Completable uploadHeadPic(String absolutePath) {
+    public Completable uploadHeadPic(String token, String absolutePath) {
         return Completable.create(new CompletableOnSubscribe() {
             @Override
             public void subscribe(@NonNull CompletableEmitter e) throws Exception {
-                try {
-                    Response<String> response = userService.getUserMarkedTag(uid).execute();
-                    String content = response.body();
-                    JSONObject jsonObject = new JSONObject(content);
-
-                    if(jsonObject.getBoolean("err")) {
-                        e.onError(new Exception(jsonObject.getString("msg")));
-                        return;
-                    }
-                    e.onNext((List<String>) jsonObject.get("tags"));
-                } catch (IOException|JSONException ex) {
-                    e.onError(ex);
-                }
+                //TODO TO COMPLETE
             }
         });
     }
@@ -245,4 +236,5 @@ public class UserAgentImpl implements UserAgent{
             }
         });
     }
+
 }
