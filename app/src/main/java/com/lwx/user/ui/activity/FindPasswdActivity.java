@@ -1,12 +1,18 @@
 package com.lwx.user.ui.activity;
 
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 
-/**
- * Created by 36249 on 2017/4/7.
- */
+import com.lwx.user.R;
 
 public class FindPasswdActivity extends AppCompatActivity {
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_find_passwd);
 
+
+
+    }
 }

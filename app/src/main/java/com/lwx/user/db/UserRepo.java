@@ -34,4 +34,6 @@ public interface UserRepo {
     Observable<Boolean> deleteUser(User user);
 
     Observable<Boolean> saveUser(User user);
+
+    Observable<User> getUser(long uid);
 }
