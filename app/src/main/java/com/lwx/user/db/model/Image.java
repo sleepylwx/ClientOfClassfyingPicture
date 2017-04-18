@@ -18,7 +18,6 @@ public class Image {
     @DatabaseField(columnName = "imgPath")
     public String imagePath;
 
-
     public List<String> labels;
 
     public Image(String uuid, String imagePath, List<String> labels) {

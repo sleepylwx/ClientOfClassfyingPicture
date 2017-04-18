@@ -65,8 +65,12 @@ public class UserImpl implements UserRepo {
 
     @Override
     public Observable<User> getUser(long uid) {
-        //TODO
-        return null;
+        return Observable.create(new ObservableOnSubscribe<User>() {
+            @Override
+            public void subscribe(@NonNull ObservableEmitter<User> e) throws Exception {
+                e.onNext(userDao.queryForId(uid));
+            }
+        });
     }
 
     @Override

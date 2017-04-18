@@ -1,7 +1,6 @@
 package com.lwx.user.presenter;
 
 import com.lwx.user.contracts.MainContract;
-import com.lwx.user.db.ImageImpl;
 import com.lwx.user.db.ImageRepo;
 import com.lwx.user.db.UserImpl;
 import com.lwx.user.db.UserRepo;
