@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         initPicture();
 
     }
+
     private void initUser(){
 
 
@@ -122,6 +123,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
         initRecycleView(imageList == null ? new ArrayList<Image>() : imageList);
     }
+
 
     private void initRecycleView(List<Image> imageList){
 
