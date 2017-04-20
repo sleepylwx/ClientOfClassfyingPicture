@@ -54,12 +54,12 @@ public class LoginPresenter implements LoginContract.Presenter{
 
         userAgent.login(user,passwd)
                 .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<User>(){
 
                     @Override
                     public void onSubscribe(Disposable d) {
-                        d.dispose();
+
                     }
 
                     @Override
@@ -69,19 +69,20 @@ public class LoginPresenter implements LoginContract.Presenter{
                         userRepo.saveUser(user)
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(new Consumer<Boolean>() {
+                                .subscribe(new CompletableObserver() {
                                     @Override
-                                    public void accept(@NonNull Boolean aBoolean) throws Exception {
+                                    public void onSubscribe(@NonNull Disposable d) {
 
-                                        if(aBoolean){
+                                    }
 
-                                            context.onLoginSucceed(user.uid);
-                                        }
-                                        else{
+                                    @Override
+                                    public void onComplete() {
+                                        context.onLoginSucceed(user.uid);
+                                    }
 
-                                            //
-                                        }
-                                        //
+                                    @Override
+                                    public void onError(@NonNull Throwable e) {
+
                                     }
                                 });
                     }

@@ -1,5 +1,9 @@
 package com.lwx.user.net;
 
+import com.lwx.user.db.model.Image;
+
+import java.util.List;
+
 import io.reactivex.Observable;
 
 /**
@@ -7,7 +11,7 @@ import io.reactivex.Observable;
  */
 
 public interface PictureAgent {
-    Observable<String> getRandPic();
-    Observable<String> getPicTags(String uuid);
+    Observable<Image> getRandPic();
+    Observable<List<String>> getPicTags(String uuid);
 
 }

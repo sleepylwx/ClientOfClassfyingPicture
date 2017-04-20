@@ -4,19 +4,15 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_camera"
-
             android:title="Import" />
         <item
             android:id="@+id/nav_gallery"
-
             android:title="Gallery" />
         <item
             android:id="@+id/nav_slideshow"
-
             android:title="Slideshow" />
         <item
             android:id="@+id/nav_manage"
-
             android:title="Tools" />
     </group>
 
@@ -24,11 +20,9 @@
         <menu>
             <item
                 android:id="@+id/nav_share"
-
                 android:title="Share" />
             <item
                 android:id="@+id/nav_send"
-
                 android:title="Send" />
         </menu>
     </item>

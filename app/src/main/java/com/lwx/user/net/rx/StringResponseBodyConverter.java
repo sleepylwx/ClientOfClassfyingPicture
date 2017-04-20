@@ -1,5 +1,7 @@
 package com.lwx.user.net.rx;
 
+import com.elvishew.xlog.XLog;
+
 import java.io.IOException;
 
 import okhttp3.ResponseBody;
@@ -13,7 +15,9 @@ public class StringResponseBodyConverter implements Converter<ResponseBody, Stri
     @Override
     public String convert(ResponseBody value) throws IOException {
         try {
-            return value.string();
+            String ans = value.string();
+            XLog.v("HTTP Response : " + ans);
+            return ans;
         } finally {
             value.close();
         }

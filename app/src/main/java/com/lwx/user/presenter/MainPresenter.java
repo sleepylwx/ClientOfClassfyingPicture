@@ -38,7 +38,7 @@ public class MainPresenter implements MainContract.Presenter {
         userRepo = new UserImpl();
         userAgent = UserAgentImpl.getInstance();
         pictureAgent = PictureImpl.getInstance();
-        imageRepo = new ImageImpl();
+        imageRepo = ImageImpl.getInstance();
 
     }
     @Override

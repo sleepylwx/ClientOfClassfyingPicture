@@ -4,6 +4,7 @@ import com.lwx.user.db.model.User;
 
 import java.util.List;
 
+import io.reactivex.Completable;
 import io.reactivex.Observable;
 
 /**
@@ -33,7 +34,7 @@ public interface UserRepo {
 
     Observable<Boolean> deleteUser(User user);
 
-    Observable<Boolean> saveUser(User user);
+    Completable saveUser(User user);
 
     Observable<User> getUser(long uid);
 }
