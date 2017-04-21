@@ -42,12 +42,12 @@ public class UserImpl implements UserRepo {
     }
 
     @Override
-    public Observable<Boolean> deleteUser(User user) {
-        return Observable.create(new ObservableOnSubscribe<Boolean>() {
+    public Completable deleteUser(User user) {
+        return Completable.create(new CompletableOnSubscribe() {
             @Override
-            public void subscribe(@NonNull ObservableEmitter<Boolean> observableEmitter) throws Exception {
+            public void subscribe(@NonNull CompletableEmitter e) throws Exception {
                 userDao.delete(user);
-                observableEmitter.onComplete();
+                e.onComplete();
             }
         });
     }

@@ -32,7 +32,7 @@ public interface UserRepo {
 
     Observable<List<User>> getAllUsers();
 
-    Observable<Boolean> deleteUser(User user);
+    Completable deleteUser(User user);
 
     Completable saveUser(User user);
 

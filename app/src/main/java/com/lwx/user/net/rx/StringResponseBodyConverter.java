@@ -16,7 +16,7 @@ public class StringResponseBodyConverter implements Converter<ResponseBody, Stri
     public String convert(ResponseBody value) throws IOException {
         try {
             String ans = value.string();
-            XLog.v("HTTP Response : " + ans);
+            XLog.v("HTTP RAW Response : " + ans);
             return ans;
         } finally {
             value.close();

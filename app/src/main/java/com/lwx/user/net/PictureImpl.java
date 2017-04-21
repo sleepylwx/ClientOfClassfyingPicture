@@ -52,8 +52,7 @@ public class PictureImpl implements PictureAgent {
                     }
 
                     e.onNext(new Image(jsonObject.getString("uuid"),
-                            App.BASE_URL + "/getpic.action?uuid=" + jsonObject.getString("uuid"),
-                            null));
+                            App.BASE_URL + "/getpic.action?uuid=" + jsonObject.getString("uuid")));
 
                 } catch (IOException |JSONException ex) {
                     e.onError(ex);
