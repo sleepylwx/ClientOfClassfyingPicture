@@ -1,8 +1,13 @@
 package com.lwx.user.db.model;
 
+import android.provider.ContactsContract;
+
+import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,17 +17,20 @@ import java.util.List;
 @DatabaseTable(tableName = "image")
 public class Image {
 
-    @DatabaseField(columnName = "uuid", id = true)
+    public static final String UUID_FIELD = "uuid";
+
+
+    @DatabaseField(id = true, columnName = UUID_FIELD)
     public String uuid;
 
     @DatabaseField(columnName = "imgPath")
     public String imagePath;
 
-    public List<String> labels;
-
-    public Image(String uuid, String imagePath, List<String> labels) {
+    public Image(String uuid, String imagePath) {
         this.uuid = uuid;
         this.imagePath = imagePath;
-        this.labels = labels;
+    }
+
+    public Image(){
     }
 }

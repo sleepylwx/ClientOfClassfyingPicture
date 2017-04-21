@@ -3,8 +3,6 @@ package com.lwx.user.net;
 import android.icu.lang.UScript;
 
 import com.elvishew.xlog.XLog;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import com.lwx.user.App;
 import com.lwx.user.db.model.User;
 import com.lwx.user.net.rx.StringConverterFactory;
@@ -14,7 +12,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import io.reactivex.Completable;
@@ -24,6 +25,8 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.annotations.NonNull;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
@@ -117,12 +120,13 @@ public class UserAgentImpl implements UserAgent{
         });
     }
 
-    public Observable<String> getNickName(long uid){
+    @Override
+    public Observable<String> getNickName(Long uid){
         return Observable.create(new ObservableOnSubscribe<String>() {
             @Override
             public void subscribe(@NonNull ObservableEmitter<String> e) throws Exception {
                 try {
-                    Response<String> response = userService.getNickName(uid).execute();
+                    Response<String> response = userService.getNickName(uid.toString()).execute();
                     String content = response.body();
                     JSONObject jsonObject = new JSONObject(content);
 
@@ -161,12 +165,12 @@ public class UserAgentImpl implements UserAgent{
     }
 
     @Override
-    public Observable<List<String>> getMarkedTags(long uid) {
+    public Observable<List<String>> getMarkedTags(Long uid) {
         return Observable.create(new ObservableOnSubscribe<List<String>>() {
             @Override
             public void subscribe(@NonNull ObservableEmitter<List<String>> e) throws Exception {
                 try {
-                    Response<String> response = userService.getUserMarkedTag(uid).execute();
+                    Response<String> response = userService.getUserMarkedTag(uid.toString()).execute();
                     String content = response.body();
                     JSONObject jsonObject = new JSONObject(content);
 
@@ -174,8 +178,12 @@ public class UserAgentImpl implements UserAgent{
                         e.onError(new Exception(jsonObject.getString("msg")));
                         return;
                     }
-                    //e.onNext((List<String>) jsonObject.get("tags"));
-                    //TODO parse json list
+                    JSONArray jsonElements = jsonObject.getJSONArray("tags");
+                    List<String> tmpList = new ArrayList<String>();
+                    for(int i=0;i<jsonElements.length();++i){
+                        tmpList.add(jsonElements.getString(i));
+                    }
+                    e.onNext(tmpList);
                 } catch (IOException|JSONException ex) {
                     e.onError(ex);
                 }
@@ -188,7 +196,13 @@ public class UserAgentImpl implements UserAgent{
         return Completable.create(new CompletableOnSubscribe() {
             @Override
             public void subscribe(@NonNull CompletableEmitter e) throws Exception {
-                //TODO TO COMPLETE
+                File file = new File(absolutePath);
+                RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"),
+                        file);
+                Response response = userService.uploadHeadPic(requestBody, token).execute();
+
+                XLog.d(response.body());
+                //TODO method not allowed
             }
         });
     }
@@ -229,6 +243,7 @@ public class UserAgentImpl implements UserAgent{
                         e.onError(new Exception(jsonObject.getString("msg")));
                         return;
                     }
+
                     e.onComplete();
                 } catch (IOException|JSONException ex) {
                     e.onError(ex);

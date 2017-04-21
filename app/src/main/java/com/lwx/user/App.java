@@ -3,6 +3,7 @@ package com.lwx.user;
 import android.app.Application;
 import android.support.annotation.NonNull;
 
+import com.elvishew.xlog.LogConfiguration;
 import com.elvishew.xlog.LogLevel;
 import com.elvishew.xlog.XLog;
 
@@ -26,9 +27,18 @@ public class App extends Application {
         super.onCreate();
         sInstance = this;
 
-        XLog.init(BuildConfig.DEBUG ? LogLevel.ALL : LogLevel.NONE);
+        LogConfiguration config = new LogConfiguration.Builder()
+                .logLevel(BuildConfig.DEBUG ? LogLevel.ALL             // Specify log level, logs below this level won't be printed, default: LogLevel.ALL
+                        : LogLevel.NONE)
+                .tag("CNSOFTBEI")                                         // Specify TAG, default: "X-LOG"
+                .t()                                                   // Enable thread info, disabled by default
+                .st(2)                                                 // Enable stack trace info with depth 2, disabled by default
+                .b()                                                   // Enable border, disabled by default
+                .build();
 
-        RxJavaPlugins.setErrorHandler(t->{});
+        XLog.init(config);
+
+        RxJavaPlugins.setErrorHandler(t->{XLog.e("Unhandled Exception By RxJava" , t);});
     }
 
     public static App getInstance(){

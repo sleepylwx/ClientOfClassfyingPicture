@@ -19,13 +19,13 @@ public interface UserAgent {
 
     Completable logout(String token);
 
-    Observable<String> getNickName(long uid);
+    Observable<String> getNickName(Long uid);
 
     Completable setNickName(String token, String nickName);
 
     Completable signUp(String username,String password);
 
-    Observable<List<String>> getMarkedTags(long uid);
+    Observable<List<String>> getMarkedTags(Long uid);
 
     Completable markPicTag(String token, String uuid, String tagName);
 

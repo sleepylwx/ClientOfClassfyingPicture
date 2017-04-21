@@ -1,6 +1,7 @@
 package com.lwx.user.presenter;
 
 import com.lwx.user.contracts.MainContract;
+import com.lwx.user.db.ImageImpl;
 import com.lwx.user.db.ImageRepo;
 import com.lwx.user.db.UserImpl;
 import com.lwx.user.db.UserRepo;
@@ -37,7 +38,7 @@ public class MainPresenter implements MainContract.Presenter {
         userRepo = new UserImpl();
         userAgent = UserAgentImpl.getInstance();
         pictureAgent = PictureImpl.getInstance();
-        imageRepo = new ImageImpl();
+        imageRepo = ImageImpl.getInstance();
 
     }
     @Override

@@ -1,6 +1,8 @@
 package com.lwx.user.db.model;
 
+import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
 
 import java.util.List;
 
@@ -10,12 +12,19 @@ import java.util.List;
 
 public class Label {
 
-    @DatabaseField(id = true, columnName = "id")
-    public Long id;
+    public static final String LABEL_FIELD = "label";
 
-    @DatabaseField
+    @DatabaseField(id = true,columnName = LABEL_FIELD)
     public String label;
 
-    public List<Long> imageUids;
+    @DatabaseField(columnName = "uid")
+    public Long userUID;
 
+    public Label(){
+    }
+
+    public Label(String label, Long userUID) {
+        this.label = label;
+        this.userUID = userUID;
+    }
 }

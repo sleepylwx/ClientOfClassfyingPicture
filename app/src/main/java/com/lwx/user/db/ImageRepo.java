@@ -6,6 +6,7 @@ import com.lwx.user.db.model.Image;
 
 import java.util.List;
 
+import io.reactivex.Completable;
 import io.reactivex.Observable;
 
 /**
@@ -19,5 +20,6 @@ public interface ImageRepo {
 
     Observable<List<Image>> getPictures(String label);
 
+    Completable saveImage(Image image);
 
 }

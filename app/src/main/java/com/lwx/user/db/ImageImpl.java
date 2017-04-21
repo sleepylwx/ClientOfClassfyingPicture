@@ -7,6 +7,9 @@ import com.lwx.user.db.model.Image;
 
 import java.util.List;
 
+import io.reactivex.Completable;
+import io.reactivex.CompletableEmitter;
+import io.reactivex.CompletableOnSubscribe;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
@@ -30,11 +33,21 @@ public class ImageImpl implements ImageRepo {
     }
 
     @Override
+    public Completable saveImage(Image image) {
+        return Completable.create(new CompletableOnSubscribe() {
+            @Override
+            public void subscribe(@NonNull CompletableEmitter e) throws Exception {
+                imageDAO.createOrUpdate(image);
+            }
+        });
+    }
+
+    @Override
     public Observable<List<Image>> getPictures(String label) {
         return Observable.create(new ObservableOnSubscribe<List<Image>>() {
             @Override
             public void subscribe(@NonNull ObservableEmitter<List<Image>> e) throws Exception {
-                //TODO
+
             }
         });
     }
@@ -49,7 +62,7 @@ public class ImageImpl implements ImageRepo {
         try {
             imageDAO = DbHelper.getInstance().getDao(Image.class);
         }catch (Exception e){
-            XLog.e("SQL Exception");
+            XLog.e("SQL Exception" , e);
         }
     }
 }

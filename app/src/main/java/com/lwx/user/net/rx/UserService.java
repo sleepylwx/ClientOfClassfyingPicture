@@ -26,7 +26,7 @@ public interface UserService {
     Call<String> logout(@Field("token") String token);
 
     @POST("/gsnickname.action") @FormUrlEncoded
-    Call<String> getNickName(@Field("uid") long uid);
+    Call<String> getNickName(@Field("uid") String uid);
 
     @POST("/gsnickname.action") @FormUrlEncoded
     Call<String> setNickName( @Field("token") String token, @Field("nick") String nickName);
@@ -34,13 +34,13 @@ public interface UserService {
     @POST("/register.action")
     Call<String> signUp(@Field("username") String username, @Field("password") String password, @Field("nickname") String nickname);
 
-    @POST("/getusermarkedtag.action")
-    Call<String> getUserMarkedTag(@Field("uid") long uid);
+    @POST("/getusermarkedtag.action") @FormUrlEncoded
+    Call<String> getUserMarkedTag(@Field("uid") String uid);
 
     @POST("/markpictag.action")
     Call<String> markPicTag(@Field("token") String token, @Field("uuid") String uuid, @Field("tagname") String tagName);
 
     @Multipart
     @POST("/uploadheadpic.action")
-    Call<ResponseBody> uploadFile(@Part("pic") RequestBody file, @Field("token") String token);
+    Call<ResponseBody> uploadHeadPic(@Part("pic") RequestBody file, @Part("token") String token);
 }

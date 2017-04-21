@@ -15,7 +15,7 @@ import com.lwx.user.db.model.User;
  */
 
 public class DbHelper extends OrmLiteSqliteOpenHelper {
-    public static String DB_NAME = "StuHealthyDB";
+    public static String DB_NAME = "cnsoftbei";
     public static int    VER_1   = 1;
 
     public DbHelper(Context context) {
