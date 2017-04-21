@@ -16,6 +16,7 @@ import com.lwx.user.contracts.MainContract;
 import com.lwx.user.db.model.Image;
 import com.lwx.user.db.model.User;
 import com.lwx.user.presenter.MainPresenter;
+import com.lwx.user.ui.widget.StrenthenToolBar;
 import com.lwx.user.utils.ImageLoader;
 
 import java.util.ArrayList;
@@ -32,8 +33,9 @@ import io.reactivex.disposables.Disposable;
 public class MainActivity extends AppCompatActivity implements MainContract.View{
 
 
-    @BindView(R.id.headerImageView) ImageView headerImageView;
-    @BindView(R.id.headerText1) TextView nickNameText;
+    //@BindView(R.id.headerImageView) ImageView headerImageView;
+    //@BindView(R.id.headerText1) TextView nickNameText;
+    @BindView(R.id.toolbar) StrenthenToolBar strenthenToolBar;
     @BindView(R.id.flush) SwipeRefreshLayout swipeRefresh;
     @BindView(R.id.recyclerview) RecyclerView recyclerView;
 
@@ -63,11 +65,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         initPicture();
 
     }
+
     private void initUser(){
 
 
         Intent intent = getIntent();
-        int uid = intent.getIntExtra(MATCH_NUM,-1);
+        long uid = intent.getLongExtra(MATCH_NUM,-1);
 
         if(uid ==-1){
 
@@ -113,8 +116,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     public void onUserLoadedSucceed(User user) {
 
         curUser = user;
-        imageLoader.loadImage(this,curUser.headPath,headerImageView);
-        nickNameText.setText(curUser.nickName);
+        strenthenToolBar.setHeaderPicture(imageLoader,user.headPath);
+        //nickNameText.setText(curUser.nickName);
     }
 
     @Override
@@ -122,6 +125,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
         initRecycleView(imageList == null ? new ArrayList<Image>() : imageList);
     }
+
+
 
     private void initRecycleView(List<Image> imageList){
 
