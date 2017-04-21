@@ -190,6 +190,8 @@ public class UserAgentImpl implements UserAgent{
             }
         });
     }
+    private static final String IMG = "multipart/form-data";
+    private static final String TXT_PLAIN = "text/plain";
 
     @Override
     public Completable uploadHeadPic(String token, String absolutePath) {
@@ -197,9 +199,13 @@ public class UserAgentImpl implements UserAgent{
             @Override
             public void subscribe(@NonNull CompletableEmitter e) throws Exception {
                 File file = new File(absolutePath);
-                RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"),
+                RequestBody requestBody = RequestBody.create(MediaType.parse(IMG),
                         file);
-                Response response = userService.uploadHeadPic(requestBody, token).execute();
+
+                RequestBody tokenReq = RequestBody.create(MediaType.parse(TXT_PLAIN),
+                        file);
+
+                Response response = userService.uploadHeadPic(requestBody, tokenReq).execute();
 
                 XLog.d(response.body());
                 //TODO method not allowed

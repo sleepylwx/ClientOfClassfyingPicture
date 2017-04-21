@@ -14,8 +14,10 @@ import java.util.List;
  * Created by 36249 on 2017/4/13.
  */
 
-@DatabaseTable(tableName = "image")
+@DatabaseTable(tableName = Image.IMAGE_TABLE_NAME)
 public class Image {
+
+    public static final String IMAGE_TABLE_NAME = "image";
 
     public static final String UUID_FIELD = "uuid";
 

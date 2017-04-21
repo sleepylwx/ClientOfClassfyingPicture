@@ -18,13 +18,13 @@ public class Label {
     public String label;
 
     @DatabaseField(columnName = "uid")
-    public Long userUID;
+    public Long uid;
 
     public Label(){
     }
 
     public Label(String label, Long userUID) {
         this.label = label;
-        this.userUID = userUID;
+        this.uid = userUID;
     }
 }

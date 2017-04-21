@@ -42,5 +42,5 @@ public interface UserService {
 
     @Multipart
     @POST("/uploadheadpic.action")
-    Call<ResponseBody> uploadHeadPic(@Part("pic") RequestBody file, @Part("token") String token);
+    Call<ResponseBody> uploadHeadPic(@Part("pic") RequestBody file, @Part("token") RequestBody token);
 }
