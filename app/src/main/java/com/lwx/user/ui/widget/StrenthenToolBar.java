@@ -76,4 +76,9 @@ public class StrenthenToolBar extends RelativeLayout {
         imageLoader.loadImage(context,path,circleImageView);
     }
 
+
+    public CircleImageView getHeaderView(){
+
+        return circleImageView;
+    }
 }
