@@ -1,6 +1,7 @@
 package com.lwx.user.utils;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -11,6 +12,7 @@ import com.bumptech.glide.Glide;
 
 public class ImageLoader {
 
+
     public void loadImage(Context context,int resouceId, ImageView view){
 
         Glide.with(context).load(resouceId).into(view);
@@ -20,4 +22,7 @@ public class ImageLoader {
 
         Glide.with(context).load(resourcePath).into(view);
     }
+
+
+
 }

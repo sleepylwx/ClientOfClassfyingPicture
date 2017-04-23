@@ -7,7 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.lwx.user.App;
 import com.lwx.user.R;
+import com.lwx.user.contracts.MainContract;
 import com.lwx.user.db.model.Image;
 import com.lwx.user.utils.ImageLoader;
 
@@ -48,7 +50,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(ViewHolder holder,int position){
 
+        MainContract.View main = (MainContract.View)context;
+        RecyclerView recyclerView = main.getRecyclerView();
+        if(!recyclerView.canScrollVertically(1)){
+
+            ((MainContract.View)context).startGetMorePicByNetWork(15);
+
+        }
+
         Image image = imageList.get(position);
+        imageLoader.loadImage(context,image.imagePath,holder.mImageView);
+
 
     }
 

@@ -56,6 +56,7 @@ public class SignUpActivity extends AppCompatActivity implements SignUpContract.
         setContentView(R.layout.activity_sign_up);
         ButterKnife.bind(this);
 
+
         presenter = new SignUpPresenter(this);
         init();
 
@@ -77,7 +78,7 @@ public class SignUpActivity extends AppCompatActivity implements SignUpContract.
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(v->finish());
-        toolbar.setTitle(R.string.sign_up);
+        //toolbar.setTitle(R.string.sign_up);
 
     }
 

@@ -20,6 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
+            app:title="@string/sign_up"
              />
 
     </android.support.design.widget.AppBarLayout>
@@ -29,13 +30,15 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:orientation="horizontal"
-        android:layout_below="@id/appbar">
+        android:layout_below="@id/appbar"
+        android:layout_marginTop="60dp">
 
         <EditText
             android:id="@+id/user"
             android:layout_width="0dp"
             android:layout_weight="4"
             android:layout_height="match_parent"
+            android:hint="登录邮箱"
             />
 
         <TextView
@@ -54,13 +57,16 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:orientation="horizontal"
-        android:layout_below="@id/appbar">
+        android:layout_below="@id/appbar"
+        android:layout_marginTop="30dp">
 
         <EditText
             android:id="@+id/passwd"
             android:layout_width="0dp"
             android:layout_weight="4"
             android:layout_height="match_parent"
+            android:hint="密码"
+            android:inputType="textPassword"
             />
 
         <TextView
@@ -79,13 +85,16 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:orientation="horizontal"
-        android:layout_below="@id/appbar">
+        android:layout_below="@id/appbar"
+        android:layout_marginTop="30dp">
 
         <EditText
             android:id="@+id/passwd_two"
             android:layout_width="0dp"
             android:layout_weight="4"
             android:layout_height="match_parent"
+            android:hint="重复密码"
+            android:inputType="textPassword"
             />
 
         <TextView

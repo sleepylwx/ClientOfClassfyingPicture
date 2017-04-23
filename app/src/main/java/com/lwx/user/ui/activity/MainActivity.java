@@ -1,28 +1,27 @@
 package com.lwx.user.ui.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.lwx.user.App;
 import com.lwx.user.R;
 import com.lwx.user.adapter.RecyclerViewAdapter;
 import com.lwx.user.contracts.MainContract;
 import com.lwx.user.db.model.Image;
 import com.lwx.user.db.model.User;
 import com.lwx.user.presenter.MainPresenter;
-import com.lwx.user.ui.widget.StrenthenToolBar;
 import com.lwx.user.utils.ImageLoader;
 
 import java.util.ArrayList;
@@ -31,11 +30,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
-import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.disposables.Disposable;
 
 public class MainActivity extends AppCompatActivity implements MainContract.View{
 
@@ -56,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     private User curUser;
     private RecyclerViewAdapter adapter;
+    private List<Image> list;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
         presenter = new MainPresenter(this);
         imageLoader = new ImageLoader();
+        list = new ArrayList<>();
         //headerImageView =strenthenToolBar.getHeaderView();
 
         //
@@ -101,19 +97,33 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
                 }
 
-                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-                drawer.closeDrawer(GravityCompat.START);
+                drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+                drawerLayout.closeDrawer(GravityCompat.START);
                 return true;
             }
         });
     }
     private void init(){
 
+        initNavigationView();
+        initSwipeRefresh();
         initUser();
         initPicture();
 
     }
 
+    private void initSwipeRefresh(){
+
+        swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
+
+        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                presenter.clearAndGetMorePicByNetWork(App.getInstance().getUid(),30);
+            }
+        });
+    }
     private void initUser(){
 
 
@@ -128,6 +138,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         }
         else{
 
+            App.getInstance().setUid(uid);
             presenter.getUser(uid);
         }
 
@@ -161,9 +172,21 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
     @Override
+    public RecyclerView getRecyclerView() {
+
+
+        return recyclerView;
+    }
+
+    @Override
     public void onUserLoadedSucceed(User user) {
 
         curUser = user;
+        CircleImageView header = (CircleImageView)navigationView.getHeaderView(0);
+        TextView userName = (TextView)navigationView.getHeaderView(1);
+        imageLoader.loadImage(this,user.headPath,header);
+        userName.setText(user.nickName);
+
         //strenthenToolBar.setHeaderPicture(imageLoader,user.headPath);
         //nickNameText.setText(curUser.nickName);
     }
@@ -171,17 +194,60 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     public void onImageLoadedSucceed(List<Image> imageList) {
 
-        initRecycleView(imageList == null ? new ArrayList<Image>() : imageList);
+        initRecycleView(imageList);
     }
 
+    @Override
+    public void clearAndSaveList(List<Image> imageList) {
 
+        if(imageList != null){
+
+            this.list = imageList;
+        }
+
+    }
 
     private void initRecycleView(List<Image> imageList){
 
-        adapter = new RecyclerViewAdapter(this,imageList);
+        if(imageList != null){
+
+            list.addAll(imageList);
+        }
+
+        adapter = new RecyclerViewAdapter(this,list);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this,3);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(gridLayoutManager);
+
+    }
+
+    @Override
+    public void startGetMorePicByNetWork(int num) {
+
+        showWaitingNetWork();
+        presenter.getMorePicturesByNetWork(App.getInstance().getUid(),num);
+
+    }
+
+    @Override
+    public void showWaitingNetWork() {
+
+
+    }
+
+    @Override
+    public void nonShowWaitingNetWork() {
+
+
+    }
+
+    @Override
+    public void nonShowSwipe() {
+
+        if(swipeRefresh.isRefreshing()){
+
+            swipeRefresh.setRefreshing(false);
+        }
 
     }
 

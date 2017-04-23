@@ -13,5 +13,5 @@ import io.reactivex.Observable;
 public interface PictureAgent {
     Observable<Image> getRandPic();
     Observable<List<String>> getPicTags(String uuid);
-
+    Observable<List<Image>> getPicByUId(long uid,int num);
 }

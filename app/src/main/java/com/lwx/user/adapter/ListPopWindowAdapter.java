@@ -1,6 +1,7 @@
 package com.lwx.user.adapter;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.support.annotation.LayoutRes;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,9 +12,11 @@ import android.widget.TextView;
 
 
 import com.bumptech.glide.Glide;
+import com.lwx.user.App;
 import com.lwx.user.R;
 import com.lwx.user.contracts.LoginContract;
 import com.lwx.user.db.model.User;
+import com.lwx.user.utils.ImageLoader;
 
 import java.util.List;
 
@@ -42,6 +45,7 @@ public class ListPopWindowAdapter extends ArrayAdapter<User> {
         this.context = context;
         this.layout = layout;
         this.userList = userList;
+
     }
 
     @Override
@@ -60,10 +64,11 @@ public class ListPopWindowAdapter extends ArrayAdapter<User> {
 
             viewHolder = (ViewHolder)convertView.getTag();
         }
-
+        //imageLoader.loadImage(context,user.headPath,viewHolder.circleImageView);
         Glide.with(context).load(user.headPath).into(viewHolder.circleImageView);
         viewHolder.textView.setText(user.user);
-        Glide.with(context).load(R.drawable.clear).into(viewHolder.imageView);
+        viewHolder.imageView.setImageBitmap(BitmapFactory.decodeResource(context.getResources(),R.drawable.clear));
+        //Glide.with(context).load(R.drawable.clear).into(viewHolder.imageView);
         viewHolder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -16,7 +16,7 @@ import io.reactivex.plugins.RxJavaPlugins;
 public class App extends Application {
 
     private String token;
-
+    private long uid;
     private  static App sInstance;
 
     public static final String BASE_URL = "http://ttxs.ac.cn:8088/";
@@ -52,5 +52,21 @@ public class App extends Application {
 
     public void setToken(@NonNull String token) {
         this.token = token;
+    }
+
+    public long getUid() {
+        return uid;
+    }
+
+    public void setUid(long uid) {
+        this.uid = uid;
+    }
+
+    public static App getsInstance() {
+        return sInstance;
+    }
+
+    public static void setsInstance(App sInstance) {
+        App.sInstance = sInstance;
     }
 }

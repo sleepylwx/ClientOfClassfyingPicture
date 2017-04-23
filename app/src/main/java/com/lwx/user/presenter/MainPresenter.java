@@ -110,4 +110,72 @@ public class MainPresenter implements MainContract.Presenter {
                     }
                 });
     }
+
+
+    @Override
+    public void getMorePicturesByNetWork(long uid,int num) {
+
+        pictureAgent.getPicByUId(uid,num)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<List<Image>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(List<Image> imageList) {
+
+
+                        context.nonShowWaitingNetWork();
+                        context.nonShowSwipe();
+                        context.onImageLoadedSucceed(imageList);
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
+    @Override
+    public void clearAndGetMorePicByNetWork(long uid, int num) {
+
+        pictureAgent.getPicByUId(uid,num)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<List<Image>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(List<Image> imageList) {
+
+                        context.nonShowWaitingNetWork();
+                        context.nonShowSwipe();
+                        context.clearAndSaveList(imageList);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
 }
