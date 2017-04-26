@@ -15,10 +15,12 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.j256.ormlite.stmt.query.In;
 import com.lwx.user.App;
 import com.lwx.user.R;
 import com.lwx.user.adapter.RecyclerViewAdapter;
 import com.lwx.user.contracts.MainContract;
+import com.lwx.user.db.ImageRepo;
 import com.lwx.user.db.model.Image;
 import com.lwx.user.db.model.User;
 import com.lwx.user.presenter.MainPresenter;
@@ -73,6 +75,13 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         init();
 
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        adapter = null;
+        presenter = null;
     }
 
     private void initNavigationView(){
@@ -226,6 +235,14 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
         showWaitingNetWork();
         presenter.getMorePicturesByNetWork(App.getInstance().getUid(),num);
+
+    }
+
+    @Override
+    public void jumpToImageDetailActivity() {
+
+        Intent intent = new Intent(this, ImageDetailActivity.class);
+        startActivity(intent);
 
     }
 

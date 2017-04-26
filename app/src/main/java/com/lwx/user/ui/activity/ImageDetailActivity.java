@@ -1,10 +1,17 @@
 package com.lwx.user.ui.activity;
 
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 
-/**
- * Created by 36249 on 2017/4/20.
- */
+import com.lwx.user.R;
 
 public class ImageDetailActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_image_detail);
+
+
+    }
 }

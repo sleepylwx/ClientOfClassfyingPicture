@@ -36,6 +36,8 @@
         </activity>
         <activity android:name=".ui.activity.FindPasswdActivity">
         </activity>
+        <activity android:name=".ui.activity.ImageDetailActivity">
+        </activity>
     </application>
 
 </manifest>

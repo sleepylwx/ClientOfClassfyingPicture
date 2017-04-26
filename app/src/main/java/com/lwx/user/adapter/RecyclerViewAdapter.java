@@ -57,7 +57,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             ((MainContract.View)context).startGetMorePicByNetWork(15);
 
         }
+        holder.mImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                ((MainContract.View)context).jumpToImageDetailActivity();
+            }
+        });
         Image image = imageList.get(position);
         imageLoader.loadImage(context,image.imagePath,holder.mImageView);
 

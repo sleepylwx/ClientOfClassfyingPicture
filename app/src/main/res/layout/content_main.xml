@@ -15,7 +15,7 @@
         android:id="@+id/flush"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_behaver="@string/appbar_scrolling_view_behavior">
+        >
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerview"
