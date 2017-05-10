@@ -26,7 +26,7 @@ public interface MainContract {
 
         RecyclerView getRecyclerView();
         void startGetMorePicByNetWork(int num);
-        void jumpToImageDetailActivity();
+        void jumpToImageDetailActivity(String uuid);
         //view
 
         void showWaitingNetWork();

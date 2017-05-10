@@ -1,6 +1,7 @@
 package com.lwx.user.presenter;
 
 import android.os.SystemClock;
+import android.util.Log;
 
 import com.lwx.user.contracts.SplashContract;
 import com.lwx.user.db.UserImpl;
@@ -18,6 +19,8 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
+
+
 /**
  * Created by 36249 on 2017/4/4.
  */
@@ -29,6 +32,8 @@ public class SplashPresenter implements SplashContract.Presenter {
     private UserAgent loginAgent;
 
     private static final long WAIT_TIME = 2000;
+    public static final String TAG = "SplashPresenter";
+
     public SplashPresenter(SplashContract.View context) {
 
         this.context = context;
@@ -91,6 +96,7 @@ public class SplashPresenter implements SplashContract.Presenter {
                                             checkTimeMatched(startTime);
                                             context.onNetWorkError();
                                             context.jumpToLoginActivity();
+                                            Log.d(TAG,"autoLogin onError");
                                             e.printStackTrace();
                                         }
 

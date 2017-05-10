@@ -1,5 +1,7 @@
 package com.lwx.user.presenter;
 
+import android.util.Log;
+
 import com.lwx.user.contracts.MainContract;
 import com.lwx.user.db.ImageImpl;
 import com.lwx.user.db.ImageRepo;
@@ -32,6 +34,8 @@ public class MainPresenter implements MainContract.Presenter {
     private PictureAgent pictureAgent;
     private ImageRepo imageRepo;
 
+    public static final String TAG = "MainPresenter";
+
     public MainPresenter(MainContract.View context){
 
         this.context = context;
@@ -57,7 +61,7 @@ public class MainPresenter implements MainContract.Presenter {
                     @Override
                     public void onSubscribe(Disposable d) {
 
-                        d.dispose();
+
                     }
 
                     @Override
@@ -68,7 +72,7 @@ public class MainPresenter implements MainContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        Log.d(TAG,"getUser onError" + uid);
                         context.onUserLoadedFailed();
                     }
 
@@ -100,7 +104,7 @@ public class MainPresenter implements MainContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        Log.d(TAG,"getPictures onError" );
                         context.onImageLoadedSucceed(null);
                     }
 
@@ -137,6 +141,7 @@ public class MainPresenter implements MainContract.Presenter {
                     @Override
                     public void onError(Throwable e) {
 
+                        Log.d(TAG,"getMorePictures onError" + uid + " " + num);
                         e.printStackTrace();
                     }
 
@@ -169,6 +174,8 @@ public class MainPresenter implements MainContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
+
+                        Log.d(TAG,"clearAndGetMorePictures onError" + uid + " " + num);
 
                     }
 

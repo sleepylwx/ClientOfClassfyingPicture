@@ -6,7 +6,7 @@ package com.lwx.user.contracts;
 
 public interface SplashContract {
 
-    interface View extends BaseContract.View<SplashContract.Presenter>{
+    public interface View extends BaseContract.View<SplashContract.Presenter>{
 
         void jumpToLoginActivity();
         void jumpToMainActivity(long uid);
@@ -14,7 +14,7 @@ public interface SplashContract {
 
     }
 
-    interface Presenter extends BaseContract.Presenter<SplashContract.View>{
+    public interface Presenter extends BaseContract.Presenter<SplashContract.View>{
 
 
         void doAutoLogin();

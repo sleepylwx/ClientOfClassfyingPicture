@@ -3,6 +3,7 @@ package com.lwx.user.db;
 
 
 import com.lwx.user.db.model.Image;
+import com.lwx.user.db.model.Label;
 
 import java.util.List;
 
@@ -22,4 +23,10 @@ public interface ImageRepo {
 
     Completable saveImage(Image image);
 
+    Observable<Image> getImage(String imageId);
+
+
+    Observable<List<Label>> getImageLabels(String imageId);
+
+    Completable saveLabels(String imageId, List<String>labels);
 }

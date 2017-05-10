@@ -1,6 +1,7 @@
 package com.lwx.user.presenter;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.lwx.user.contracts.LoginContract;
 import com.lwx.user.db.UserImpl;
@@ -11,6 +12,8 @@ import com.lwx.user.net.UserAgentImpl;
 
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
+
+import java.util.List;
 
 import io.reactivex.CompletableObserver;
 import io.reactivex.Observer;
@@ -32,6 +35,8 @@ public class LoginPresenter implements LoginContract.Presenter{
     private UserRepo userRepo;
 
     private UserAgent userAgent;
+
+    public static final String TAG = "LoginPresenter";
     public LoginPresenter(LoginContract.View context){
 
         this.context = context;
@@ -45,7 +50,29 @@ public class LoginPresenter implements LoginContract.Presenter{
         userRepo.getAllUsers()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(s->context.onAllUsersLoaded(s));
+                .subscribe(new Observer<List<User>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(List<User> users) {
+
+                        context.onAllUsersLoaded(users);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                        Log.d(TAG,"loadAllUsers onError");
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
 
     }
 
@@ -83,6 +110,7 @@ public class LoginPresenter implements LoginContract.Presenter{
                                     @Override
                                     public void onError(@NonNull Throwable e) {
 
+                                        Log.d(TAG,"login onNext onError" + user + "  " + passwd );
                                     }
                                 });
                     }
@@ -90,6 +118,7 @@ public class LoginPresenter implements LoginContract.Presenter{
                     @Override
                     public void onError(Throwable t) {
 
+                        Log.d(TAG,"login onError" + user + " " + passwd);
                         t.printStackTrace();
                     }
 
@@ -122,6 +151,7 @@ public class LoginPresenter implements LoginContract.Presenter{
                     @Override
                     public void onError(@NonNull Throwable e) {
 
+                        Log.d(TAG,"login token error" + uid + " " + token);
                         e.printStackTrace();
                     }
                 });

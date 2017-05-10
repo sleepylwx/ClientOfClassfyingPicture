@@ -1,6 +1,7 @@
 package com.lwx.user.presenter;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.lwx.user.contracts.SignUpContract;
 import com.lwx.user.db.model.User;
@@ -23,6 +24,8 @@ public class SignUpPresenter implements SignUpContract.Presenter {
 
     private SignUpContract.View context;
     private UserAgent userAgent;
+
+    public static final String TAG = "SignUpPresenter";
     public SignUpPresenter(SignUpContract.View context){
 
         this.context = context;
@@ -50,7 +53,7 @@ public class SignUpPresenter implements SignUpContract.Presenter {
                     @Override
                     public void onError(@NonNull Throwable e) {
 
-
+                        Log.d(TAG,"doSignUp onError" + user + " " + passwd);
                     }
                 });
     }

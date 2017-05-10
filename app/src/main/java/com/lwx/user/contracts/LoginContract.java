@@ -10,14 +10,14 @@ import java.util.List;
 
 public interface LoginContract {
 
-    interface View extends BaseContract.View<LoginContract.Presenter>{
+    public interface View extends BaseContract.View<LoginContract.Presenter>{
 
         void onAllUsersLoaded(List<User> list);
         void onUsersEmpty();
         void onLoginSucceed(long uid);
     }
 
-    interface Presenter extends BaseContract.Presenter<LoginContract.View>{
+    public interface Presenter extends BaseContract.Presenter<LoginContract.View>{
 
         void loadAllUsers();
         void login(String user,String passwd);

@@ -239,9 +239,10 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
     @Override
-    public void jumpToImageDetailActivity() {
+    public void jumpToImageDetailActivity(String uuid) {
 
         Intent intent = new Intent(this, ImageDetailActivity.class);
+        intent.putExtra(ImageDetailActivity.IMAGEUUID,uuid);
         startActivity(intent);
 
     }
