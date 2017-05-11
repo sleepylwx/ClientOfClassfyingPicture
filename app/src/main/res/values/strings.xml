@@ -16,8 +16,19 @@
     <!--MainActivity-->
     <string name="user_loaded_failed">用户数据不存在，请重新登录</string>
 
+    <!--ImageDetailActivity-->
+    <string name="post_label_button">提交标签成功</string>
+
+    <!--AddLabelDialog-->
+    <string name="add_label_dialog_title">输入标签</string>
+    <string name="add_label_hint">输入标签</string>
+    <string name="add_label_button">添加</string>
+
     <!--UnStable-->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+
+
+
 
 </resources>

@@ -16,8 +16,10 @@ import com.lwx.user.net.PictureImpl;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.CompletableObserver;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
@@ -163,18 +165,42 @@ public class ImageDetailPresenter implements ImageDetailContract.Presenter{
 
     private void saveLabels(String imageId,List<String> strings){
 
-        imageRepo.saveLabels(imageId,strings);
+        imageRepo.saveLabels(imageId,strings)
+                .subscribeOn(Schedulers.io())
+                .subscribe();
     }
 
     @Override
-    public void postLabels(List<String> labels) {
+    public void postSelectedLabels(List<String> labels) {
 
+        pictureAgent.postPicTags(labels)
+                .subscribeOn(Schedulers.io())
+                .subscribe(new CompletableObserver() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
 
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                        context.onLabelsPostSucceed();
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+
+                        Log.d(TAG,"postSelectedLabels onError" + labels.size() + labels.get(0) + labels.get(labels.size() - 1));
+                    }
+                });
     }
 
     @Override
-    public void addImageLabel(String label) {
+    public void saveImageLabel(String label) {
 
+        imageRepo.saveLabel(imageId,label)
+                .subscribeOn(Schedulers.io())
+                .subscribe();
 
     }
 }

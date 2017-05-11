@@ -16,7 +16,7 @@ public interface ImageDetailContract {
         void onImageLoadSucceed(String path);
         void onLabelsLoadSucceed(List<String> labels);
         void onLabelsPostSucceed();
-        void onImageLabelAddedSucceed();
+        void onImageLabelAddedSucceed(String label);
     }
 
     public interface Presenter extends BaseContract.Presenter<ImageDetailContract.View>{
@@ -24,8 +24,21 @@ public interface ImageDetailContract {
 
         void getImage(String uuid);
         void getLabels(String uuid);
-        void postLabels(List<String> labels);
-        void addImageLabel(String label);
+
+        /**
+         *
+         * @param labels
+         * 提交用户打好的标签
+         */
+        void postSelectedLabels(List<String> labels);
+
+        /**
+         *
+         * @param label
+         * 将用户自定义的label添加到本地数据库
+         */
+        void saveImageLabel(String label);
+
     }
 
 }

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="200dp"
+    android:layout_height="200dp"
+    tools:context="com.lwx.user.ui.activity.ImageDetailActivity$AddLabelDialog">
+    <EditText
+
+        android:id="@+id/label_edittext"
+        android:layout_width="184dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/add_label_hint"
+        android:layout_marginTop="30dp"/>
+
+    <Button
+        android:id="@+id/add_label_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_label_button"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"/>
+</RelativeLayout>

@@ -28,5 +28,21 @@ public interface ImageRepo {
 
     Observable<List<Label>> getImageLabels(String imageId);
 
+    /**
+     *
+     * @param imageId
+     * @param labels
+     * @return
+     * 将从网络获取到的标签集存储到本地
+     */
     Completable saveLabels(String imageId, List<String>labels);
+
+    /**
+     *
+     * @param imageId
+     * @param labels
+     * @return
+     * 将用户自定义的标签存储到本地
+     */
+    Completable saveLabel(String imageId,String labels);
 }
