@@ -18,6 +18,7 @@
 
     <!--ImageDetailActivity-->
     <string name="post_label_button">提交标签成功</string>
+    <string name="selected_non_label">请选中一个标签</string>
 
     <!--AddLabelDialog-->
     <string name="add_label_dialog_title">输入标签</string>

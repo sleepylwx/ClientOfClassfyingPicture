@@ -28,4 +28,12 @@
         <item name="android:windowCloseOnTouchOutside">false</item>
 
     </style>
+
+    <style name="AppTheme.FullScreen">
+
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+
+    </style>
 </resources>

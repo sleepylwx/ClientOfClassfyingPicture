@@ -36,8 +36,10 @@
         </activity>
         <activity android:name=".ui.activity.FindPasswdActivity">
         </activity>
-        <activity android:name=".ui.activity.ImageDetailActivity">
+        <activity android:name=".ui.activity.ImageDetailActivity"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
         </activity>
+
         <activity android:name=".ui.activity.ImageDetailActivity$AddLabelDialog"
             android:theme="@style/AppDialogTheme"
                   android:label="@string/add_label_dialog_title">

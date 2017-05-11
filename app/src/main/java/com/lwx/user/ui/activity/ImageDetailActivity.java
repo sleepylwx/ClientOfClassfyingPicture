@@ -19,7 +19,9 @@ import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -41,6 +43,24 @@ public class ImageDetailActivity extends AppCompatActivity implements ImageDetai
 
     }
 
+    @OnClick(R.id.post_label)
+    public void onClick1(){
+
+
+        Set<Integer> set = flowLayout.getSelectedList();
+        if(set.size() < 1){
+
+            Toast.makeText(this,R.string.selected_non_label,Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        List<String> selectedLabels = new ArrayList<>();
+        for(Integer i : set){
+
+            selectedLabels.add(curLables.get(i));
+        }
+        presenter.postSelectedLabels(selectedLabels);
+    }
     private String uuid;
     private ImageDetailContract.Presenter presenter;
     private ImageLoader imageLoader;
