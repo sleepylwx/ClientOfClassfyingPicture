@@ -45,4 +45,6 @@ public interface ImageRepo {
      * 将用户自定义的标签存储到本地
      */
     Completable saveLabel(long uid,String imageId,String labels);
+
+    Completable saveImages(List<Image> images);
 }

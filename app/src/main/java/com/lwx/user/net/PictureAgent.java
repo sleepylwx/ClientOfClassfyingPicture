@@ -18,6 +18,12 @@ public interface PictureAgent {
 
     /**
      *
+     * @return
+     * 作用跟getRandPic()类似，不过一次随机获得多张图片
+     */
+    Observable<List<Image>> getRandPictures();
+    /**
+     *
      * @param labels
      * @return
      *
