@@ -12,6 +12,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -191,8 +192,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     public void onUserLoadedSucceed(User user) {
 
         curUser = user;
-        CircleImageView header = (CircleImageView)navigationView.getHeaderView(0);
-        TextView userName = (TextView)navigationView.getHeaderView(1);
+        CircleImageView header = (CircleImageView)((ViewGroup)navigationView.getHeaderView(0)).getChildAt(0);
+        TextView userName = (TextView)((ViewGroup)navigationView.getHeaderView(0)).getChildAt(1);
         imageLoader.loadImage(this,user.headPath,header);
         userName.setText(user.nickName);
 

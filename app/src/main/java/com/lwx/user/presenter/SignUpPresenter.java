@@ -53,6 +53,7 @@ public class SignUpPresenter implements SignUpContract.Presenter {
                     @Override
                     public void onError(@NonNull Throwable e) {
 
+                        context.onNetWorkError();
                         Log.d(TAG,"doSignUp onError" + user + " " + passwd);
                     }
                 });
