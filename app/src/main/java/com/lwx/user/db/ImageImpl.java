@@ -23,6 +23,89 @@ import io.reactivex.annotations.NonNull;
  */
 public class ImageImpl implements ImageRepo {
 
+    @Override
+    public Observable<Image> getImage(String imageId) {
+        return Observable.create(new ObservableOnSubscribe<Image>() {
+            @Override
+            public void subscribe(@NonNull ObservableEmitter<Image> e) throws Exception {
+                imageDAO.queryForId(imageId);
+            }
+        });
+    }
+
+    @Override
+    public Observable<List<Label>> getImageLabels(String imageId) {
+        return Observable.create(new ObservableOnSubscribe<List<Label>>() {
+            @Override
+            public void subscribe(@NonNull ObservableEmitter<List<Label>> e) throws Exception {
+                QueryBuilder imageQuery = imageDAO.queryBuilder();
+                imageQuery.where()
+                        .eq(Image.UUID_FIELD, imageId);
+
+                QueryBuilder imageLabelQuery = imageLabelDAO.queryBuilder();
+                imageLabelQuery.where()
+                        .in(ImageLabel.IMAGE_FIELD, imageQuery);
+
+                QueryBuilder labelQuery = labelDAO.queryBuilder();
+                labelQuery.where()
+                        .in(Label.LABEL_FIELD, imageLabelQuery);
+
+                XLog.v("getPictures 执行查询：" + labelQuery.prepareStatementString());
+                e.onNext(labelQuery.query());
+            }
+        });
+    }
+
+    @Override
+    public Completable saveLabels(long uid, String imageId, List<String> labels) {
+        return Completable.create(new CompletableOnSubscribe() {
+            @Override
+            public void subscribe(@NonNull CompletableEmitter e) throws Exception {
+                Image image = imageDAO.queryForId(imageId);
+                if (image == null) {
+                    e.onError(new Throwable("没有该图片"));
+                    return;
+                }
+                for(String iLabel : labels){
+                    Label iLabelBean = null;
+                    List<Label> iLabels = labelDAO.queryForEq(Label.LABEL_FIELD, iLabel);
+                    if(iLabels.size() > 0){
+                        iLabelBean = iLabels.get(0);
+                    } else {
+                        iLabelBean = new Label(iLabel, uid);
+                        labelDAO.createOrUpdate(iLabelBean);
+                    }
+                    imageLabelDAO.createOrUpdate(new ImageLabel(image, iLabelBean));
+                }
+            }
+        });
+    }
+
+    @Override
+    public Completable saveLabel(long uid, String imageId, String labels) {
+        return Completable.create(new CompletableOnSubscribe() {
+            @Override
+            public void subscribe(@NonNull CompletableEmitter e) throws Exception {
+
+                Image image = imageDAO.queryForId(imageId);
+                if (image == null) {
+                    e.onError(new Throwable("没有该图片"));
+                    return;
+                }
+                Label iLabelBean = null;
+                List<Label> iLabels = labelDAO.queryForEq(Label.LABEL_FIELD, labels);
+                if(iLabels.size() > 0){
+                    iLabelBean = iLabels.get(0);
+                } else {
+                    iLabelBean = new Label(labels, uid);
+                    labelDAO.createOrUpdate(iLabelBean);
+                }
+                imageLabelDAO.createOrUpdate(new ImageLabel(image, iLabelBean));
+            }
+        });
+    }
+
+
     Dao<Image, String> imageDAO = null;
     Dao<ImageLabel, Long> imageLabelDAO = null;
     Dao<Label, String> labelDAO = null;

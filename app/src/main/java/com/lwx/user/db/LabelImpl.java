@@ -2,6 +2,10 @@ package com.lwx.user.db;
 
 import com.elvishew.xlog.XLog;
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.DeleteBuilder;
+import com.j256.ormlite.stmt.PreparedDelete;
+import com.j256.ormlite.stmt.PreparedQuery;
+import com.lwx.user.db.model.ImageLabel;
 import com.lwx.user.db.model.Label;
 
 import java.util.List;
@@ -20,6 +24,7 @@ import io.reactivex.annotations.NonNull;
  */
 public class LabelImpl implements LabelRepo{
     private Dao<Label, String> labelDAO;
+    private Dao<ImageLabel, Long> imageLabelLongDAO;
 
     private static LabelImpl ourInstance = new LabelImpl();
 
@@ -30,6 +35,7 @@ public class LabelImpl implements LabelRepo{
     private LabelImpl() {
         try {
             labelDAO = DbHelper.getInstance().getDao(Label.class);
+            imageLabelLongDAO = DbHelper.getInstance().getDao(ImageLabel.class);
         }catch (Exception e){
             XLog.e("SQL Exception", e);
         }
@@ -50,6 +56,11 @@ public class LabelImpl implements LabelRepo{
             @Override
             public void subscribe(@NonNull CompletableEmitter e) throws Exception {
                 labelDAO.delete(label);
+                DeleteBuilder deleteBuilder = imageLabelLongDAO.deleteBuilder();
+                deleteBuilder.where()
+                        .eq(ImageLabel.LABEL_FIELD, label.uid);
+                deleteBuilder.delete();
+
             }
         });
     }

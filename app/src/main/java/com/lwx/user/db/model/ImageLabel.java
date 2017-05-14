@@ -16,13 +16,18 @@ public class ImageLabel {
 
     }
 
+    public ImageLabel(Image image, Label label) {
+        this.image = image;
+        this.label = label;
+    }
+
     @DatabaseField(generatedId = true)
     public Long id;
 
-    @DatabaseField(columnName = IMAGE_FIELD)
+    @DatabaseField(columnName = IMAGE_FIELD, uniqueCombo = true)
     public Image image;
 
-    @DatabaseField(columnName = LABEL_FIELD)
+    @DatabaseField(columnName = LABEL_FIELD, uniqueCombo = true)
     public Label label;
 
 }

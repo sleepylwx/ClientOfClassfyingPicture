@@ -23,5 +23,5 @@ public interface PictureAgent {
      *
      * 提交用户打好的标签集
      */
-    Completable postPicTags(List<String> labels);
+    Completable postPicTags(String token, List<String> labels);
 }

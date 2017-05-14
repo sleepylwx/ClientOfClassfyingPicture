@@ -35,7 +35,7 @@ public interface ImageRepo {
      * @return
      * 将从网络获取到的标签集存储到本地
      */
-    Completable saveLabels(String imageId, List<String>labels);
+    Completable saveLabels(long uid,String imageId, List<String>labels);
 
     /**
      *
@@ -44,5 +44,5 @@ public interface ImageRepo {
      * @return
      * 将用户自定义的标签存储到本地
      */
-    Completable saveLabel(String imageId,String labels);
+    Completable saveLabel(long uid,String imageId,String labels);
 }
