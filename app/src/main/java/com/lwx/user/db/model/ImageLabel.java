@@ -24,10 +24,10 @@ public class ImageLabel {
     @DatabaseField(generatedId = true)
     public Long id;
 
-    @DatabaseField(columnName = IMAGE_FIELD, uniqueCombo = true)
+    @DatabaseField(columnName = IMAGE_FIELD, uniqueCombo = true, foreign = true)
     public Image image;
 
-    @DatabaseField(columnName = LABEL_FIELD, uniqueCombo = true)
+    @DatabaseField(columnName = LABEL_FIELD, uniqueCombo = true, foreign = true)
     public Label label;
 
 }
