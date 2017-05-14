@@ -3,6 +3,7 @@ package com.lwx.user.presenter;
 import android.content.Context;
 import android.util.Log;
 
+import com.lwx.user.App;
 import com.lwx.user.contracts.LoginContract;
 import com.lwx.user.db.UserImpl;
 import com.lwx.user.db.UserRepo;
@@ -104,6 +105,9 @@ public class LoginPresenter implements LoginContract.Presenter{
 
                                     @Override
                                     public void onComplete() {
+
+                                        App.getInstance().setToken(user.token);
+                                        App.getInstance().setUid(user.uid);
                                         context.onLoginSucceed(user.uid);
                                     }
 
@@ -145,6 +149,8 @@ public class LoginPresenter implements LoginContract.Presenter{
                     @Override
                     public void onComplete() {
 
+                        App.getInstance().setToken(token);
+                        App.getInstance().setUid(uid);
                         context.onLoginSucceed(uid);
                     }
 

@@ -3,6 +3,7 @@ package com.lwx.user.presenter;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.util.Log;
 
+import com.lwx.user.App;
 import com.lwx.user.contracts.ImageDetailContract;
 import com.lwx.user.db.ImageImpl;
 import com.lwx.user.db.ImageRepo;
@@ -165,7 +166,7 @@ public class ImageDetailPresenter implements ImageDetailContract.Presenter{
 
     private void saveLabels(String imageId,List<String> strings){
 
-        imageRepo.saveLabels(imageId,strings)
+        imageRepo.saveLabels(App.getInstance().getUid(),imageId,strings)
                 .subscribeOn(Schedulers.io())
                 .subscribe();
     }
@@ -173,7 +174,7 @@ public class ImageDetailPresenter implements ImageDetailContract.Presenter{
     @Override
     public void postSelectedLabels(List<String> labels) {
 
-        pictureAgent.postPicTags(labels)
+        pictureAgent.postPicTags(App.getInstance().getToken(),labels)
                 .subscribeOn(Schedulers.io())
                 .subscribe(new CompletableObserver() {
                     @Override
@@ -198,7 +199,7 @@ public class ImageDetailPresenter implements ImageDetailContract.Presenter{
     @Override
     public void saveImageLabel(String label) {
 
-        imageRepo.saveLabel(imageId,label)
+        imageRepo.saveLabel(App.getInstance().getUid(),imageId,label)
                 .subscribeOn(Schedulers.io())
                 .subscribe();
 
