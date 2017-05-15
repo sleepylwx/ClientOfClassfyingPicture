@@ -17,7 +17,7 @@ public interface PictureAgent {
     Observable<List<String>> getPicTags(String uuid);
 
     /**
-     * 返回n个随机的图片uuid
+     * 获取指定数目的Picture
      * @param num
      * @return
      */

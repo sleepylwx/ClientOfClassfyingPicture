@@ -18,7 +18,7 @@ public class App extends Application {
     private String token;
     private long uid;
     private  static App sInstance;
-
+    private int pullPicNum;
     public static final String BASE_URL = "http://ttxs.ac.cn:8088/";
 
     @Override
@@ -26,7 +26,7 @@ public class App extends Application {
 
         super.onCreate();
         sInstance = this;
-
+        pullPicNum = 15;
         LogConfiguration config = new LogConfiguration.Builder()
                 .logLevel(BuildConfig.DEBUG ? LogLevel.ALL             // Specify log level, logs below this level won't be printed, default: LogLevel.ALL
                         : LogLevel.NONE)
@@ -41,6 +41,14 @@ public class App extends Application {
         RxJavaPlugins.setErrorHandler(t->{XLog.e("Unhandled Exception By RxJava" , t);});
     }
 
+    public void setGetPicNum(int num){
+
+        pullPicNum = num;
+    }
+    public int getpullPicNum(){
+
+        return pullPicNum;
+    }
     public static App getInstance(){
 
         return sInstance;
@@ -62,11 +70,5 @@ public class App extends Application {
         this.uid = uid;
     }
 
-    public static App getsInstance() {
-        return sInstance;
-    }
 
-    public static void setsInstance(App sInstance) {
-        App.sInstance = sInstance;
-    }
 }

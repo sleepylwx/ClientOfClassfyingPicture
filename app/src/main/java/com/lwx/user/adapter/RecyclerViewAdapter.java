@@ -2,6 +2,7 @@ package com.lwx.user.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     private ImageLoader imageLoader;
 
+    public static final String TAG = "RecyclerViewAdapter";
     public RecyclerViewAdapter(Context context,List<Image> imageList){
 
         this.context = context;
@@ -50,11 +52,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(ViewHolder holder,int position){
 
+        Log.d(TAG,position+"");
         MainContract.View main = (MainContract.View)context;
         RecyclerView recyclerView = main.getRecyclerView();
         if(!recyclerView.canScrollVertically(1)){
 
-            ((MainContract.View)context).startGetMorePicByNetWork(15);
+            ((MainContract.View)context).startGetMorePicByNetWork();
 
         }
 

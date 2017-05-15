@@ -25,7 +25,7 @@ public interface MainContract {
         //adapter
 
         RecyclerView getRecyclerView();
-        void startGetMorePicByNetWork(int num);
+        void startGetMorePicByNetWork();
         void jumpToImageDetailActivity(String uuid);
         //view
 
@@ -37,7 +37,7 @@ public interface MainContract {
     public interface Presenter extends BaseContract.Presenter<MainContract.View>{
 
         void getUser(long uid);
-        void getPictures();
+        void getPictures(int num);
 
         void getMorePicturesByNetWork(long uid,int num);
         void clearAndGetMorePicByNetWork(long uid,int num);

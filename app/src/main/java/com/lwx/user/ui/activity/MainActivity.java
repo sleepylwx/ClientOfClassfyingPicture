@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     private User curUser;
     private RecyclerViewAdapter adapter;
     private List<Image> list;
+    public static final String TAG = "MainActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -156,7 +158,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     private void initPicture(){
 
-        presenter.getPictures();
+        presenter.getPictures(App.getInstance().getpullPicNum());
 
     }
 
@@ -223,7 +225,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
             list.addAll(imageList);
         }
-
+        Log.d(TAG,"" + list.size());
         adapter = new RecyclerViewAdapter(this,list);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this,3);
         recyclerView.setAdapter(adapter);
@@ -232,10 +234,10 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
     @Override
-    public void startGetMorePicByNetWork(int num) {
+    public void startGetMorePicByNetWork() {
 
         showWaitingNetWork();
-        presenter.getMorePicturesByNetWork(App.getInstance().getUid(),num);
+        presenter.getMorePicturesByNetWork(App.getInstance().getUid(),App.getInstance().getpullPicNum());
 
     }
 
