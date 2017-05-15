@@ -2,6 +2,7 @@ package com.lwx.user.net;
 
 import com.lwx.user.App;
 import com.lwx.user.db.model.Image;
+import com.lwx.user.db.model.ImageLabel;
 import com.lwx.user.net.rx.PictureService;
 import com.lwx.user.net.rx.StringConverterFactory;
 
@@ -44,18 +45,26 @@ public class PictureImpl implements PictureAgent {
     }
 
     @Override
-    public Completable postPicTags(String token, List<String> labels) {
+    public Completable markMutiTags(String token, String uuid, List<String> tags) {
         return Completable.create(new CompletableOnSubscribe() {
             @Override
             public void subscribe(@NonNull CompletableEmitter e) throws Exception {
+                JSONArray jsonArray = new JSONArray(tags);
+                try {
+                    Response<String> response = picService.markMutiTags(token,jsonArray.toString(), uuid).execute();
+                    String content = response.body();
+                    JSONObject jsonObject = new JSONObject(content);
 
+                    if(jsonObject.getBoolean("err")) {
+                        e.onError(new Exception(jsonObject.getString("msg")));
+                        return;
+                    }
+                    e.onComplete();
+                } catch (IOException |JSONException ex) {
+                    e.onError(ex);
+                }
             }
         });
-    }
-
-    @Override
-    public Observable<List<Image>> getPicByUId(long uid, int num) {
-        return null;
     }
 
     @Override
@@ -99,6 +108,66 @@ public class PictureImpl implements PictureAgent {
                     }
 
                     JSONArray jsonArray = jsonObject.getJSONArray("tags");
+                    List<String> ansList = new ArrayList<String>();
+                    int len = jsonArray.length();
+                    for(int i = 0 ; i < len ;i++){
+                        ansList.add(jsonArray.getString(i));
+                    }
+                    e.onNext(ansList);
+
+                } catch (IOException |JSONException ex) {
+                    e.onError(ex);
+                }
+            }
+        });
+    }
+
+    @Override
+    public Observable<List<String>> getRandPic(Integer num) {
+        return Observable.create(new ObservableOnSubscribe<List<String>>() {
+            @Override
+            public void subscribe(@NonNull ObservableEmitter<List<String>> e) throws Exception {
+                try {
+                    Response<String> response = picService.getRandPic(num).execute();
+                    String content = response.body();
+                    JSONObject jsonObject = new JSONObject(content);
+
+                    if(jsonObject.getBoolean("err")) {
+                        e.onError(new Exception(jsonObject.getString("msg")));
+                        return;
+                    }
+
+                    JSONArray jsonArray = jsonObject.getJSONArray("uuids");
+                    List<String> ansList = new ArrayList<String>();
+                    int len = jsonArray.length();
+                    for(int i = 0 ; i < len ;i++){
+                        ansList.add(jsonArray.getString(i));
+                    }
+                    e.onNext(ansList);
+
+                } catch (IOException |JSONException ex) {
+                    e.onError(ex);
+                }
+            }
+        });
+    }
+
+    @Override
+    public Observable<List<String>> getUserLikePics(String token, Integer num) {
+        return Observable.create(new ObservableOnSubscribe<List<String>>() {
+            @Override
+            public void subscribe(@NonNull ObservableEmitter<List<String>> e) throws Exception {
+                try {
+                    Response<String> response = picService.getUserLikePics(token,num).execute();
+                    String content = response.body();
+                    JSONObject jsonObject = new JSONObject(content);
+
+                    if(jsonObject.getBoolean("err")) {
+                        e.onError(new Exception(jsonObject.getString("msg")));
+                        return;
+                    }
+
+                    JSONArray jsonArray = jsonObject.getJSONArray("uuids");
                     List<String> ansList = new ArrayList<String>();
                     int len = jsonArray.length();
                     for(int i = 0 ; i < len ;i++){

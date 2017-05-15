@@ -1,6 +1,7 @@
 package com.lwx.user.net;
 
 import com.lwx.user.db.model.Image;
+import com.lwx.user.db.model.ImageLabel;
 
 import java.util.List;
 
@@ -14,14 +15,28 @@ import io.reactivex.Observable;
 public interface PictureAgent {
     Observable<Image> getRandPic();
     Observable<List<String>> getPicTags(String uuid);
-    Observable<List<Image>> getPicByUId(long uid,int num);
 
     /**
-     *
-     * @param labels
+     * 返回n个随机的图片uuid
+     * @param num
      * @return
-     *
-     * 提交用户打好的标签集
      */
-    Completable postPicTags(String token, List<String> labels);
+    Observable<List<String>> getRandPic(Integer num);
+
+    /**
+     * 根据用户喜好来推荐n张图片
+     * @param token
+     * @param num
+     * @return
+     */
+    Observable<List<String>> getUserLikePics(String token, Integer num);
+
+    /**
+     * 针对一个用户token的一张图片uuid打List所指定的标签
+     * @param token
+     * @param uuid
+     * @param tags
+     * @return
+     */
+    Completable markMutiTags(String token, String uuid, List<String> tags);
 }

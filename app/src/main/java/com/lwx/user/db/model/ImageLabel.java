@@ -11,7 +11,7 @@ import com.j256.ormlite.table.DatabaseTable;
 public class ImageLabel {
     public static final String IMAGE_FIELD = "image_id";
     public static final String LABEL_FIELD = "label_id";
-
+    public static final String UPLOADED_FIELD = "upload";
     public ImageLabel(){
 
     }
@@ -29,5 +29,8 @@ public class ImageLabel {
 
     @DatabaseField(columnName = LABEL_FIELD, uniqueCombo = true, foreign = true)
     public Label label;
+
+    @DatabaseField(columnName = UPLOADED_FIELD)
+    public Boolean isUpload;
 
 }
