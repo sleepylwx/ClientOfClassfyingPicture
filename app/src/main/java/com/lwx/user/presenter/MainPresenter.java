@@ -104,7 +104,7 @@ public class MainPresenter implements MainContract.Presenter {
 
                         if(images == null || images.size() == 0){
 
-                            pictureAgent.getPicByUId(App.getInstance().getUid(),num)
+                            pictureAgent.getPicByToken(App.getInstance().getToken(),num)
                                     .subscribeOn(Schedulers.io())
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe(new Observer<List<Image>>() {
@@ -178,7 +178,7 @@ public class MainPresenter implements MainContract.Presenter {
     @Override
     public void getMorePicturesByNetWork(long uid,int num) {
 
-        pictureAgent.getPicByUId(uid,num)
+        pictureAgent.getPicByToken(App.getInstance().getToken(),num)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<List<Image>>() {
@@ -214,7 +214,7 @@ public class MainPresenter implements MainContract.Presenter {
     @Override
     public void clearAndGetMorePicByNetWork(long uid, int num) {
 
-        pictureAgent.getPicByUId(uid,num)
+        pictureAgent.getPicByToken(App.getInstance().getToken(),num)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<List<Image>>() {

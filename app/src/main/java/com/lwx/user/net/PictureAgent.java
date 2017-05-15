@@ -23,6 +23,8 @@ public interface PictureAgent {
      */
     Observable<List<String>> getRandPic(Integer num);
 
+    Observable<List<Image>> getPicByToken(String token, Integer num);
+
     /**
      * 根据用户喜好来推荐n张图片
      * @param token

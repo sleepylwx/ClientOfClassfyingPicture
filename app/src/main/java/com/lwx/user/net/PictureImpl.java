@@ -20,7 +20,9 @@ import io.reactivex.CompletableOnSubscribe;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.ObservableSource;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Function;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
@@ -180,5 +182,19 @@ public class PictureImpl implements PictureAgent {
                 }
             }
         });
+    }
+
+    @Override
+    public Observable<List<Image>> getPicByToken(String token, Integer num) {
+        return getUserLikePics(token, num)
+                .flatMap(new Function<List<String>, Observable<List<Image>>>() {
+                    @Override
+                    public Observable<List<Image>> apply(@NonNull List<String> strings) throws Exception {
+                        List<Image> images = new ArrayList<Image>();
+                        strings.forEach(t->images.add(new Image(t,
+                                App.BASE_URL + "/getpic.action?uuid=" + t )));
+                        return Observable.just(images);
+                    }
+                });
     }
 }

@@ -24,6 +24,17 @@ import io.reactivex.annotations.NonNull;
 public class ImageImpl implements ImageRepo {
 
     @Override
+    public Completable saveImages(List<Image> images) {
+        return Completable.create(new CompletableOnSubscribe() {
+            @Override
+            public void subscribe(@NonNull CompletableEmitter e) throws Exception {
+                for(Image image : images)
+                    imageDAO.createOrUpdate(image);
+            }
+        });
+    }
+
+    @Override
     public Observable<Image> getImage(String imageId) {
         return Observable.create(new ObservableOnSubscribe<Image>() {
             @Override
