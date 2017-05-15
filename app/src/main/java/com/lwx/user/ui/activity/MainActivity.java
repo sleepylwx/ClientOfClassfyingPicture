@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             @Override
             public void onRefresh() {
 
-                presenter.clearAndGetMorePicByNetWork(App.getInstance().getUid(),30);
+                presenter.clearAndGetMorePicByNetWork(App.getInstance().getUid(),App.getInstance().getpullPicNum());
             }
         });
     }
@@ -206,6 +206,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     public void onImageLoadedSucceed(List<Image> imageList) {
 
+        Log.d(TAG,"imageLoaded succeed!");
         initRecycleView(imageList);
     }
 
@@ -216,7 +217,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
             this.list = imageList;
         }
-
+        adapter.notifyDataSetChanged();
     }
 
     private void initRecycleView(List<Image> imageList){

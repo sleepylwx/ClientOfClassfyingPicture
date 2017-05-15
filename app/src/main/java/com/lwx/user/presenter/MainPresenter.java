@@ -96,12 +96,13 @@ public class MainPresenter implements MainContract.Presenter {
                     @Override
                     public void onSubscribe(Disposable d) {
 
-                        d.dispose();
+
                     }
 
                     @Override
                     public void onNext(List<Image> images) {
 
+                        Log.d(TAG,"getPictures onNext");
                         if(images == null || images.size() == 0){
 
                             pictureAgent.getPicByToken(App.getInstance().getToken(),num)
@@ -116,6 +117,7 @@ public class MainPresenter implements MainContract.Presenter {
                                         @Override
                                         public void onNext(List<Image> imagess) {
 
+                                            Log.d(TAG,"getPictures onNext onNext");
                                             imageRepo.saveImages(imagess)
                                                     .subscribeOn(Schedulers.io())
                                                     .observeOn(AndroidSchedulers.mainThread())

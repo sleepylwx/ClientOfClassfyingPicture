@@ -174,7 +174,7 @@ public class ImageDetailPresenter implements ImageDetailContract.Presenter{
     @Override
     public void postSelectedLabels(List<String> labels) {
 
-        pictureAgent.postPicTags(App.getInstance().getToken(),labels)
+        pictureAgent.markMutiTags(App.getInstance().getToken(),imageId,labels)
                 .subscribeOn(Schedulers.io())
                 .subscribe(new CompletableObserver() {
                     @Override
