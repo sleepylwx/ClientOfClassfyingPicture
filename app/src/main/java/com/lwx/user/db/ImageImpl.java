@@ -30,6 +30,7 @@ public class ImageImpl implements ImageRepo {
             public void subscribe(@NonNull CompletableEmitter e) throws Exception {
                 for(Image image : images)
                     imageDAO.createOrUpdate(image);
+                XLog.v("保存Images:" + images);
             }
         });
     }
@@ -39,7 +40,9 @@ public class ImageImpl implements ImageRepo {
         return Observable.create(new ObservableOnSubscribe<Image>() {
             @Override
             public void subscribe(@NonNull ObservableEmitter<Image> e) throws Exception {
-                imageDAO.queryForId(imageId);
+                Image image = imageDAO.queryForId(imageId);
+                e.onNext(image);
+                XLog.v("查询Image:" + image);
             }
         });
     }
@@ -60,9 +63,9 @@ public class ImageImpl implements ImageRepo {
                 QueryBuilder labelQuery = labelDAO.queryBuilder();
                 labelQuery.where()
                         .in(Label.LABEL_FIELD, imageLabelQuery);
-
-                XLog.v("getPictures 执行查询：" + labelQuery.prepareStatementString());
-                e.onNext(labelQuery.query());
+                List<Label> labels = labelQuery.query();
+                XLog.v("getPictures 执行查询：%s,\n 结果:%s" , labelQuery.prepareStatementString(),labels);
+                e.onNext(labels);
             }
         });
     }

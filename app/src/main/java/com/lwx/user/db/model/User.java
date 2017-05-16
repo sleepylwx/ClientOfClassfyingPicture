@@ -33,4 +33,14 @@ public class User {
 
     public User(){}
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "uid=" + uid +
+                ", token='" + token + '\'' +
+                ", user='" + user + '\'' +
+                ", headPath='" + headPath + '\'' +
+                ", nickName='" + nickName + '\'' +
+                '}';
+    }
 }
