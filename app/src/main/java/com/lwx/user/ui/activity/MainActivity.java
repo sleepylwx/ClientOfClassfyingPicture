@@ -207,6 +207,11 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     public void onImageLoadedSucceed(List<Image> imageList) {
 
         Log.d(TAG,"imageLoaded succeed!");
+
+        for(int i = 0; i < imageList.size(); ++i){
+
+            Log.d(TAG,"uuid:" + imageList.get(i).uuid + " path:" + imageList.get(i).imagePath);
+        }
         initRecycleView(imageList);
     }
 

@@ -55,11 +55,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         Log.d(TAG,position+"");
         MainContract.View main = (MainContract.View)context;
         RecyclerView recyclerView = main.getRecyclerView();
-        if(!recyclerView.canScrollVertically(1)){
-
-            ((MainContract.View)context).startGetMorePicByNetWork();
-
-        }
+//        if(!recyclerView.canScrollVertically(1)){
+//
+//            ((MainContract.View)context).startGetMorePicByNetWork();
+//
+//        }
 
         Image image = imageList.get(position);
         imageLoader.loadImage(context,image.imagePath,holder.mImageView);

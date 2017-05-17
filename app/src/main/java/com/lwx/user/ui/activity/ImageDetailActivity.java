@@ -1,5 +1,6 @@
 package com.lwx.user.ui.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,7 +27,7 @@ import java.util.Set;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class ImageDetailActivity extends AppCompatActivity implements ImageDetailContract.View{
+public class ImageDetailActivity extends Activity implements ImageDetailContract.View{
 
     public static final String IMAGEUUID = "IMAGEUUID";
 
