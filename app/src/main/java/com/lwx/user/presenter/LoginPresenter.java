@@ -10,6 +10,7 @@ import com.lwx.user.db.UserRepo;
 import com.lwx.user.db.model.User;
 import com.lwx.user.net.UserAgent;
 import com.lwx.user.net.UserAgentImpl;
+import com.lwx.user.utils.PreferenceHelper;
 
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
@@ -108,6 +109,7 @@ public class LoginPresenter implements LoginContract.Presenter{
 
                                         App.getInstance().setToken(user.token);
                                         App.getInstance().setUid(user.uid);
+                                        setCurrentLoginUid(user.uid);
                                         context.onLoginSucceed(user.uid);
                                     }
 
@@ -117,6 +119,7 @@ public class LoginPresenter implements LoginContract.Presenter{
                                         Log.d(TAG,"login onNext onError" + user + "  " + passwd );
                                     }
                                 });
+
                     }
 
                     @Override
@@ -151,6 +154,7 @@ public class LoginPresenter implements LoginContract.Presenter{
 
                         App.getInstance().setToken(token);
                         App.getInstance().setUid(uid);
+                        setCurrentLoginUid(uid);
                         context.onLoginSucceed(uid);
                     }
 
@@ -179,5 +183,11 @@ public class LoginPresenter implements LoginContract.Presenter{
     @Override
     public LoginContract.View getView() {
         return context;
+    }
+
+
+    private void setCurrentLoginUid(long uid){
+
+        new PreferenceHelper().setLogInUID(uid);
     }
 }

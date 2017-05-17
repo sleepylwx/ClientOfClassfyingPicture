@@ -52,7 +52,7 @@ public class SplashPresenter implements SplashContract.Presenter {
         long uid = pHelper.getLogInUID();
         if (uid == -1) {
 
-
+            Log.d(TAG,"auto login error : no uid has logined");
             checkTimeMatched(startTime);
             context.jumpToLoginActivity();
             return;
