@@ -119,6 +119,11 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     }
 
     @Override
+    public void onBackPressed(){
+
+        moveTaskToBack(true);
+    }
+    @Override
     protected void onDestroy(){
 
         presenter = null;

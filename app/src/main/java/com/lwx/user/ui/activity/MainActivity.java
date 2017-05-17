@@ -87,6 +87,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         presenter = null;
     }
 
+    @Override
+    public void onBackPressed(){
+
+        moveTaskToBack(false);
+    }
+
     private void initNavigationView(){
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {

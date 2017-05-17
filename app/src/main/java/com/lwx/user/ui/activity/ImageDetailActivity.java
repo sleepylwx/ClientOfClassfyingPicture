@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -32,6 +33,7 @@ public class ImageDetailActivity extends Activity implements ImageDetailContract
 
     public static final String IMAGEUUID = "IMAGEUUID";
 
+    public static final int REQUESTCODE = 1;
     @BindView(R.id.photoview)PhotoView photoView;
     @BindView(R.id.flowlayout)TagFlowLayout flowLayout;
     @BindView(R.id.add_label)Button addLabel;
@@ -41,7 +43,7 @@ public class ImageDetailActivity extends Activity implements ImageDetailContract
     public void onClick(){
 
         Intent intent = new Intent(this,AddLabelDialog.class);
-        startActivity(intent);
+        startActivityForResult(intent,REQUESTCODE);
 
     }
 
@@ -96,9 +98,14 @@ public class ImageDetailActivity extends Activity implements ImageDetailContract
         presenter.getLabels(uuid);
     }
 
+    public static final String TAG = "ImageDetailActivity";
     @Override
     public void onLabelsLoadSucceed(List<String> labels) {
 
+        for(int i = 0; i < labels.size() ;++i){
+
+            Log.d(TAG,labels.get(i));
+        }
         curLables = labels;
         flowLayout.setAdapter(new TagAdapter<String >(labels) {
             @Override
@@ -150,26 +157,19 @@ public class ImageDetailActivity extends Activity implements ImageDetailContract
     }
 
 
+    public static final int RESULTCODE = 1;
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        switch (resultCode){
 
-    public class AddLabelDialog extends AppCompatActivity {
-
-        @BindView(R.id.label_edittext)EditText editText;
-        @BindView(R.id.add_label_button) Button button;
-
-        @OnClick(R.id.add_label_button)
-        public void onClick(){
-
-            String label = editText.getText().toString();
-            curLables.add(label);
-            onImageLabelAddedSucceed(label);
-            finish();
-        }
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_add_label_dialog);
+            case RESULTCODE:
+                Log.d(TAG,"receive label");
+                String label = data.getStringExtra(AddLabelDialog.LABEL);
+                curLables.add(label);
+                onImageLabelAddedSucceed(label);
+                break;
         }
     }
-
 }

@@ -40,7 +40,7 @@
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
         </activity>
 
-        <activity android:name=".ui.activity.ImageDetailActivity$AddLabelDialog"
+        <activity android:name=".ui.activity.AddLabelDialog"
             android:theme="@style/AppDialogTheme"
                   android:label="@string/add_label_dialog_title">
         </activity>

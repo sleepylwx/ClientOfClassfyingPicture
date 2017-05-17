@@ -36,6 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/flowlayout"
             android:layout_margin="10dp"
+            android:text="添加标签"
             android:visibility="invisible"/>
 
         <Button
@@ -43,6 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
+            android:text="提交标签"
             android:layout_toRightOf="@id/add_label"
             android:layout_below="@id/flowlayout"
             android:visibility="invisible"/>
