@@ -3,8 +3,6 @@ package com.lwx.user.db;
 import com.elvishew.xlog.XLog;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
-import com.j256.ormlite.stmt.PreparedDelete;
-import com.j256.ormlite.stmt.PreparedQuery;
 import com.lwx.user.db.model.ImageLabel;
 import com.lwx.user.db.model.Label;
 
