@@ -79,7 +79,7 @@ public class SplashPresenter implements SplashContract.Presenter {
                                         @Override
                                         public void onSubscribe(Disposable d) {
 
-                                            d.dispose();
+
                                         }
 
                                         @Override
