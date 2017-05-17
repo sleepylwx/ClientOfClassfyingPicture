@@ -193,6 +193,7 @@ public class ImageDetailPresenter implements ImageDetailContract.Presenter{
                     public void onError(@NonNull Throwable e) {
 
                         Log.d(TAG,"postSelectedLabels onError" + labels.size() + labels.get(0) + labels.get(labels.size() - 1));
+                        e.printStackTrace();
                     }
                 });
     }
