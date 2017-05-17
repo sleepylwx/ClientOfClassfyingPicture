@@ -52,7 +52,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(ViewHolder holder,int position){
 
-        Log.d(TAG,position+"");
+
         MainContract.View main = (MainContract.View)context;
         RecyclerView recyclerView = main.getRecyclerView();
 //        if(!recyclerView.canScrollVertically(1)){

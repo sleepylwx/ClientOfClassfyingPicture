@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Set;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class ImageDetailActivity extends Activity implements ImageDetailContract.View{
@@ -70,7 +71,7 @@ public class ImageDetailActivity extends Activity implements ImageDetailContract
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_detail);
-
+        ButterKnife.bind(this);
         presenter = new ImageDetailPresenter(this);
         imageLoader = new ImageLoader();
         init();
