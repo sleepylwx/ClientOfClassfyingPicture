@@ -112,7 +112,7 @@ public class ImageDetailActivity extends Activity implements ImageDetailContract
             public View getView(FlowLayout parent, int position, String o) {
 
                 TextView textView = (TextView) LayoutInflater.from(ImageDetailActivity.this)
-                        .inflate(R.layout.label_view,flowLayout,false);
+                        .inflate(R.layout.tv,flowLayout,false);
                 textView.setText(o);
                 return textView;
             }

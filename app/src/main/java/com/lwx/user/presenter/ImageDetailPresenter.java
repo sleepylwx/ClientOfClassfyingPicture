@@ -185,6 +185,7 @@ public class ImageDetailPresenter implements ImageDetailContract.Presenter{
                     @Override
                     public void onComplete() {
 
+                        Log.d(TAG,"postLables succeed!");
                         context.onLabelsPostSucceed();
                     }
 
