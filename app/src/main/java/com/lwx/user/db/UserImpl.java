@@ -39,7 +39,7 @@ public class UserImpl implements UserRepo {
             public void subscribe(@NonNull ObservableEmitter<List<User>> observableEmitter) throws Exception {
                 List<User> users = userDao.queryForAll();
                 observableEmitter.onNext(users);
-                XLog.v("获取全部用户:" + users);
+                XLog.v("(数据库)获取全部用户:" + users);
                 observableEmitter.onComplete();
             }
         });
@@ -51,7 +51,7 @@ public class UserImpl implements UserRepo {
             @Override
             public void subscribe(@NonNull CompletableEmitter e) throws Exception {
                 userDao.delete(user);
-                XLog.v("删除用户:" + user);
+                XLog.v("(数据库)删除用户:" + user);
                 e.onComplete();
             }
         });
@@ -63,7 +63,7 @@ public class UserImpl implements UserRepo {
             @Override
             public void subscribe(@NonNull CompletableEmitter e) throws Exception {
                 userDao.createOrUpdate(user);
-                XLog.v("保存用户:" + user);
+                XLog.v("(数据库)保存用户:" + user);
                 e.onComplete();
             }
         });
@@ -75,7 +75,7 @@ public class UserImpl implements UserRepo {
             @Override
             public void subscribe(@NonNull ObservableEmitter<User> e) throws Exception {
                 User user = userDao.queryForId(uid);
-                XLog.v("获取用户:" +  user);
+                XLog.v("(数据库)获取用户:" +  user);
                 e.onNext(user);
             }
         });
@@ -99,7 +99,7 @@ public class UserImpl implements UserRepo {
                 user.uid = uid;
                 user.token = token;
 
-                XLog.v("保存用户:" +  user);
+                XLog.v("(数据库)保存用户:" +  user);
                 userDao.create(user);
 
                 e.onNext(isFresh);
@@ -119,7 +119,7 @@ public class UserImpl implements UserRepo {
                     e.onNext(user.token);
                 else
                     e.onNext(null);
-                XLog.v("获取Token:" +  (user == null ? "空" : user.token));
+                XLog.v("(数据库)获取Token:" +  (user == null ? "空" : user.token));
                 e.onComplete();
             }
         });
