@@ -85,6 +85,8 @@ public class UserAgentImpl implements UserAgent{
                 try {
                     Response<String> response = userService.auth(token).execute();
                     String content = response.body();
+                    String errtxt = response.errorBody().string();
+
                     JSONObject jsonObject = new JSONObject(content);
 
                     if(jsonObject.getBoolean("err")) {
