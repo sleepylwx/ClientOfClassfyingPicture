@@ -59,7 +59,6 @@ public class PictureImpl implements PictureAgent {
 
                     if(jsonObject.getBoolean("err")) {
                         e.onError(new Exception(jsonObject.getString("msg")));
-                        return;
                     }
                     e.onComplete();
                 } catch (IOException |JSONException ex) {
@@ -125,7 +124,7 @@ public class PictureImpl implements PictureAgent {
     }
 
     @Override
-    public Observable<List<String>> getRandPic(Integer num) {
+    public Observable<List<String>> getRandPicAddr(Integer num) {
         return Observable.create(new ObservableOnSubscribe<List<String>>() {
             @Override
             public void subscribe(@NonNull ObservableEmitter<List<String>> e) throws Exception {
@@ -187,6 +186,23 @@ public class PictureImpl implements PictureAgent {
     @Override
     public Observable<List<Image>> getPicByToken(String token, Integer num) {
         return getUserLikePics(token, num)
+                .flatMap(new Function<List<String>, Observable<List<Image>>>() {
+                    @Override
+                    public Observable<List<Image>> apply(@NonNull List<String> strings) throws Exception {
+                        List<Image> images = new ArrayList<Image>();
+                        for(int i=0;i<strings.size();i++){
+                            String t = strings.get(i);
+                            images.add(new Image(t,
+                                    App.BASE_URL + "getpic.action?uuid=" + t ));
+                        }
+                        return Observable.just(images);
+                    }
+                });
+    }
+
+    @Override
+    public Observable<List<Image>> getRandPic(Integer num) {
+        return getRandPicAddr(num)
                 .flatMap(new Function<List<String>, Observable<List<Image>>>() {
                     @Override
                     public Observable<List<Image>> apply(@NonNull List<String> strings) throws Exception {

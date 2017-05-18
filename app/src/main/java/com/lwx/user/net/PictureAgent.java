@@ -17,11 +17,18 @@ public interface PictureAgent {
     Observable<List<String>> getPicTags(String uuid);
 
     /**
-     * 获取指定数目的Picture
+     * 获取指定数目的随机Picture
      * @param num
      * @return
      */
-    Observable<List<String>> getRandPic(Integer num);
+    Observable<List<String>> getRandPicAddr(Integer num);
+
+    /**
+     * 获取指定数目的随机Picture
+     * @param num
+     * @return
+     */
+    Observable<List<Image>> getRandPic(Integer num);
 
     Observable<List<Image>> getPicByToken(String token, Integer num);
 
