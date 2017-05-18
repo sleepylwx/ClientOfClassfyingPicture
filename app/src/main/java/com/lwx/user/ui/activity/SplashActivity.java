@@ -70,4 +70,10 @@ public class SplashActivity extends AppCompatActivity implements SplashContract.
         Toast.makeText(this,R.string.network_error,Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void onTokenAuthFailed() {
+
+        Toast.makeText(this,R.string.token_auth_failed,Toast.LENGTH_SHORT).show();
+    }
+
 }

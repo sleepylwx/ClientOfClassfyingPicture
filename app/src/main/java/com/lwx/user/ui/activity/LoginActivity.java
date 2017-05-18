@@ -61,11 +61,12 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
     private PopupWindow popupWindow;
     private ListView listView;
-    private int initialState = -1;
+    private long initialState = -1;
     private List<User> users;
     private String curToken;
     private boolean editState;
     private long curUid;
+
 
     private boolean isClicked;
     private ImageLoader imageLoader;
@@ -140,10 +141,12 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
     }
 
+    public static final String TAG = "LoginActivity";
     private void initState(){
 
         Intent intent = getIntent();
-        initialState = intent.getIntExtra(MATCH_NUM,-1);
+        initialState = intent.getLongExtra(MATCH_NUM,-1);
+        Log.d(TAG,"initialState " + initialState);
 
     }
     private void configurePopWindow(){
@@ -521,4 +524,13 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         }
 
     }
+
+
+    @Override
+    public void onTokenAuthFailed() {
+
+        passwdEdittext.setText("");
+        Toast.makeText(this,R.string.token_auth_failed,Toast.LENGTH_SHORT).show();
+    }
+
 }

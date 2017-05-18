@@ -145,7 +145,15 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
                 } else if (id == R.id.nav_send) {
 
+                } else if(id == R.id.nav_exit){
+
+                    Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+                    intent.putExtra(LoginActivity.MATCH_NUM,curUser.uid);
+                    Log.d(TAG,"exit login" + " " + curUser.uid);
+                    startActivity(intent);
+                    finish();
                 }
+
 
                 drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
                 drawerLayout.closeDrawer(GravityCompat.START);
@@ -270,6 +278,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
             this.list = imageList;
         }
+        Log.d(TAG,"clear and save list");
+        adapter.setData(imageList);
         adapter.notifyDataSetChanged();
     }
 

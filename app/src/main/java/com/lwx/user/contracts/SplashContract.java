@@ -10,7 +10,7 @@ public interface SplashContract {
 
         void jumpToLoginActivity();
         void jumpToMainActivity(long uid);
-
+        void onTokenAuthFailed();
 
     }
 

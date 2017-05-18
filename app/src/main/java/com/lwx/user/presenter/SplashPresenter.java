@@ -35,6 +35,8 @@ public class SplashPresenter implements SplashContract.Presenter {
     private static final long WAIT_TIME = 2000;
     public static final String TAG = "SplashPresenter";
 
+    public static final String TOKENAUTHFAILED = "auth failed,token incorrect";
+
     public SplashPresenter(SplashContract.View context) {
 
         this.context = context;
@@ -97,7 +99,15 @@ public class SplashPresenter implements SplashContract.Presenter {
 
 
                                             checkTimeMatched(startTime);
-                                            context.onNetWorkError();
+
+                                            if(TOKENAUTHFAILED.equals(e.getMessage())){
+
+                                                context.onTokenAuthFailed();
+                                            }
+                                            else{
+
+                                                context.onNetWorkError();
+                                            }
                                             context.jumpToLoginActivity();
                                             Log.d(TAG,"autoLogin onError");
                                             e.printStackTrace();

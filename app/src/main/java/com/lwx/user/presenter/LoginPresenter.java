@@ -136,6 +136,8 @@ public class LoginPresenter implements LoginContract.Presenter{
                 });
     }
 
+    public static final String TOKENAUTHFAILED = "auth failed,token incorrect";
+
     @Override
     public void login(long uid,String token) {
 
@@ -162,6 +164,11 @@ public class LoginPresenter implements LoginContract.Presenter{
                     public void onError(@NonNull Throwable e) {
 
                         Log.d(TAG,"login token error" + uid + " " + token);
+
+                        if(TOKENAUTHFAILED.equals(e.getMessage())){
+
+                            context.onTokenAuthFailed();
+                        }
                         e.printStackTrace();
                     }
                 });

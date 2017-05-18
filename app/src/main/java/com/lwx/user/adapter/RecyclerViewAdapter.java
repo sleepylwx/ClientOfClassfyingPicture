@@ -82,6 +82,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
 
+    public void setData(List<Image> list){
+
+        this.imageList = list;
+    }
     class ViewHolder extends RecyclerView.ViewHolder{
 
 

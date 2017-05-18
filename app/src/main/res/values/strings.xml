@@ -12,7 +12,9 @@
     <string name="user_format_right">OK</string>
     <string name="button_submit">提交</string>
 
+    <!--LoginActivity-->
 
+    <string name="token_auth_failed">"账号存在异地登录，请重新输入密码"</string>
     <!--MainActivity-->
     <string name="user_loaded_failed">用户数据不存在，请重新登录</string>
 
