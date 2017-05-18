@@ -28,7 +28,7 @@ public interface PictureService {
     @FormUrlEncoded
     Call<String> getUserLikePics(@Field("token") String token, @Field("num") Integer num);
 
-    @POST("")
+    @POST("/markpicmutitag.action")
     @FormUrlEncoded
     Call<String> markMutiTags(@Field("token") String token,@Field("tagnames") String tagNames, @Field("uuid") String uuid);
 }
