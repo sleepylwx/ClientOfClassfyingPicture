@@ -167,6 +167,18 @@ public class ImageDetailActivity extends Activity implements ImageDetailContract
             case RESULTCODE:
                 Log.d(TAG,"receive label");
                 String label = data.getStringExtra(AddLabelDialog.LABEL);
+                if(label == null || label.isEmpty()){
+
+                    return;
+
+                }
+                for(int i = 0; i <curLables.size();++i){
+
+                    if(curLables.get(i).equals(label)){
+
+                        return;
+                    }
+                }
                 curLables.add(label);
                 onImageLabelAddedSucceed(label);
                 break;

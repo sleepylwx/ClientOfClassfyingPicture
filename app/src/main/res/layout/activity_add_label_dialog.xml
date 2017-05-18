@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="200dp"
     android:layout_height="200dp"
-    tools:context="com.lwx.user.ui.activity.ImageDetailActivity$AddLabelDialog">
+    tools:context="com.lwx.user.ui.activity.AddLabelDialog">
     <EditText
 
         android:id="@+id/label_edittext"
@@ -21,4 +21,12 @@
         android:text="@string/add_label_button"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"/>
+
+
+    <Button
+        android:id="@+id/cancel_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="取消"
+        android:layout_alignLeft="@id/add_label_button"/>
 </RelativeLayout>

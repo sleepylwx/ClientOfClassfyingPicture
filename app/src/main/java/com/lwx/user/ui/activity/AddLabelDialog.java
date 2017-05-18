@@ -23,6 +23,8 @@ public class AddLabelDialog extends AppCompatActivity {
     EditText editText;
     @BindView(R.id.add_label_button)
     Button button;
+    @BindView(R.id.cancel_button)
+    Button cancelButton;
 
     public static final String LABEL = "label";
 
@@ -34,6 +36,12 @@ public class AddLabelDialog extends AppCompatActivity {
         Intent intent = new Intent();
         intent.putExtra(LABEL,label);
         setResult(ImageDetailActivity.RESULTCODE,intent);
+        finish();
+    }
+
+    @OnClick(R.id.cancel_button)
+    public void onClick1(){
+
         finish();
     }
 
