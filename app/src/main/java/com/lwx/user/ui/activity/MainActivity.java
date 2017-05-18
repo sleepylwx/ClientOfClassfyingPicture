@@ -172,13 +172,13 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
                 if(userMode == 0){
 
-
+                    presenter.clearAndGetMorePicByNetWork(App.getInstance().getUid(),App.getInstance().getpullPicNum());
                 }
                 else{
 
-
+                    presenter.clearAndGetMoreRandomPicByNet(App.getInstance().getpullPicNum());
                 }
-                presenter.clearAndGetMorePicByNetWork(App.getInstance().getUid(),App.getInstance().getpullPicNum());
+
             }
         });
     }
@@ -288,7 +288,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     public void startGetMorePicByNetWork() {
 
-        showWaitingNetWork();
+        //showWaitingNetWork();
         presenter.getMorePicturesByNetWork(App.getInstance().getUid(),App.getInstance().getpullPicNum());
 
     }

@@ -193,7 +193,7 @@ public class MainPresenter implements MainContract.Presenter {
                     public void onNext(List<Image> imageList) {
 
 
-                        context.nonShowWaitingNetWork();
+                        //context.nonShowWaitingNetWork();
                         context.nonShowSwipe();
                         context.onImageLoadedSucceed(imageList);
 
@@ -228,7 +228,8 @@ public class MainPresenter implements MainContract.Presenter {
                     @Override
                     public void onNext(List<Image> imageList) {
 
-                        context.nonShowWaitingNetWork();
+                        Log.d(TAG,"clearAndGetMorePictures onNext");
+                        //context.nonShowWaitingNetWork();
                         context.nonShowSwipe();
                         context.clearAndSaveList(imageList);
                     }
@@ -237,7 +238,7 @@ public class MainPresenter implements MainContract.Presenter {
                     public void onError(Throwable e) {
 
                         Log.d(TAG,"clearAndGetMorePictures onError" + uid + " " + num);
-
+                        e.printStackTrace();
                     }
 
                     @Override
@@ -271,6 +272,41 @@ public class MainPresenter implements MainContract.Presenter {
                     public void onError(Throwable e) {
 
                         Log.d(TAG,"getRandomPicsByNet onError");
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
+    @Override
+    public void clearAndGetMoreRandomPicByNet(int num) {
+
+        pictureAgent.getRandPic(num)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<List<Image>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(List<Image> images) {
+
+                        Log.d(TAG,"clearAndGetMoreRandomPicByNet on Next");
+                        //context.nonShowWaitingNetWork();
+                        context.nonShowSwipe();
+                        context.clearAndSaveList(images);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                        Log.d(TAG,"clearAndGetMoreRandomPicByNet onError");
                         e.printStackTrace();
                     }
 
