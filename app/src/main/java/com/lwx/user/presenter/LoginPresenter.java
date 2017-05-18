@@ -136,7 +136,7 @@ public class LoginPresenter implements LoginContract.Presenter{
                 });
     }
 
-    public static final String TOKENAUTHFAILED = "auth failed,token incorrect";
+    public static final String TOKENAUTHFAILED = "Auth failed, token incorrect!";
 
     @Override
     public void login(long uid,String token) {

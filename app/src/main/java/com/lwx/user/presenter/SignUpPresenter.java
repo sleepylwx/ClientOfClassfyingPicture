@@ -41,7 +41,7 @@ public class SignUpPresenter implements SignUpContract.Presenter {
                 .subscribe(new CompletableObserver() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {
-                        d.dispose();
+
                     }
 
                     @Override

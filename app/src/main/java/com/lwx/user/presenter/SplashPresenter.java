@@ -109,7 +109,7 @@ public class SplashPresenter implements SplashContract.Presenter {
                                                 context.onNetWorkError();
                                             }
                                             context.jumpToLoginActivity();
-                                            Log.d(TAG,"autoLogin onError");
+                                            Log.d(TAG,"Auth failed, token incorrect!");
                                             e.printStackTrace();
                                         }
 
