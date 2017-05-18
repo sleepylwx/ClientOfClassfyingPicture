@@ -16,38 +16,49 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"/>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_alignParentBottom="true">
 
         <com.zhy.view.flowlayout.TagFlowLayout
             android:id="@+id/flowlayout"
-            app:max_select="-1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="20dp">
+            android:layout_alignParentTop="true"
+            android:padding="20dp"
+            app:max_select="-1">
 
         </com.zhy.view.flowlayout.TagFlowLayout>
 
-        <Button
-            android:id="@+id/add_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/flowlayout"
-            android:layout_margin="10dp"
-            android:text="添加标签"
-            />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <Button
-            android:id="@+id/post_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="提交标签"
-            android:layout_toRightOf="@id/add_label"
-            android:layout_below="@id/flowlayout"
-            />
+            <Button
+                android:id="@+id/add_label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/flowlayout"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:text="添加标签"
+                android:textStyle="bold" />
 
-    </RelativeLayout>
+            <Button
+                android:id="@+id/post_label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/flowlayout"
+                android:layout_margin="10dp"
+                android:layout_toRightOf="@id/add_label"
+                android:layout_weight="1"
+                android:text="提交标签"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 </RelativeLayout>
