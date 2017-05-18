@@ -31,13 +31,13 @@ public interface UserService {
     @POST("/gsnickname.action") @FormUrlEncoded
     Call<String> setNickName( @Field("token") String token, @Field("nick") String nickName);
 
-    @POST("/register.action")
+    @POST("/register.action") @FormUrlEncoded
     Call<String> signUp(@Field("username") String username, @Field("password") String password, @Field("nickname") String nickname);
 
     @POST("/getusermarkedtag.action") @FormUrlEncoded
     Call<String> getUserMarkedTag(@Field("uid") String uid);
 
-    @POST("/markpictag.action")
+    @POST("/markpictag.action") @FormUrlEncoded
     Call<String> markPicTag(@Field("token") String token, @Field("uuid") String uuid, @Field("tagname") String tagName);
 
     @Multipart
