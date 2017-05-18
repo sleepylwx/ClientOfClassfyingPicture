@@ -68,7 +68,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         //headerImageView =strenthenToolBar.getHeaderView();
 
         //
+        toolbar.setTitle("");
         setSupportActionBar(toolbar);
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.setDrawerListener(toggle);
