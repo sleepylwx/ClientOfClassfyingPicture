@@ -42,7 +42,7 @@ public interface MainContract {
         void getMorePicturesByNetWork(long uid,int num);
         void clearAndGetMorePicByNetWork(long uid,int num);
 
-        void getRandomPics(int num);
+        void getRandomPicsByNetWork(int num);
     }
 
 }

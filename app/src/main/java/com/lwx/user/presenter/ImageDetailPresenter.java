@@ -120,6 +120,7 @@ public class ImageDetailPresenter implements ImageDetailContract.Presenter{
                     @Override
                     public void onNext(List<String> strings) {
 
+
                         context.onLabelsLoadSucceed(strings);
                     }
 
@@ -176,6 +177,7 @@ public class ImageDetailPresenter implements ImageDetailContract.Presenter{
 
         pictureAgent.markMutiTags(App.getInstance().getToken(),imageId,labels)
                 .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new CompletableObserver() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {

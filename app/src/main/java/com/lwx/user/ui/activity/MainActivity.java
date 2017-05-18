@@ -108,6 +108,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
             userMode = 1;
             menu.getItem(0).setTitle("随机推送");
+            presenter.getRandomPicsByNetWork(App.getInstance().getpullPicNum());
         }
         else{
 

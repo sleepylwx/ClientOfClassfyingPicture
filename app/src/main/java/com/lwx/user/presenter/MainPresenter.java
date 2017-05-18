@@ -249,7 +249,36 @@ public class MainPresenter implements MainContract.Presenter {
 
 
     @Override
-    public void getRandomPics(int num) {
+    public void getRandomPicsByNetWork(int num) {
 
+        pictureAgent.getRandPic(num)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<List<Image>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(List<Image> images) {
+
+                        Log.d(TAG,"getRandomPicsPicturesByNew onNext");
+                        context.onImageLoadedSucceed(images);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                        Log.d(TAG,"getRandomPicsByNet onError");
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 }
+
