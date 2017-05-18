@@ -268,7 +268,16 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
             Log.d(TAG,"uuid:" + imageList.get(i).uuid + " path:" + imageList.get(i).imagePath);
         }
-        initRecycleView(imageList);
+        canScroll = true;
+
+        if(list.size() == 0){
+
+            initRecycleView(imageList);
+        }
+        else{
+
+            addImages(imageList);
+        }
     }
 
     @Override
@@ -283,6 +292,16 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         adapter.notifyDataSetChanged();
     }
 
+    private void addImages(List<Image> images){
+
+        this.list.addAll(images);
+        adapter.addData(images);
+        adapter.notifyDataSetChanged();
+    }
+
+    private boolean canScroll;
+
+
     private void initRecycleView(List<Image> imageList){
 
         if(imageList != null){
@@ -294,6 +313,34 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this,3);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(gridLayoutManager);
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                if(canScroll && isRecyclerViewBootom()){
+
+                    canScroll = false;
+
+                    if(userMode == 0){
+
+                        startGetMorePicByNetWork();
+                    }
+                    else{
+
+                        presenter.getMoreRandomPicturesByNetWork(App.getInstance().getpullPicNum());
+                    }
+
+                }
+            }
+        });
 
     }
 
@@ -337,4 +384,19 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
 
+    private boolean isRecyclerViewBootom(){
+
+        if(recyclerView == null){
+
+            return false;
+        }
+
+        if (recyclerView.computeVerticalScrollExtent() + recyclerView.computeVerticalScrollOffset() >= recyclerView.computeVerticalScrollRange()){
+
+            return true;
+        }
+
+        return false;
+
+    }
 }

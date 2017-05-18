@@ -46,7 +46,8 @@
             android:layout_height="wrap_content"
             android:text="忘记密码"
             android:textSize="8sp"
-            android:background="#00000000"/>
+            android:background="#00000000"
+            android:visibility="invisible"/>
 
         <Button
             android:id="@+id/button_register"

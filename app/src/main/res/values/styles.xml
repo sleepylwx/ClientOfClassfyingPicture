@@ -15,7 +15,7 @@
 
     <style name="AppTheme.NoActionBar.Splash">
 
-        <item name="colorPrimaryDark">@color/white</item>
+        <item name="colorPrimaryDark">#00ffffff</item>
 
     </style>
 

@@ -73,7 +73,8 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     public static final String MATCH_NUM = "1";
     public static final String SIGN_UP_STATE = "2";
     private static final String MASKED_PASSWD = "111111111111";
-
+    public static final String ISAUTHFAILED = "3";
+    private boolean isAuthFailed;
     @OnClick(R.id.button_login)
     public void onClick(){
 
@@ -147,7 +148,8 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         Intent intent = getIntent();
         initialState = intent.getLongExtra(MATCH_NUM,-1);
         Log.d(TAG,"initialState " + initialState);
-
+        isAuthFailed = intent.getBooleanExtra(ISAUTHFAILED,false);
+        Log.d(TAG,"isAuthFailed " + isAuthFailed );
     }
     private void configurePopWindow(){
 
@@ -293,7 +295,11 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
             public void afterTextChanged(Editable s) {
 
 
+                if(isAuthFailed){
 
+                    isAuthFailed = false;
+                    return;
+                }
 
                 String str = s.toString();
 
@@ -533,4 +539,15 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         Toast.makeText(this,R.string.token_auth_failed,Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void onLoginNotMatch() {
+
+        Toast.makeText(this,"账号密码错误",Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onSaveUserError() {
+
+        Toast.makeText(this,"登录数据已满，请清空数据后重试",Toast.LENGTH_SHORT).show();
+    }
 }

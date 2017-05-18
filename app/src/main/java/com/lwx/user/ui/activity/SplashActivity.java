@@ -40,9 +40,14 @@ public class SplashActivity extends AppCompatActivity implements SplashContract.
     }
 
     @Override
-    public void jumpToLoginActivity() {
+    public void jumpToLoginActivity(long uid,boolean isAuthFailed) {
 
         Intent intent = new Intent(this,LoginActivity.class);
+        intent.putExtra(LoginActivity.MATCH_NUM,uid);
+        if(isAuthFailed){
+
+            intent.putExtra(LoginActivity.ISAUTHFAILED,true);
+        }
         startActivity(intent);
         finish();
     }

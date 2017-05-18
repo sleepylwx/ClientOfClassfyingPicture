@@ -16,6 +16,8 @@ public interface LoginContract {
         void onUsersEmpty();
         void onLoginSucceed(long uid);
         void onTokenAuthFailed();
+        void onLoginNotMatch();
+        void onSaveUserError();
     }
 
     public interface Presenter extends BaseContract.Presenter<LoginContract.View>{

@@ -54,7 +54,8 @@ public class SignUpPresenter implements SignUpContract.Presenter {
                     public void onError(@NonNull Throwable e) {
 
                         context.onNetWorkError();
-                        Log.d(TAG,"doSignUp onError" + user + " " + passwd);
+                        Log.d(TAG,"doSignUp onError" + user + " " + passwd
+                        +" message:" + e.getMessage());
                     }
                 });
     }

@@ -78,6 +78,7 @@ public class LoginPresenter implements LoginContract.Presenter{
 
     }
 
+    public static final String USERPASSWDNORMATCH = "Login failed, password not match!";
     @Override
     public void login(String user, String passwd) {
 
@@ -116,6 +117,7 @@ public class LoginPresenter implements LoginContract.Presenter{
                                     @Override
                                     public void onError(@NonNull Throwable e) {
 
+                                        context.onSaveUserError();
                                         Log.d(TAG,"login onNext onError" + user + "  " + passwd );
                                     }
                                 });
@@ -127,6 +129,11 @@ public class LoginPresenter implements LoginContract.Presenter{
 
                         Log.d(TAG,"login onError" + user + " " + passwd);
                         t.printStackTrace();
+
+                        if(USERPASSWDNORMATCH.equals(t.getMessage())){
+
+                            context.onLoginNotMatch();
+                        }
                     }
 
                     @Override

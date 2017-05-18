@@ -35,7 +35,7 @@ public class SplashPresenter implements SplashContract.Presenter {
     private static final long WAIT_TIME = 2000;
     public static final String TAG = "SplashPresenter";
 
-    public static final String TOKENAUTHFAILED = "auth failed,token incorrect";
+    public static final String TOKENAUTHFAILED = "Auth failed, token incorrect!";
 
     public SplashPresenter(SplashContract.View context) {
 
@@ -45,6 +45,8 @@ public class SplashPresenter implements SplashContract.Presenter {
 
     }
 
+
+    private boolean isAuthFailed;
 
     @Override
     public void doAutoLogin() {
@@ -57,7 +59,7 @@ public class SplashPresenter implements SplashContract.Presenter {
 
             Log.d(TAG,"auto login error : no uid has logined");
             checkTimeMatched(startTime);
-            context.jumpToLoginActivity();
+            context.jumpToLoginActivity(-1,false);
             return;
         }
 
@@ -71,7 +73,7 @@ public class SplashPresenter implements SplashContract.Presenter {
                         if (s == null) {
 
                             checkTimeMatched(startTime);
-                            context.jumpToLoginActivity();
+                            context.jumpToLoginActivity(uid,true);
                         } else {
 
                             loginAgent.auth(s)
@@ -88,6 +90,7 @@ public class SplashPresenter implements SplashContract.Presenter {
                                         @Override
                                         public void onComplete() {
 
+                                            isAuthFailed = true;
                                             checkTimeMatched(startTime);
                                             App.getInstance().setToken(s);
                                             App.getInstance().setUid(uid);
@@ -102,13 +105,15 @@ public class SplashPresenter implements SplashContract.Presenter {
 
                                             if(TOKENAUTHFAILED.equals(e.getMessage())){
 
+                                                isAuthFailed = true;
                                                 context.onTokenAuthFailed();
+
                                             }
                                             else{
 
                                                 context.onNetWorkError();
                                             }
-                                            context.jumpToLoginActivity();
+                                            context.jumpToLoginActivity(uid,isAuthFailed);
                                             Log.d(TAG,"Auth failed, token incorrect!");
                                             e.printStackTrace();
                                         }

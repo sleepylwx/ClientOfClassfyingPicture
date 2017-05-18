@@ -316,5 +316,36 @@ public class MainPresenter implements MainContract.Presenter {
                     }
                 });
     }
+
+    @Override
+    public void getMoreRandomPicturesByNetWork(int num) {
+
+        pictureAgent.getRandPic(num)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<List<Image>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(List<Image> images) {
+
+                        Log.d(TAG,"getMoreRandomPicturesByNetWork onNext");
+                        context.onImageLoadedSucceed(images);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d(TAG,"getMoreRandomPicturesByNetWork onError");
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
 }
 

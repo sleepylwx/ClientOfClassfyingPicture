@@ -45,6 +45,8 @@ public interface MainContract {
         void getRandomPicsByNetWork(int num);
 
         void clearAndGetMoreRandomPicByNet(int num);
+
+        void getMoreRandomPicturesByNetWork(int num);
     }
 
 }

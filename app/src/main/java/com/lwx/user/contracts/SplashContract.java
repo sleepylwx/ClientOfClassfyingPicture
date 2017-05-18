@@ -8,7 +8,7 @@ public interface SplashContract {
 
     public interface View extends BaseContract.View<SplashContract.Presenter>{
 
-        void jumpToLoginActivity();
+        void jumpToLoginActivity(long uid,boolean isAuthFailed);
         void jumpToMainActivity(long uid);
         void onTokenAuthFailed();
 

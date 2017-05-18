@@ -54,12 +54,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
 
         MainContract.View main = (MainContract.View)context;
-        RecyclerView recyclerView = main.getRecyclerView();
-//        if(!recyclerView.canScrollVertically(1)){
+        //RecyclerView recyclerView = main.getRecyclerView();
+//        getRecyclerViewif(!recyclerView.canScrollVertically(1)){
 //
 //            ((MainContract.View)context).startGetMorePicByNetWork();
 //
 //        }
+
 
         Image image = imageList.get(position);
         imageLoader.loadImage(context,image.imagePath,holder.mImageView);
@@ -85,6 +86,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void setData(List<Image> list){
 
         this.imageList = list;
+    }
+
+    public void addData(List<Image> list){
+
+        this.imageList.addAll(list);
     }
     class ViewHolder extends RecyclerView.ViewHolder{
 
