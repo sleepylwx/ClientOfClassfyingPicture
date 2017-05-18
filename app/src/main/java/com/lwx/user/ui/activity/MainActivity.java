@@ -68,7 +68,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         //headerImageView =strenthenToolBar.getHeaderView();
 
         //
+        toolbar.setTitle("");
         setSupportActionBar(toolbar);
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.setDrawerListener(toggle);
@@ -172,13 +174,13 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
                 if(userMode == 0){
 
-
+                    presenter.clearAndGetMorePicByNetWork(App.getInstance().getUid(),App.getInstance().getpullPicNum());
                 }
                 else{
 
-
+                    presenter.clearAndGetMoreRandomPicByNet(App.getInstance().getpullPicNum());
                 }
-                presenter.clearAndGetMorePicByNetWork(App.getInstance().getUid(),App.getInstance().getpullPicNum());
+
             }
         });
     }
@@ -288,7 +290,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     public void startGetMorePicByNetWork() {
 
-        showWaitingNetWork();
+        //showWaitingNetWork();
         presenter.getMorePicturesByNetWork(App.getInstance().getUid(),App.getInstance().getpullPicNum());
 
     }
