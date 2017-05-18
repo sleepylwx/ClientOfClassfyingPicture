@@ -45,10 +45,6 @@
             android:label="@string/add_label_dialog_title"
             android:theme="@style/AppDialogTheme">
         </activity>
-        <activity
-            android:name=".ui.activity.SettingsActivity"
-            android:label="@string/title_activity_settings">
-        </activity>
     </application>
 
 </manifest>

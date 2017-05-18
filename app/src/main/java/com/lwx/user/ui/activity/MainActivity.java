@@ -12,6 +12,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -38,9 +39,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class MainActivity extends AppCompatActivity implements MainContract.View{
 
 
-    //@BindView(R.id.headerImageView) ImageView headerImageView;
-    //@BindView(R.id.headerText1) TextView nickNameText;
-    //@BindView(R.id.toolbar) StrenthenToolBar strenthenToolBar;
     @BindView(R.id.toolbar)Toolbar toolbar;
     @BindView(R.id.nav_view)NavigationView navigationView;
     @BindView(R.id.flush) SwipeRefreshLayout swipeRefresh;
@@ -55,6 +53,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     private User curUser;
     private RecyclerViewAdapter adapter;
     private List<Image> list;
+
+    private Menu menu;
     public static final String TAG = "MainActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +93,33 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         moveTaskToBack(false);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.main, menu);
+        this.menu = menu;
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if(userMode == 0){
+
+            userMode = 1;
+            menu.getItem(0).setTitle("随机推送");
+        }
+        else{
+
+            userMode = 0;
+            menu.getItem(0).setTitle("用户推送");
+            presenter.clearAndGetMorePicByNetWork(curUser.uid,App.getInstance().getpullPicNum());
+        }
+
+        return super.onOptionsItemSelected(item);
+
+    }
+
     private void initNavigationView(){
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -102,6 +129,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 int id = item.getItemId();
 
                 if (id == R.id.nav_camera) {
+
+
                     // Handle the camera action
                 } else if (id == R.id.nav_gallery) {
 
@@ -130,6 +159,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     }
 
+    private int userMode;
+
     private void initSwipeRefresh(){
 
         swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
@@ -138,6 +169,14 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             @Override
             public void onRefresh() {
 
+                if(userMode == 0){
+
+
+                }
+                else{
+
+
+                }
                 presenter.clearAndGetMorePicByNetWork(App.getInstance().getUid(),App.getInstance().getpullPicNum());
             }
         });

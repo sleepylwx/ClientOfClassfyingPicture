@@ -3,6 +3,7 @@ package com.lwx.user.presenter;
 import android.os.SystemClock;
 import android.util.Log;
 
+import com.lwx.user.App;
 import com.lwx.user.contracts.SplashContract;
 import com.lwx.user.db.UserImpl;
 import com.lwx.user.db.UserRepo;
@@ -86,6 +87,8 @@ public class SplashPresenter implements SplashContract.Presenter {
                                         public void onComplete() {
 
                                             checkTimeMatched(startTime);
+                                            App.getInstance().setToken(s);
+                                            App.getInstance().setUid(uid);
                                             context.jumpToMainActivity(uid);
                                         }
 
