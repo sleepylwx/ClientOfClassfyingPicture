@@ -1,5 +1,6 @@
 package com.lwx.user.net.rx;
 
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -42,5 +43,6 @@ public interface UserService {
 
     @Multipart
     @POST("/uploadheadpic.action")
-    Call<ResponseBody> uploadHeadPic(@Part("pic") RequestBody file, @Part("token") RequestBody token);
+    Call<ResponseBody> uploadHeadPic(@Part("token") RequestBody token,
+                                     @Part MultipartBody.Part file);
 }

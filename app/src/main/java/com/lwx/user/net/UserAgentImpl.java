@@ -26,6 +26,7 @@ import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.annotations.NonNull;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -191,6 +192,7 @@ public class UserAgentImpl implements UserAgent{
             }
         });
     }
+
     private static final String IMG = "multipart/form-data";
     private static final String TXT_PLAIN = "text/plain";
 
@@ -200,16 +202,21 @@ public class UserAgentImpl implements UserAgent{
             @Override
             public void subscribe(@NonNull CompletableEmitter e) throws Exception {
                 File file = new File(absolutePath);
+
                 RequestBody requestBody = RequestBody.create(MediaType.parse(IMG),
                         file);
 
-                RequestBody tokenReq = RequestBody.create(MediaType.parse(TXT_PLAIN),
-                        file);
+                MultipartBody.Part body =
+                        MultipartBody.Part.createFormData("pic", token, requestBody);
 
-                Response response = userService.uploadHeadPic(requestBody, tokenReq).execute();
 
-                XLog.d(response.body());
-                //TODO method not allowed
+                RequestBody description =
+                        RequestBody.create(
+                                MediaType.parse("multipart/form-data"), token);
+
+
+                Response response = userService.uploadHeadPic(description, body).execute();
+                e.onComplete();
             }
         });
     }
