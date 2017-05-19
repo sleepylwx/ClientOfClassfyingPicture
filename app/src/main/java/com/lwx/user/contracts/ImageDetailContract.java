@@ -22,8 +22,8 @@ public interface ImageDetailContract {
     public interface Presenter extends BaseContract.Presenter<ImageDetailContract.View>{
 
 
-        void getImage(String uuid);
-        void getLabels(String uuid);
+        void getImage(long uid,String uuid);
+        void getLabels(long uid,String uuid);
 
         /**
          *

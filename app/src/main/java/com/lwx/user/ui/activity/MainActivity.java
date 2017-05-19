@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     private MainContract.Presenter presenter;
     private ImageLoader imageLoader;
 
-    private User curUser;
+
     private RecyclerViewAdapter adapter;
     private List<Image> list;
 
@@ -110,13 +110,13 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
             userMode = 1;
             menu.getItem(0).setTitle("随机推送");
-            presenter.getRandomPicsByNetWork(App.getInstance().getpullPicNum());
+            presenter.clearAndGetMoreRandomPicByNet(App.getInstance().getUid(),App.getInstance().getpullPicNum());
         }
         else{
 
             userMode = 0;
             menu.getItem(0).setTitle("用户推送");
-            presenter.clearAndGetMorePicByNetWork(curUser.uid,App.getInstance().getpullPicNum());
+            presenter.clearAndGetPicByNetWork(App.getInstance().getUid(),App.getInstance().getpullPicNum());
         }
 
         return super.onOptionsItemSelected(item);
@@ -148,8 +148,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 } else if(id == R.id.nav_exit){
 
                     Intent intent = new Intent(MainActivity.this,LoginActivity.class);
-                    intent.putExtra(LoginActivity.MATCH_NUM,curUser.uid);
-                    Log.d(TAG,"exit login" + " " + curUser.uid);
+                    intent.putExtra(LoginActivity.MATCH_NUM,App.getInstance().getUid());
+
+                    Log.d(TAG,"exit login" + " " + App.getInstance().getUid());
                     startActivity(intent);
                     finish();
                 }
@@ -163,8 +164,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
     private void init(){
 
+
+
         initNavigationView();
         initSwipeRefresh();
+        initRecycleView();
+
         initUser();
         initPicture();
 
@@ -182,11 +187,11 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
                 if(userMode == 0){
 
-                    presenter.clearAndGetMorePicByNetWork(App.getInstance().getUid(),App.getInstance().getpullPicNum());
+                    presenter.clearAndGetPicByNetWork(App.getInstance().getUid(),App.getInstance().getpullPicNum());
                 }
                 else{
 
-                    presenter.clearAndGetMoreRandomPicByNet(App.getInstance().getpullPicNum());
+                    presenter.clearAndGetMoreRandomPicByNet(App.getInstance().getUid(),App.getInstance().getpullPicNum());
                 }
 
             }
@@ -206,7 +211,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         }
         else{
 
-            App.getInstance().setUid(uid);
+            //App.getInstance().setUid(uid);
             presenter.getUser(uid);
         }
 
@@ -214,7 +219,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     private void initPicture(){
 
-        presenter.getPictures(App.getInstance().getpullPicNum());
+        presenter.getPictures(App.getInstance().getUid(),App.getInstance().getpullPicNum());
 
     }
 
@@ -239,17 +244,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         startActivity(intent);
     }
 
-    @Override
-    public RecyclerView getRecyclerView() {
 
-
-        return recyclerView;
-    }
 
     @Override
     public void onUserLoadedSucceed(User user) {
 
-        curUser = user;
+        //curUser = user;
         CircleImageView header = (CircleImageView)((ViewGroup)navigationView.getHeaderView(0)).getChildAt(0);
         TextView userName = (TextView)((ViewGroup)navigationView.getHeaderView(0)).getChildAt(1);
         imageLoader.loadImage(this,user.headPath,header);
@@ -270,14 +270,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         }
         canScroll = true;
 
-        if(list.size() == 0){
+        addImages(imageList);
 
-            initRecycleView(imageList);
-        }
-        else{
-
-            addImages(imageList);
-        }
     }
 
     @Override
@@ -288,28 +282,28 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             this.list = imageList;
         }
         Log.d(TAG,"clear and save list");
-        adapter.setData(imageList);
+        adapter.setData(this.list);
         adapter.notifyDataSetChanged();
     }
 
     private void addImages(List<Image> images){
 
         this.list.addAll(images);
-        adapter.addData(images);
+        //adapter.addData(images);
         adapter.notifyDataSetChanged();
     }
 
     private boolean canScroll;
 
 
-    private void initRecycleView(List<Image> imageList){
+    private void initRecycleView(){
 
-        if(imageList != null){
-
-            list.addAll(imageList);
-        }
+//        if(imageList != null){
+//
+//            list.addAll(imageList);
+//        }
         Log.d(TAG,"" + list.size());
-        adapter = new RecyclerViewAdapter(this,list);
+        adapter = new RecyclerViewAdapter(this,this.list);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this,3);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(gridLayoutManager);
@@ -335,7 +329,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                     }
                     else{
 
-                        presenter.getMoreRandomPicturesByNetWork(App.getInstance().getpullPicNum());
+                        presenter.getMoreRandomPicturesByNetWork(App.getInstance().getUid(),App.getInstance().getpullPicNum());
                     }
 
                 }
@@ -398,5 +392,18 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
         return false;
 
+    }
+
+//    @Override
+//    public void onImageAddedSucceed(List<Image> imageList) {
+//
+//        addImages(imageList);
+//    }
+
+
+    @Override
+    public void onLoadPicInDbError() {
+
+        Toast.makeText(this,"读取缓存图片失败，下拉刷新试试吧...",Toast.LENGTH_SHORT).show();
     }
 }

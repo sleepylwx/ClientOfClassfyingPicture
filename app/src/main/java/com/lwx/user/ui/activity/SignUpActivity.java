@@ -180,4 +180,9 @@ public class SignUpActivity extends AppCompatActivity implements SignUpContract.
 
     }
 
+    @Override
+    public void onUserHasExist() {
+
+        Toast.makeText(this,"用户名已存在...",Toast.LENGTH_SHORT).show();
+    }
 }

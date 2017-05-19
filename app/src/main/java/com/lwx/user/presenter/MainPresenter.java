@@ -87,9 +87,9 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     @Override
-    public void getPictures(int num) {
+    public void getPictures(long uid,int num) {
 
-        imageRepo.getAllPictures()
+        imageRepo.getAllPictures(uid)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<List<Image>>() {
@@ -118,29 +118,9 @@ public class MainPresenter implements MainContract.Presenter {
                                         public void onNext(List<Image> imagess) {
 
                                             Log.d(TAG,"getPictures onNext onNext");
-                                            imageRepo.saveImages(imagess)
-                                                    .subscribeOn(Schedulers.io())
-                                                    .observeOn(AndroidSchedulers.mainThread())
-                                                    .subscribe(new CompletableObserver() {
-                                                        @Override
-                                                        public void onSubscribe(@NonNull Disposable d) {
 
-                                                        }
-
-                                                        @Override
-                                                        public void onComplete() {
-
-                                                            Log.d(TAG,"NetWork Images store succeed!");
-                                                        }
-
-                                                        @Override
-                                                        public void onError(@NonNull Throwable e) {
-
-                                                            Log.d(TAG,"NetWork Images Store failed!");
-                                                        }
-                                                    });
                                             context.onImageLoadedSucceed(imagess);
-
+                                            addImageInDb(uid,imagess,"getPictures");
                                         }
 
                                         @Override
@@ -165,8 +145,9 @@ public class MainPresenter implements MainContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d(TAG,"getPictures onError" );
-                        context.onImageLoadedSucceed(null);
+                        Log.d(TAG,"getPictures onError select db error" );
+                        context.onLoadPicInDbError();
+                        //context.onImageLoadedSucceed(null);
                     }
 
                     @Override
@@ -196,7 +177,7 @@ public class MainPresenter implements MainContract.Presenter {
                         //context.nonShowWaitingNetWork();
                         context.nonShowSwipe();
                         context.onImageLoadedSucceed(imageList);
-
+                        addImageInDb(uid,imageList,"getMorePicturesByNetWork");
                     }
 
                     @Override
@@ -214,7 +195,7 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     @Override
-    public void clearAndGetMorePicByNetWork(long uid, int num) {
+    public void clearAndGetPicByNetWork(long uid, int num) {
 
         pictureAgent.getPicByToken(App.getInstance().getToken(),num)
                 .subscribeOn(Schedulers.io())
@@ -232,6 +213,8 @@ public class MainPresenter implements MainContract.Presenter {
                         //context.nonShowWaitingNetWork();
                         context.nonShowSwipe();
                         context.clearAndSaveList(imageList);
+
+                        deleteAndSaveImageInDb(uid,imageList,"clearAndGetPicByNetWork");
                     }
 
                     @Override
@@ -249,41 +232,41 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
 
+//    @Override
+//    public void getRandomPicsByNetWork(int num) {
+//
+//        pictureAgent.getRandPic(num)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Observer<List<Image>>() {
+//                    @Override
+//                    public void onSubscribe(Disposable d) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(List<Image> images) {
+//
+//                        Log.d(TAG,"getRandomPicsPicturesByNew onNext");
+//                        context.onImageLoadedSucceed(images);
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//
+//                        Log.d(TAG,"getRandomPicsByNet onError");
+//                        e.printStackTrace();
+//                    }
+//
+//                    @Override
+//                    public void onComplete() {
+//
+//                    }
+//                });
+//    }
+
     @Override
-    public void getRandomPicsByNetWork(int num) {
-
-        pictureAgent.getRandPic(num)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<List<Image>>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onNext(List<Image> images) {
-
-                        Log.d(TAG,"getRandomPicsPicturesByNew onNext");
-                        context.onImageLoadedSucceed(images);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                        Log.d(TAG,"getRandomPicsByNet onError");
-                        e.printStackTrace();
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
-    }
-
-    @Override
-    public void clearAndGetMoreRandomPicByNet(int num) {
+    public void clearAndGetMoreRandomPicByNet(long uid,int num) {
 
         pictureAgent.getRandPic(num)
                 .subscribeOn(Schedulers.io())
@@ -301,6 +284,8 @@ public class MainPresenter implements MainContract.Presenter {
                         //context.nonShowWaitingNetWork();
                         context.nonShowSwipe();
                         context.clearAndSaveList(images);
+                        deleteAndSaveImageInDb(uid,images,"clearAndGetMoreRandomPicByNet");
+
                     }
 
                     @Override
@@ -318,7 +303,7 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     @Override
-    public void getMoreRandomPicturesByNetWork(int num) {
+    public void getMoreRandomPicturesByNetWork(long uid,int num) {
 
         pictureAgent.getRandPic(num)
                 .subscribeOn(Schedulers.io())
@@ -334,16 +319,90 @@ public class MainPresenter implements MainContract.Presenter {
 
                         Log.d(TAG,"getMoreRandomPicturesByNetWork onNext");
                         context.onImageLoadedSucceed(images);
+                        addImageInDb(uid,images,"getMoreRandomPicturesByNetWork");
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         Log.d(TAG,"getMoreRandomPicturesByNetWork onError");
+                        //
                     }
 
                     @Override
                     public void onComplete() {
 
+                    }
+                });
+    }
+
+    private void addImageInDb(long uid,List<Image> images,String funcName){
+
+        imageRepo.saveImages(uid,images)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new CompletableObserver() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                        Log.d(TAG,funcName + " save db success!");
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+
+                        Log.d(TAG,funcName + " save db error");
+
+                    }
+                });
+    }
+    private void deleteAndSaveImageInDb(long uid,List<Image> images,String funcName){
+
+        imageRepo.deleteAllImages(uid)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new CompletableObserver() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                        Log.d(TAG,funcName + " delete db success!");
+                        imageRepo.saveImages(uid,images)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new CompletableObserver() {
+                                    @Override
+                                    public void onSubscribe(@NonNull Disposable d) {
+
+                                    }
+
+                                    @Override
+                                    public void onComplete() {
+
+                                        Log.d(TAG,funcName + " save new db success!");
+                                    }
+
+                                    @Override
+                                    public void onError(@NonNull Throwable e) {
+
+                                        Log.d(TAG,funcName + " save new db failed");
+                                    }
+                                });
+
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+
+                        Log.d(TAG,funcName + " delete db error!");
                     }
                 });
     }

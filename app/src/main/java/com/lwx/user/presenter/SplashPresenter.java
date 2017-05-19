@@ -46,10 +46,12 @@ public class SplashPresenter implements SplashContract.Presenter {
     }
 
 
+
     private boolean isAuthFailed;
 
     @Override
     public void doAutoLogin() {
+
 
         long startTime = System.currentTimeMillis();
 
@@ -70,7 +72,7 @@ public class SplashPresenter implements SplashContract.Presenter {
                     @Override
                     public void accept(String s) throws Exception {
 
-                        if (s == null) {
+                        if (s == null || s.equals("")) {
 
                             checkTimeMatched(startTime);
                             context.jumpToLoginActivity(uid,true);
@@ -90,7 +92,7 @@ public class SplashPresenter implements SplashContract.Presenter {
                                         @Override
                                         public void onComplete() {
 
-                                            isAuthFailed = true;
+                                            isAuthFailed = false;
                                             checkTimeMatched(startTime);
                                             App.getInstance().setToken(s);
                                             App.getInstance().setUid(uid);
@@ -111,6 +113,7 @@ public class SplashPresenter implements SplashContract.Presenter {
                                             }
                                             else{
 
+                                                isAuthFailed = false;
                                                 context.onNetWorkError();
                                             }
                                             context.jumpToLoginActivity(uid,isAuthFailed);
