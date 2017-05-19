@@ -2,6 +2,7 @@ package com.lwx.user.db;
 
 import com.elvishew.xlog.XLog;
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.lwx.user.db.model.Image;
@@ -22,36 +23,85 @@ import io.reactivex.annotations.NonNull;
  * Created by henry on 17-4-18.
  */
 public class ImageImpl implements ImageRepo {
-
     @Override
-    public Completable saveImages(List<Image> images) {
+    public Completable deleteImage(long uid, String uuid) {
         return Completable.create(new CompletableOnSubscribe() {
             @Override
             public void subscribe(@NonNull CompletableEmitter e) throws Exception {
-                for(Image image : images)
-                    imageDAO.createOrUpdate(image);
-                XLog.v("保存Images:" + images);
+                DeleteBuilder deleteBuilder = imageDAO.deleteBuilder();
+                deleteBuilder
+                        .where()
+                        .eq(Image.UID_FIELD, uid)
+                        .and()
+                        .eq(Image.UUID_FIELD, uuid);
+                deleteBuilder.delete();
             }
         });
     }
 
     @Override
-    public Observable<Image> getImage(String imageId) {
+    public Completable deleteAllImages(long uid) {
+        return Completable.create(new CompletableOnSubscribe() {
+            @Override
+            public void subscribe(@NonNull CompletableEmitter e) throws Exception {
+                DeleteBuilder deleteBuilder = imageDAO.deleteBuilder();
+                deleteBuilder
+                        .where()
+                        .eq(Image.UID_FIELD, uid);
+                deleteBuilder.delete();
+            }
+        });
+    }
+
+    @Override
+    public Completable saveImages(long uid, List<Image> images) {
+        return Completable.create(new CompletableOnSubscribe() {
+            @Override
+            public void subscribe(@NonNull CompletableEmitter e) throws Exception {
+                for(Image image : images) {
+                    image.uid = uid;
+                    imageDAO.createOrUpdate(image);
+                }
+            }
+        });
+    }
+
+    @Override
+    public Observable<Image> getImage(long uid, String imageId) {
         return Observable.create(new ObservableOnSubscribe<Image>() {
             @Override
             public void subscribe(@NonNull ObservableEmitter<Image> e) throws Exception {
-                Image image = imageDAO.queryForId(imageId);
-                e.onNext(image);
-                XLog.v("(数据库)查询Image:" + image);
+                List<Image> images = imageDAO.queryBuilder()
+                        .where()
+                        .eq(Image.UUID_FIELD, imageId)
+                        .and()
+                        .eq(Image.UID_FIELD, uid)
+                        .query();
+                if(images.size() > 0)
+                    e.onNext(images.get(0));
+                else
+                    e.onNext(null);
+                XLog.v("(数据库)查询Image:" + (images.size() > 0 ? images.get(0) : null));
             }
         });
     }
 
     @Override
-    public Observable<List<Label>> getImageLabels(String imageId) {
+    public Observable<List<Label>> getImageLabels(long uid, String imageId) {
         return Observable.create(new ObservableOnSubscribe<List<Label>>() {
             @Override
             public void subscribe(@NonNull ObservableEmitter<List<Label>> e) throws Exception {
+                List<Image> images = imageDAO.queryBuilder()
+                        .where()
+                        .eq(Image.UUID_FIELD, imageId)
+                        .and()
+                        .eq(Image.UID_FIELD, uid)
+                        .query();
+
+                if(images.size() == 0){
+                    e.onError(new Throwable("没有该用户对应图片"));
+                    return;
+                }
 
                 QueryBuilder imageLabelQuery = imageLabelDAO.queryBuilder();
                 imageLabelQuery
@@ -74,11 +124,18 @@ public class ImageImpl implements ImageRepo {
         return Completable.create(new CompletableOnSubscribe() {
             @Override
             public void subscribe(@NonNull CompletableEmitter e) throws Exception {
-                Image image = imageDAO.queryForId(imageId);
-                if (image == null) {
+                Image image = null;
+                List<Image> images = imageDAO.queryBuilder()
+                        .where()
+                        .eq(Image.UUID_FIELD, imageId)
+                        .and()
+                        .eq(Image.UID_FIELD, uid)
+                        .query();
+                if (images.size() == 0) {
                     e.onError(new Throwable("没有该图片"));
                     return;
                 }
+                image = images.get(0);
                 for(String iLabel : labels){
                     Label iLabelBean = null;
                     List<Label> iLabels = labelDAO.queryForEq(Label.LABEL_FIELD, iLabel);
@@ -100,11 +157,22 @@ public class ImageImpl implements ImageRepo {
             @Override
             public void subscribe(@NonNull CompletableEmitter e) throws Exception {
 
-                Image image = imageDAO.queryForId(imageId);
-                if (image == null) {
+                Image image = null;
+
+                List<Image> images = imageDAO.queryBuilder()
+                        .where()
+                        .eq(Image.UUID_FIELD, imageId)
+                        .and()
+                        .eq(Image.UID_FIELD, uid)
+                        .query();
+
+                if (images.size() == 0) {
                     e.onError(new Throwable("没有该图片"));
                     return;
                 }
+
+                image = images.get(0);
+
                 Label iLabelBean = null;
                 List<Label> iLabels = labelDAO.queryForEq(Label.LABEL_FIELD, labels);
                 if(iLabels.size() > 0){
@@ -125,27 +193,28 @@ public class ImageImpl implements ImageRepo {
 
 
     @Override
-    public Observable<List<Image>> getAllPictures() {
+    public Observable<List<Image>> getAllPictures(long uid) {
         return Observable.create(new ObservableOnSubscribe<List<Image>>() {
             @Override
             public void subscribe(@NonNull ObservableEmitter<List<Image>> e) throws Exception {
-                e.onNext(imageDAO.queryForAll());
+                e.onNext(imageDAO.queryForEq(Image.UID_FIELD, uid));
             }
         });
     }
 
     @Override
-    public Completable saveImage(Image image) {
+    public Completable saveImage(long uid, Image image) {
         return Completable.create(new CompletableOnSubscribe() {
             @Override
             public void subscribe(@NonNull CompletableEmitter e) throws Exception {
+                image.uid = uid;
                 imageDAO.createOrUpdate(image);
             }
         });
     }
 
     @Override
-    public Observable<List<Image>> getPictures(String label) {
+    public Observable<List<Image>> getPictures(long uid, String label) {
         return Observable.create(new ObservableOnSubscribe<List<Image>>() {
             @Override
             public void subscribe(@NonNull ObservableEmitter<List<Image>> e) throws Exception {
@@ -159,7 +228,9 @@ public class ImageImpl implements ImageRepo {
 
                 QueryBuilder imageQuery = imageDAO.queryBuilder();
                 imageQuery.where()
-                        .in(Image.UUID_FIELD, imageLabelQuery);
+                        .in(Image.UUID_FIELD, imageLabelQuery)
+                        .and()
+                        .eq(Image.UID_FIELD, uid);
 
                 XLog.v("getPictures 执行查询：" + imageQuery.prepareStatementString());
                 e.onNext(imageQuery.query());

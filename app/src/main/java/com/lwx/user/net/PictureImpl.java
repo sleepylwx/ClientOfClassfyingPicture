@@ -83,7 +83,7 @@ public class PictureImpl implements PictureAgent {
                         return;
                     }
 
-                    e.onNext(new Image(jsonObject.getString("uuid"),
+                    e.onNext(new Image(-1L,jsonObject.getString("uuid"),
                             App.BASE_URL + "getpic.action?uuid=" + jsonObject.getString("uuid")));
 
                 } catch (IOException |JSONException ex) {
@@ -192,7 +192,7 @@ public class PictureImpl implements PictureAgent {
                         List<Image> images = new ArrayList<Image>();
                         for(int i=0;i<strings.size();i++){
                             String t = strings.get(i);
-                            images.add(new Image(t,
+                            images.add(new Image(-1L, t,
                                     App.BASE_URL + "getpic.action?uuid=" + t ));
                         }
                         return Observable.just(images);
@@ -209,7 +209,7 @@ public class PictureImpl implements PictureAgent {
                         List<Image> images = new ArrayList<Image>();
                         for(int i=0;i<strings.size();i++){
                             String t = strings.get(i);
-                            images.add(new Image(t,
+                            images.add(new Image(-1L,t,
                                     App.BASE_URL + "getpic.action?uuid=" + t ));
                         }
                         return Observable.just(images);
