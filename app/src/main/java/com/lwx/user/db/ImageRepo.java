@@ -17,16 +17,17 @@ import io.reactivex.Observable;
 public interface ImageRepo {
 
 
-    Observable<List<Image>> getAllPictures();
+    Observable<List<Image>> getAllPictures(long uid);
 
-    Observable<List<Image>> getPictures(String label);
+    Observable<List<Image>> getPictures(long uid,String label);
 
-    Completable saveImage(Image image);
-
-    Observable<Image> getImage(String imageId);
+    Completable saveImage(long uid,Image image);
 
 
-    Observable<List<Label>> getImageLabels(String imageId);
+    Observable<Image> getImage(long uid,String imageId);
+
+
+    Observable<List<Label>> getImageLabels(long uid,String imageId);
 
     /**
      *
@@ -46,5 +47,16 @@ public interface ImageRepo {
      */
     Completable saveLabel(long uid,String imageId,String labels);
 
-    Completable saveImages(List<Image> images);
+
+    Completable saveImages(long uid,List<Image> images);
+
+    /**
+     *
+     * @param uid 用户id
+     * @param uuid 图片uuid
+     * @return
+     */
+    Completable deleteImage(long uid,String uuid);
+
+    Completable deleteAllImages(long uid);
 }

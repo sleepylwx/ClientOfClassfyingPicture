@@ -20,11 +20,12 @@ public interface MainContract {
         void onUserLoadedFailed();
 
         void onImageLoadedSucceed(List<Image> imageList);
+        //void onImageAddedSucceed(List<Image> imageList);
+
         void clearAndSaveList(List<Image> imageList);
 
         //adapter
 
-        RecyclerView getRecyclerView();
         void startGetMorePicByNetWork();
         void jumpToImageDetailActivity(String uuid);
         //view
@@ -32,21 +33,23 @@ public interface MainContract {
         void showWaitingNetWork();
         void nonShowWaitingNetWork();
         void nonShowSwipe();
+
+
+        void onLoadPicInDbError();
     }
 
     public interface Presenter extends BaseContract.Presenter<MainContract.View>{
 
         void getUser(long uid);
-        void getPictures(int num);
+        void getPictures(long uid,int num);
 
         void getMorePicturesByNetWork(long uid,int num);
-        void clearAndGetMorePicByNetWork(long uid,int num);
+        void clearAndGetPicByNetWork(long uid,int num);
 
-        void getRandomPicsByNetWork(int num);
+        //void getRandomPicsByNetWork(int num);
+        void clearAndGetMoreRandomPicByNet(long uid,int num);
 
-        void clearAndGetMoreRandomPicByNet(int num);
-
-        void getMoreRandomPicturesByNetWork(int num);
+        void getMoreRandomPicturesByNetWork(long uid,int num);
     }
 
 }

@@ -32,6 +32,7 @@ public class SignUpPresenter implements SignUpContract.Presenter {
         userAgent = UserAgentImpl.getInstance();
     }
 
+    private static final String SIGNUPFAILED = "Register failed, username already exist!";
     @Override
     public void doSignUp(String user, String passwd) {
 
@@ -53,7 +54,15 @@ public class SignUpPresenter implements SignUpContract.Presenter {
                     @Override
                     public void onError(@NonNull Throwable e) {
 
-                        context.onNetWorkError();
+                        if(SIGNUPFAILED.equals(e.getMessage())){
+
+                            context.onUserHasExist();
+                        }
+                        else{
+
+                            context.onNetWorkError();
+                        }
+
                         Log.d(TAG,"doSignUp onError" + user + " " + passwd
                         +" message:" + e.getMessage());
                     }

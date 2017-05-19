@@ -58,10 +58,10 @@ public class ImageDetailPresenter implements ImageDetailContract.Presenter{
     }
 
     @Override
-    public void getImage(String uuid) {
+    public void getImage(long uid,String uuid) {
 
         this.imageId = uuid;
-        imageRepo.getImage(uuid)
+        imageRepo.getImage(uid,uuid)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Image>() {
@@ -92,9 +92,9 @@ public class ImageDetailPresenter implements ImageDetailContract.Presenter{
     }
 
     @Override
-    public void getLabels(String uuid) {
+    public void getLabels(long uid,String uuid) {
 
-        imageRepo.getImageLabels(uuid)
+        imageRepo.getImageLabels(uid,uuid)
                 .map(new Function<List<Label>, List<String>>() {
 
                     @Override

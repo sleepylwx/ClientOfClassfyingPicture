@@ -9,6 +9,7 @@ public interface SignUpContract {
     public interface View extends BaseContract.View<SignUpContract.Presenter>{
 
         void onSignUpSucceed(String user);
+        void onUserHasExist();
 
     }
 

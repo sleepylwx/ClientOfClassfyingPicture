@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.chrisbanes.photoview.PhotoView;
+import com.lwx.user.App;
 import com.lwx.user.R;
 import com.lwx.user.contracts.ImageDetailContract;
 import com.lwx.user.presenter.ImageDetailPresenter;
@@ -90,12 +91,12 @@ public class ImageDetailActivity extends Activity implements ImageDetailContract
 
     private void initPhotoView(String uuid){
 
-        presenter.getImage(uuid);
+        presenter.getImage(App.getInstance().getUid(),uuid);
     }
 
     private void initLabels(String uuid){
 
-        presenter.getLabels(uuid);
+        presenter.getLabels(App.getInstance().getUid(),uuid);
     }
 
     public static final String TAG = "ImageDetailActivity";
