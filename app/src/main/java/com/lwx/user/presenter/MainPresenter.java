@@ -119,8 +119,9 @@ public class MainPresenter implements MainContract.Presenter {
 
                                             Log.d(TAG,"getPictures onNext onNext");
 
-                                            context.onImageLoadedSucceed(imagess);
                                             addImageInDb(uid,imagess,"getPictures");
+                                            context.onImageLoadedSucceed(imagess);
+
                                         }
 
                                         @Override

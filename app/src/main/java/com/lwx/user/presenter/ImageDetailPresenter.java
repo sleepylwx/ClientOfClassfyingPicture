@@ -174,7 +174,25 @@ public class ImageDetailPresenter implements ImageDetailContract.Presenter{
 
         imageRepo.saveLabels(App.getInstance().getUid(),imageId,strings)
                 .subscribeOn(Schedulers.io())
-                .subscribe();
+                .subscribe(new CompletableObserver() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                        Log.d(TAG,"saveLabels success");
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+
+                        Log.d(TAG,"saveLabels error");
+                    }
+                });
     }
 
     @Override
@@ -210,7 +228,24 @@ public class ImageDetailPresenter implements ImageDetailContract.Presenter{
 
         imageRepo.saveLabel(App.getInstance().getUid(),imageId,label)
                 .subscribeOn(Schedulers.io())
-                .subscribe();
+                .subscribe(new CompletableObserver() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                        Log.d(TAG,"saveImageLabel success");
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+
+                        Log.d(TAG,"saveImageLabel onError");
+                    }
+                });
 
     }
 }

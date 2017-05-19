@@ -1,5 +1,6 @@
 package com.lwx.user.net;
 
+import com.elvishew.xlog.XLog;
 import com.lwx.user.App;
 import com.lwx.user.db.model.Image;
 import com.lwx.user.db.model.ImageLabel;
@@ -55,7 +56,9 @@ public class PictureImpl implements PictureAgent {
                 try {
                     Response<String> response = picService.markMutiTags(token,jsonArray.toString(), uuid).execute();
                     String content = response.body();
+                   // XLog.d(response.errorBody().string());
                     JSONObject jsonObject = new JSONObject(content);
+
 
                     if(jsonObject.getBoolean("err")) {
                         e.onError(new Exception(jsonObject.getString("msg")));
