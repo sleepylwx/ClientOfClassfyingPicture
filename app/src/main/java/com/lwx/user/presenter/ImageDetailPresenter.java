@@ -73,8 +73,11 @@ public class ImageDetailPresenter implements ImageDetailContract.Presenter{
                     @Override
                     public void onNext(Image image) {
 
+
+                        Log.d(TAG,"getImage success!");
                         ImageDetailPresenter.this.image = image;
                         context.onImageLoadSucceed(image.imagePath);
+
                     }
 
                     @Override
@@ -90,6 +93,8 @@ public class ImageDetailPresenter implements ImageDetailContract.Presenter{
                 });
 
     }
+
+
 
     @Override
     public void getLabels(long uid,String uuid) {

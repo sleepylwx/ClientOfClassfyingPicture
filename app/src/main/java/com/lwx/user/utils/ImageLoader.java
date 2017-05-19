@@ -6,6 +6,8 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
 
 /**
  * Created by 36249 on 2017/4/8.
@@ -27,5 +29,9 @@ public class ImageLoader {
     }
 
 
+    public void loadImageWithListener(Context context,String resourcePath,ImageView view,RequestListener<String,GlideDrawable> listener){
 
+        Glide.with(context).load(resourcePath).listener(listener)
+                .into(view);
+    }
 }

@@ -12,6 +12,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.github.chrisbanes.photoview.PhotoView;
 import com.lwx.user.App;
 import com.lwx.user.R;
@@ -81,6 +84,7 @@ public class ImageDetailActivity extends Activity implements ImageDetailContract
 
     }
 
+
     private void init(){
 
         Intent intent = getIntent();
@@ -119,8 +123,7 @@ public class ImageDetailActivity extends Activity implements ImageDetailContract
             }
         });
 
-        addLabel.setVisibility(View.VISIBLE);
-        postLabel.setVisibility(View.VISIBLE);
+
     }
 
     @Override
@@ -136,10 +139,32 @@ public class ImageDetailActivity extends Activity implements ImageDetailContract
 
     }
 
+
+
     @Override
     public void onImageLoadSucceed(String path) {
 
-        imageLoader.loadImage(this,path,photoView);
+        imageLoader.loadImageWithListener(this, path, photoView, new RequestListener<String, GlideDrawable>() {
+            @Override
+            public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+
+                //photoLoadSucceed = false;
+                addLabel.setEnabled(false);
+                postLabel.setEnabled(false);
+                Toast.makeText(ImageDetailActivity.this,"图片加载失败",Toast.LENGTH_SHORT).show();
+                return false;
+            }
+
+            @Override
+            public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+
+                //photoLoadSucceed = true;
+
+                addLabel.setEnabled(true);
+                postLabel.setEnabled(true);
+                return false;
+            }
+        });
     }
 
 
