@@ -35,6 +35,8 @@ public class ImageImpl implements ImageRepo {
                         .and()
                         .eq(Image.UUID_FIELD, uuid);
                 deleteBuilder.delete();
+
+                e.onComplete();
             }
         });
     }
@@ -49,6 +51,8 @@ public class ImageImpl implements ImageRepo {
                         .where()
                         .eq(Image.UID_FIELD, uid);
                 deleteBuilder.delete();
+
+                e.onComplete();
             }
         });
     }
@@ -58,10 +62,28 @@ public class ImageImpl implements ImageRepo {
         return Completable.create(new CompletableOnSubscribe() {
             @Override
             public void subscribe(@NonNull CompletableEmitter e) throws Exception {
+
                 for(Image image : images) {
+
                     image.uid = uid;
-                    imageDAO.createOrUpdate(image);
+                    Dao.CreateOrUpdateStatus status;
+                    try{
+
+                        status = imageDAO.createOrUpdate(image);
+                        XLog.v("created:" + status.isCreated() +
+                                " updated:" + status.isUpdated() + " changed lines:"
+                                +status.getNumLinesChanged());
+
+                    }
+                    catch (Exception ex){
+
+                        XLog.v(ex.getMessage());
+                    }
+
+
                 }
+
+                e.onComplete();
             }
         });
     }
@@ -147,6 +169,8 @@ public class ImageImpl implements ImageRepo {
                     }
                     imageLabelDAO.createOrUpdate(new ImageLabel(image, iLabelBean));
                 }
+
+                e.onComplete();
             }
         });
     }
@@ -182,7 +206,11 @@ public class ImageImpl implements ImageRepo {
                     labelDAO.createOrUpdate(iLabelBean);
                 }
                 imageLabelDAO.createOrUpdate(new ImageLabel(image, iLabelBean));
+
+                e.onComplete();
             }
+
+
         });
     }
 
@@ -209,7 +237,10 @@ public class ImageImpl implements ImageRepo {
             public void subscribe(@NonNull CompletableEmitter e) throws Exception {
                 image.uid = uid;
                 imageDAO.createOrUpdate(image);
+
+                e.onComplete();
             }
+
         });
     }
 

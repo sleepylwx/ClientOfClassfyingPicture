@@ -84,6 +84,7 @@ public class ImageDetailPresenter implements ImageDetailContract.Presenter{
                     public void onError(Throwable e) {
 
                         Log.d(TAG,"getImage onError");
+
                     }
 
                     @Override
@@ -98,6 +99,51 @@ public class ImageDetailPresenter implements ImageDetailContract.Presenter{
 
     @Override
     public void getLabels(long uid,String uuid) {
+
+        pictureAgent.getPicTags(uuid)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<List<String>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(List<String> strings) {
+
+                        if(strings == null || strings.size() == 0){
+
+                            Log.d(TAG,"getLabels on NetWork NUll or size == 0");
+                            getLabelsInDb(uid,uuid);
+                        }
+                        else{
+
+                            Log.d(TAG,"getLabels by network success!");
+                            context.onLabelsLoadSucceed(strings);
+                            saveLabels(imageId,strings);
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                        Log.d(TAG,"getLabels by network error!");
+                        getLabelsInDb(uid,uuid);
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+
+
+    }
+
+    private void getLabelsInDb(long uid,String uuid){
+
 
         imageRepo.getImageLabels(uid,uuid)
                 .map(new Function<List<Label>, List<String>>() {
@@ -125,7 +171,7 @@ public class ImageDetailPresenter implements ImageDetailContract.Presenter{
                     @Override
                     public void onNext(List<String> strings) {
 
-
+                        Log.d(TAG,"getLabels in Db success!");
                         context.onLabelsLoadSucceed(strings);
                     }
 
@@ -133,33 +179,7 @@ public class ImageDetailPresenter implements ImageDetailContract.Presenter{
                     public void onError(Throwable e) {
 
                         Log.d(TAG,"getLabel onError 数据库中没有" + uuid + "的标签");
-                        pictureAgent.getPicTags(uuid)
-                                .subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(new Observer<List<String>>() {
-                                    @Override
-                                    public void onSubscribe(Disposable d) {
 
-                                    }
-
-                                    @Override
-                                    public void onNext(List<String> strings) {
-
-                                        context.onLabelsLoadSucceed(strings);
-                                        saveLabels(imageId,strings);
-                                    }
-
-                                    @Override
-                                    public void onError(Throwable e) {
-
-                                        Log.d(TAG,"getLabel onError Double");
-                                    }
-
-                                    @Override
-                                    public void onComplete() {
-
-                                    }
-                                });
                     }
 
                     @Override
@@ -167,7 +187,6 @@ public class ImageDetailPresenter implements ImageDetailContract.Presenter{
 
                     }
                 });
-
     }
 
     private void saveLabels(String imageId,List<String> strings){
@@ -219,6 +238,7 @@ public class ImageDetailPresenter implements ImageDetailContract.Presenter{
 
                         Log.d(TAG,"postSelectedLabels onError" + labels.size() + labels.get(0) + labels.get(labels.size() - 1));
                         e.printStackTrace();
+
                     }
                 });
     }

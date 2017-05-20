@@ -80,6 +80,7 @@ public class ImageDetailActivity extends Activity implements ImageDetailContract
         ButterKnife.bind(this);
         presenter = new ImageDetailPresenter(this);
         imageLoader = new ImageLoader();
+        curLables = new ArrayList<>();
         init();
 
     }

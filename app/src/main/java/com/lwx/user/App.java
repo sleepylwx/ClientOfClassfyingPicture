@@ -26,7 +26,7 @@ public class App extends Application {
 
         super.onCreate();
         sInstance = this;
-        pullPicNum = 15;
+        pullPicNum = 20;
         LogConfiguration config = new LogConfiguration.Builder()
                 .logLevel(BuildConfig.DEBUG ? LogLevel.ALL             // Specify log level, logs below this level won't be printed, default: LogLevel.ALL
                         : LogLevel.NONE)

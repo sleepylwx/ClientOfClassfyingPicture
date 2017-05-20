@@ -41,7 +41,7 @@ public interface MainContract {
     public interface Presenter extends BaseContract.Presenter<MainContract.View>{
 
         void getUser(long uid);
-        void getPictures(long uid,int num);
+        void getPictures(long uid,String token,int num);
 
         void getMorePicturesByNetWork(long uid,int num);
         void clearAndGetPicByNetWork(long uid,int num);

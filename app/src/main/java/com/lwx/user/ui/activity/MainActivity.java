@@ -219,7 +219,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     private void initPicture(){
 
-        presenter.getPictures(App.getInstance().getUid(),App.getInstance().getpullPicNum());
+        presenter.getPictures(App.getInstance().getUid(),App.getInstance().getToken(),App.getInstance().getpullPicNum());
 
     }
 
