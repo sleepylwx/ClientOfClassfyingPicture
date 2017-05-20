@@ -67,7 +67,7 @@ public class ImageDetailActivity extends Activity implements ImageDetailContract
 
             selectedLabels.add(curLables.get(i));
         }
-        presenter.postSelectedLabels(selectedLabels);
+        presenter.postSelectedLabels(App.getInstance().getToken(),uuid,selectedLabels);
     }
     private String uuid;
     private ImageDetailContract.Presenter presenter;
@@ -179,7 +179,7 @@ public class ImageDetailActivity extends Activity implements ImageDetailContract
     @Override
     public void onImageLabelAddedSucceed(String label) {
 
-        presenter.saveImageLabel(label);
+        presenter.saveImageLabel(label,uuid);
         onLabelsLoadSucceed(curLables);
     }
 

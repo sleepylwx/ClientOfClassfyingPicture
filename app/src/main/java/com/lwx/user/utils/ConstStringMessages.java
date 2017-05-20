@@ -6,6 +6,6 @@ package com.lwx.user.utils;
 
 public class ConstStringMessages {
 
-    public static final String NETWORK_ERROR = "NETWORK_ERROR";
 
+    public static final String TOKEN_ERROR = "Auth failed, token incorrect!";
 }

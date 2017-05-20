@@ -14,6 +14,7 @@ import com.lwx.user.net.PictureAgent;
 import com.lwx.user.net.PictureImpl;
 import com.lwx.user.net.UserAgent;
 import com.lwx.user.net.UserAgentImpl;
+import com.lwx.user.utils.ConstStringMessages;
 
 import java.util.List;
 
@@ -86,6 +87,7 @@ public class MainPresenter implements MainContract.Presenter {
                 });
     }
 
+
     @Override
     public void getPictures(long uid,String token,int num) {
 
@@ -108,6 +110,14 @@ public class MainPresenter implements MainContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
+
+                        if(ConstStringMessages.TOKEN_ERROR.equals(e.getMessage())){
+
+
+                            context.onTokenError();
+                            context.jumpToLoginActivityForTokenError();
+                            return;
+                        }
 
                         Log.d(TAG,"getPictures by network error!");
                         imageRepo.getAllPictures(uid)
@@ -159,9 +169,9 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     @Override
-    public void getMorePicturesByNetWork(long uid,int num) {
+    public void getMorePicturesByNetWork(long uid,String token,int num) {
 
-        pictureAgent.getPicByToken(App.getInstance().getToken(),num)
+        pictureAgent.getPicByToken(token,num)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<List<Image>>() {
@@ -183,6 +193,12 @@ public class MainPresenter implements MainContract.Presenter {
                     @Override
                     public void onError(Throwable e) {
 
+                        if(ConstStringMessages.TOKEN_ERROR.equals(e.getMessage())){
+
+                            context.onTokenError();
+                            context.jumpToLoginActivityForTokenError();
+                            return;
+                        }
                         Log.d(TAG,"getMorePictures onError" + uid + " " + num);
                         e.printStackTrace();
                         context.onImageLoadedFailed();
@@ -196,9 +212,9 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     @Override
-    public void clearAndGetPicByNetWork(long uid, int num) {
+    public void clearAndGetPicByNetWork(long uid,String token, int num) {
 
-        pictureAgent.getPicByToken(App.getInstance().getToken(),num)
+        pictureAgent.getPicByToken(token,num)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<List<Image>>() {
@@ -221,6 +237,13 @@ public class MainPresenter implements MainContract.Presenter {
                     @Override
                     public void onError(Throwable e) {
 
+
+                        if(ConstStringMessages.TOKEN_ERROR.equals(e.getMessage())){
+
+                            context.onTokenError();
+                            context.jumpToLoginActivityForTokenError();
+                            return;
+                        }
                         Log.d(TAG,"clearAndGetMorePictures onError" + uid + " " + num);
                         e.printStackTrace();
                         context.nonShowSwipe();

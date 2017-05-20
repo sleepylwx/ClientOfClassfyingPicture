@@ -38,6 +38,10 @@ public interface MainContract {
         void onLoadPicInDbError();
 
         void onImageLoadedFailed();
+
+        void jumpToLoginActivityForTokenError();
+
+        void onTokenError();
     }
 
     public interface Presenter extends BaseContract.Presenter<MainContract.View>{
@@ -45,8 +49,8 @@ public interface MainContract {
         void getUser(long uid);
         void getPictures(long uid,String token,int num);
 
-        void getMorePicturesByNetWork(long uid,int num);
-        void clearAndGetPicByNetWork(long uid,int num);
+        void getMorePicturesByNetWork(long uid,String token,int num);
+        void clearAndGetPicByNetWork(long uid,String token,int num);
 
         //void getRandomPicsByNetWork(int num);
         void clearAndGetMoreRandomPicByNet(long uid,int num);

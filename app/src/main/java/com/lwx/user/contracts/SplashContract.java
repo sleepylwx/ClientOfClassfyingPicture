@@ -12,6 +12,8 @@ public interface SplashContract {
         void jumpToMainActivity(long uid);
         void onTokenAuthFailed();
 
+        void onTokenInvalid();
+
     }
 
     public interface Presenter extends BaseContract.Presenter<SplashContract.View>{

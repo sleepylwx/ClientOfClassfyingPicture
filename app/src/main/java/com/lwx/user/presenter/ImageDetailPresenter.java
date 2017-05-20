@@ -37,8 +37,8 @@ public class ImageDetailPresenter implements ImageDetailContract.Presenter{
     private LabelRepo labelRepo;
     private PictureAgent pictureAgent;
 
-    private String imageId;
-    private Image image;
+
+
 
     public static final String TAG = "ImageDetailPresenter";
     public ImageDetailPresenter(ImageDetailContract.View context){
@@ -60,7 +60,7 @@ public class ImageDetailPresenter implements ImageDetailContract.Presenter{
     @Override
     public void getImage(long uid,String uuid) {
 
-        this.imageId = uuid;
+        //this.imageId = uuid;
         imageRepo.getImage(uid,uuid)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -75,7 +75,7 @@ public class ImageDetailPresenter implements ImageDetailContract.Presenter{
 
 
                         Log.d(TAG,"getImage success!");
-                        ImageDetailPresenter.this.image = image;
+
                         context.onImageLoadSucceed(image.imagePath);
 
                     }
@@ -84,7 +84,36 @@ public class ImageDetailPresenter implements ImageDetailContract.Presenter{
                     public void onError(Throwable e) {
 
                         Log.d(TAG,"getImage onError");
+                        pictureAgent.getSpecificPic(uuid)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new Observer<Image>() {
+                                    @Override
+                                    public void onSubscribe(Disposable d) {
 
+                                    }
+
+                                    @Override
+                                    public void onNext(Image image) {
+
+                                        Log.d(TAG,"getPicture by net success!");
+                                        context.onImageLoadSucceed(image.imagePath);
+                                        saveImage(uid,image);
+
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable e) {
+
+                                        Log.d(TAG,"getPicture by net error!");
+                                        context.onNetWorkError();
+                                    }
+
+                                    @Override
+                                    public void onComplete() {
+
+                                    }
+                                });
                     }
 
                     @Override
@@ -121,7 +150,7 @@ public class ImageDetailPresenter implements ImageDetailContract.Presenter{
 
                             Log.d(TAG,"getLabels by network success!");
                             context.onLabelsLoadSucceed(strings);
-                            saveLabels(imageId,strings);
+                            saveLabels(uuid,strings);
                         }
 
                     }
@@ -215,9 +244,9 @@ public class ImageDetailPresenter implements ImageDetailContract.Presenter{
     }
 
     @Override
-    public void postSelectedLabels(List<String> labels) {
+    public void postSelectedLabels(String token,String uuid,List<String> labels) {
 
-        pictureAgent.markMutiTags(App.getInstance().getToken(),imageId,labels)
+        pictureAgent.markMutiTags(token,uuid,labels)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new CompletableObserver() {
@@ -238,15 +267,16 @@ public class ImageDetailPresenter implements ImageDetailContract.Presenter{
 
                         Log.d(TAG,"postSelectedLabels onError" + labels.size() + labels.get(0) + labels.get(labels.size() - 1));
                         e.printStackTrace();
+                        context.onNetWorkError();
 
                     }
                 });
     }
 
     @Override
-    public void saveImageLabel(String label) {
+    public void saveImageLabel(String label,String uuid) {
 
-        imageRepo.saveLabel(App.getInstance().getUid(),imageId,label)
+        imageRepo.saveLabel(App.getInstance().getUid(),uuid,label)
                 .subscribeOn(Schedulers.io())
                 .subscribe(new CompletableObserver() {
                     @Override
@@ -267,5 +297,31 @@ public class ImageDetailPresenter implements ImageDetailContract.Presenter{
                     }
                 });
 
+    }
+
+
+    private void saveImage(long uid,Image image){
+
+        imageRepo.saveImage(uid,image)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new CompletableObserver() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                        Log.d(TAG,"saveImage success!");
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+
+                        Log.d(TAG,"saveImage error!");
+                    }
+                });
     }
 }

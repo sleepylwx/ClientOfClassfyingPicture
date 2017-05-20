@@ -116,7 +116,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
             userMode = 0;
             menu.getItem(0).setTitle("用户推送");
-            presenter.clearAndGetPicByNetWork(App.getInstance().getUid(),App.getInstance().getpullPicNum());
+            presenter.clearAndGetPicByNetWork(App.getInstance().getUid(),
+                    App.getInstance().getToken(),App.getInstance().getpullPicNum());
         }
 
         return super.onOptionsItemSelected(item);
@@ -185,7 +186,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
                 if(userMode == 0){
 
-                    presenter.clearAndGetPicByNetWork(App.getInstance().getUid(),App.getInstance().getpullPicNum());
+                    presenter.clearAndGetPicByNetWork(App.getInstance().getUid()
+                            ,App.getInstance().getToken(),App.getInstance().getpullPicNum());
                 }
                 else{
 
@@ -340,7 +342,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     public void startGetMorePicByNetWork() {
 
         //showWaitingNetWork();
-        presenter.getMorePicturesByNetWork(App.getInstance().getUid(),App.getInstance().getpullPicNum());
+        presenter.getMorePicturesByNetWork(App.getInstance().getUid()
+                ,App.getInstance().getToken(), App.getInstance().getpullPicNum());
 
     }
 
@@ -409,5 +412,21 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     public void onImageLoadedFailed() {
 
         canScroll = true;
+    }
+
+    @Override
+    public void jumpToLoginActivityForTokenError() {
+
+        Intent intent = new Intent(this,LoginActivity.class);
+        intent.putExtra(LoginActivity.MATCH_NUM,App.getInstance().getUid());
+        intent.putExtra(LoginActivity.ISAUTHFAILED,true);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public void onTokenError() {
+
+        Toast.makeText(this,R.string.token_auth_failed,Toast.LENGTH_SHORT).show();
     }
 }

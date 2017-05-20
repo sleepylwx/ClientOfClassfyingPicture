@@ -30,14 +30,14 @@ public interface ImageDetailContract {
          * @param labels
          * 提交用户打好的标签
          */
-        void postSelectedLabels(List<String> labels);
+        void postSelectedLabels(String token,String uuid,List<String> labels);
 
         /**
          *
          * @param label
          * 将用户自定义的label添加到本地数据库
          */
-        void saveImageLabel(String label);
+        void saveImageLabel(String label,String uuid);
 
     }
 

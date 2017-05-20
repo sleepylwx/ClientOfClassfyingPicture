@@ -134,6 +134,10 @@ public class LoginPresenter implements LoginContract.Presenter{
 
                             context.onLoginNotMatch();
                         }
+                        else{
+
+                            context.onNetWorkError();
+                        }
                     }
 
                     @Override
@@ -175,6 +179,9 @@ public class LoginPresenter implements LoginContract.Presenter{
                         if(TOKENAUTHFAILED.equals(e.getMessage())){
 
                             context.onTokenAuthFailed();
+                        }
+                        else{
+                            context.onNetWorkError();
                         }
                         e.printStackTrace();
                     }

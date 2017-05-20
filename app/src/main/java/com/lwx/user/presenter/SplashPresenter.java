@@ -75,7 +75,9 @@ public class SplashPresenter implements SplashContract.Presenter {
                         if (s == null || s.equals("")) {
 
                             checkTimeMatched(startTime);
+                            context.onTokenInvalid();
                             context.jumpToLoginActivity(uid,true);
+
                         } else {
 
                             loginAgent.auth(s)
@@ -109,15 +111,19 @@ public class SplashPresenter implements SplashContract.Presenter {
 
                                                 isAuthFailed = true;
                                                 context.onTokenAuthFailed();
-
+                                                context.jumpToLoginActivity(uid,isAuthFailed);
+                                                Log.d(TAG,"Auth failed, token incorrect!");
                                             }
                                             else{
 
                                                 isAuthFailed = false;
                                                 context.onNetWorkError();
+                                                App.getInstance().setUid(uid);
+                                                App.getInstance().setToken(s);
+                                                context.jumpToMainActivity(uid);
+                                                Log.d(TAG,"Auth failed,network error!");
                                             }
-                                            context.jumpToLoginActivity(uid,isAuthFailed);
-                                            Log.d(TAG,"Auth failed, token incorrect!");
+
                                             e.printStackTrace();
                                         }
 

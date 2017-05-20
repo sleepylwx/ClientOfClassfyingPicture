@@ -81,4 +81,9 @@ public class SplashActivity extends AppCompatActivity implements SplashContract.
         Toast.makeText(this,R.string.token_auth_failed,Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void onTokenInvalid() {
+
+        Toast.makeText(this,"登录状态失效，请重新登录",Toast.LENGTH_SHORT).show();
+    }
 }

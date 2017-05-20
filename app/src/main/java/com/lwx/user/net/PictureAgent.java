@@ -48,4 +48,6 @@ public interface PictureAgent {
      * @return
      */
     Completable markMutiTags(String token, String uuid, List<String> tags);
+
+    Observable<Image> getSpecificPic(String uuid);
 }
