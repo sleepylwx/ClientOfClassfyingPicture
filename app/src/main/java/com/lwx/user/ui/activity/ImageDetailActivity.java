@@ -85,6 +85,11 @@ public class ImageDetailActivity extends Activity implements ImageDetailContract
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter = null;
+    }
 
     private void init(){
 

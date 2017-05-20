@@ -65,6 +65,13 @@ public class SignUpActivity extends AppCompatActivity implements SignUpContract.
 
     }
 
+    @Override
+    protected void onDestroy(){
+
+        super.onDestroy();
+        presenter = null;
+    }
+
     private void init(){
 
         initToolbar();
@@ -157,6 +164,7 @@ public class SignUpActivity extends AppCompatActivity implements SignUpContract.
             }
         });
     }
+
 
     @Override
     public void onSignUpSucceed(String user) {
