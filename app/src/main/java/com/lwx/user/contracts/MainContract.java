@@ -36,6 +36,8 @@ public interface MainContract {
 
 
         void onLoadPicInDbError();
+
+        void onImageLoadedFailed();
     }
 
     public interface Presenter extends BaseContract.Presenter<MainContract.View>{

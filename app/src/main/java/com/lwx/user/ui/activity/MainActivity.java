@@ -131,21 +131,19 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
                 int id = item.getItemId();
 
-                if (id == R.id.nav_camera) {
+                if (id == R.id.nav_label) {
 
 
-                    // Handle the camera action
-                } else if (id == R.id.nav_gallery) {
 
-                } else if (id == R.id.nav_slideshow) {
+                }
+                else if(id == R.id.nav_image){
 
-                } else if (id == R.id.nav_manage) {
+                }
+                else if(id == R.id.nav_settting){
 
-                } else if (id == R.id.nav_share) {
 
-                } else if (id == R.id.nav_send) {
-
-                } else if(id == R.id.nav_exit){
+                }
+                else if(id == R.id.nav_exit){
 
                     Intent intent = new Intent(MainActivity.this,LoginActivity.class);
                     intent.putExtra(LoginActivity.MATCH_NUM,App.getInstance().getUid());
@@ -405,5 +403,11 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     public void onLoadPicInDbError() {
 
         Toast.makeText(this,"读取缓存图片失败，下拉刷新试试吧...",Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onImageLoadedFailed() {
+
+        canScroll = true;
     }
 }

@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_camera"
-            android:title="Import" />
-        <item
-            android:id="@+id/nav_gallery"
-            android:title="Gallery" />
-        <item
-            android:id="@+id/nav_slideshow"
-            android:title="Slideshow" />
-        <item
-            android:id="@+id/nav_manage"
-            android:title="Tools" />
-    </group>
+    <item  android:title="历史记录">
 
-    <item android:title="Communicate">
         <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:title="Share" />
-            <item
-                android:id="@+id/nav_send"
-                android:title="Send" />
 
             <item
-                android:id="@+id/nav_exit"
-                android:title="退出登录"/>
+                android:id="@+id/nav_label"
+                android:title="标记的标签" />
+
+            <item
+                android:id="@+id/nav_image"
+                android:title="标记的图片"/>
 
         </menu>
+
+
     </item>
+
+    <item android:title="改善应用">
+        <menu>
+            <item
+                android:id="@+id/nav_settting"
+                android:title="设置"
+                />
+        </menu>
+
+    </item>
+
+    <item
+        android:id="@+id/nav_exit"
+        android:title="退出登录"/>
 
 </menu>

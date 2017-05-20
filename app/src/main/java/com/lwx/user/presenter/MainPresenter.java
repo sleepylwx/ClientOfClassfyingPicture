@@ -185,6 +185,7 @@ public class MainPresenter implements MainContract.Presenter {
 
                         Log.d(TAG,"getMorePictures onError" + uid + " " + num);
                         e.printStackTrace();
+                        context.onImageLoadedFailed();
                     }
 
                     @Override
@@ -298,6 +299,7 @@ public class MainPresenter implements MainContract.Presenter {
                         e.printStackTrace();
                         context.nonShowSwipe();
                         context.onNetWorkError();
+
                     }
 
                     @Override
@@ -331,6 +333,7 @@ public class MainPresenter implements MainContract.Presenter {
                     public void onError(Throwable e) {
                         Log.d(TAG,"getMoreRandomPicturesByNetWork onError");
                         //
+                        context.onImageLoadedFailed();
                     }
 
                     @Override
