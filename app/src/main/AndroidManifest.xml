@@ -45,6 +45,14 @@
             android:label="@string/add_label_dialog_title"
             android:theme="@style/AppDialogTheme">
         </activity>
+        <activity android:name=".ui.activity.UserDetailActivity">
+        </activity>
+        <activity android:name=".ui.activity.SettingActivity">
+        </activity>
+        <activity android:name=".ui.activity.HistoryLabelActivity">
+        </activity>
+        <activity android:name=".ui.activity.HistoryImageActivity">
+        </activity>
     </application>
 
 </manifest>

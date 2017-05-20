@@ -5,13 +5,13 @@ import android.os.Bundle;
 
 import com.lwx.user.R;
 
-public class UserDetailActivity extends AppCompatActivity {
+public class HistoryImageActivity extends AppCompatActivity {
 
 
     public static final String USERID = "1";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_detail);
+        setContentView(R.layout.activity_history_image);
     }
 }

@@ -14,16 +14,16 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.j256.ormlite.stmt.query.In;
 import com.lwx.user.App;
 import com.lwx.user.R;
 import com.lwx.user.adapter.RecyclerViewAdapter;
 import com.lwx.user.contracts.MainContract;
-import com.lwx.user.db.ImageRepo;
 import com.lwx.user.db.model.Image;
 import com.lwx.user.db.model.User;
 import com.lwx.user.presenter.MainPresenter;
@@ -135,13 +135,22 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 if (id == R.id.nav_label) {
 
 
+                    Intent intent = new Intent(MainActivity.this,HistoryLabelActivity.class);
+                    intent.putExtra(HistoryLabelActivity.USERID,App.getInstance().getUid());
+                    startActivity(intent);
 
                 }
                 else if(id == R.id.nav_image){
 
+                    Intent intent = new Intent(MainActivity.this,HistoryImageActivity.class);
+                    intent.putExtra(HistoryImageActivity.USERID,App.getInstance().getUid());
+                    startActivity(intent);
                 }
                 else if(id == R.id.nav_settting){
 
+
+                    Intent intent = new Intent(MainActivity.this,SettingActivity.class);
+                    startActivity(intent);
 
                 }
                 else if(id == R.id.nav_exit){
@@ -252,6 +261,16 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         //curUser = user;
         CircleImageView header = (CircleImageView)((ViewGroup)navigationView.getHeaderView(0)).getChildAt(0);
         TextView userName = (TextView)((ViewGroup)navigationView.getHeaderView(0)).getChildAt(1);
+        LinearLayout linearLayout = (LinearLayout)navigationView.getHeaderView(0);
+        linearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(MainActivity.this,UserDetailActivity.class);
+                intent.putExtra(UserDetailActivity.USERID,App.getInstance().getUid());
+                startActivity(intent);
+            }
+        });
         imageLoader.loadImage(this,user.headPath,header);
         userName.setText(user.nickName);
 
