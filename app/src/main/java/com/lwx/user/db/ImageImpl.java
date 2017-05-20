@@ -236,7 +236,14 @@ public class ImageImpl implements ImageRepo {
             @Override
             public void subscribe(@NonNull CompletableEmitter e) throws Exception {
                 image.uid = uid;
-                imageDAO.createOrUpdate(image);
+                try{
+
+                    imageDAO.createOrUpdate(image);
+                }
+                catch (Exception ex){
+
+                    XLog.v(ex.getMessage());
+                }
 
                 e.onComplete();
             }

@@ -106,7 +106,7 @@ public class ImageDetailPresenter implements ImageDetailContract.Presenter{
                                     public void onError(Throwable e) {
 
                                         Log.d(TAG,"getPicture by net error!");
-                                        context.onNetWorkError();
+
                                     }
 
                                     @Override

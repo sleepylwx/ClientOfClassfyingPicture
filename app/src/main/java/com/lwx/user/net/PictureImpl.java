@@ -22,6 +22,7 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.ObservableSource;
+import io.reactivex.Observer;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Function;
 import retrofit2.Response;
@@ -218,5 +219,18 @@ public class PictureImpl implements PictureAgent {
                         return Observable.just(images);
                     }
                 });
+    }
+
+    @Override
+    public Observable<Image> getSpecificPic(String uuid) {
+
+
+        return new Observable<Image>() {
+            @Override
+            protected void subscribeActual(Observer<? super Image> observer) {
+
+                observer.onNext(new Image(-1L,uuid,App.BASE_URL + "getpic.action?uuid=" + uuid));
+            }
+        };
     }
 }
