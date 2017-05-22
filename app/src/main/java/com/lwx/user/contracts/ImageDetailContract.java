@@ -30,7 +30,7 @@ public interface ImageDetailContract {
          * @param labels
          * 提交用户打好的标签
          */
-        void postSelectedLabels(String token,String uuid,List<String> labels);
+        void postSelectedLabels(String token,String uuid,long uid,List<String> labels);
 
         /**
          *

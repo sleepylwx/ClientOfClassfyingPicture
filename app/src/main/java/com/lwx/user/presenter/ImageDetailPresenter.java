@@ -244,7 +244,7 @@ public class ImageDetailPresenter implements ImageDetailContract.Presenter{
     }
 
     @Override
-    public void postSelectedLabels(String token,String uuid,List<String> labels) {
+    public void postSelectedLabels(String token,String uuid,long uid,List<String> labels) {
 
         pictureAgent.markMutiTags(token,uuid,labels)
                 .subscribeOn(Schedulers.io())
@@ -260,6 +260,27 @@ public class ImageDetailPresenter implements ImageDetailContract.Presenter{
 
                         Log.d(TAG,"postLables succeed!");
                         context.onLabelsPostSucceed();
+                        imageRepo.saveLabeledImage(uuid,uid,labels)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new CompletableObserver() {
+                                    @Override
+                                    public void onSubscribe(@NonNull Disposable d) {
+
+                                    }
+
+                                    @Override
+                                    public void onComplete() {
+
+                                        Log.d(TAG,"saveLabeledImage success!");
+                                    }
+
+                                    @Override
+                                    public void onError(@NonNull Throwable e) {
+
+                                        Log.d(TAG,"saveLabeledImage error!");
+                                    }
+                                });
                     }
 
                     @Override

@@ -53,7 +53,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(ViewHolder holder,int position){
 
 
-        MainContract.View main = (MainContract.View)context;
+        //MainContract.View main = (MainContract.View)context;
         //RecyclerView recyclerView = main.getRecyclerView();
 //        getRecyclerViewif(!recyclerView.canScrollVertically(1)){
 //

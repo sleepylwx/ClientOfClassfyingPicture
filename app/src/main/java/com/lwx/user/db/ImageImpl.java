@@ -24,6 +24,21 @@ import io.reactivex.annotations.NonNull;
  */
 public class ImageImpl implements ImageRepo {
     @Override
+    public Completable saveLabeledImage(String uuid, long uid, List<String> labels) {
+        return null;
+    }
+
+    @Override
+    public Observable<List<Image>> getAllLabeledImage(long uid) {
+        return null;
+    }
+
+    @Override
+    public Observable<List<String>> getLabeledImageLabels(String uuid, long uid) {
+        return null;
+    }
+
+    @Override
     public Completable deleteImage(long uid, String uuid) {
         return Completable.create(new CompletableOnSubscribe() {
             @Override

@@ -7,4 +7,7 @@
     android:layout_height="match_parent"
     tools:context="com.lwx.user.ui.activity.HistoryImageActivity">
 
+    <include layout="@layout/app_bar_main1"/>
+
+
 </android.support.constraint.ConstraintLayout>

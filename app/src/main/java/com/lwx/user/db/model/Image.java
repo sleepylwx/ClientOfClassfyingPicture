@@ -34,10 +34,15 @@ public class Image {
     @DatabaseField(columnName = UID_FIELD, uniqueCombo = true)
     public Long uid;
 
+    @DatabaseField(columnName = "isLabeled")
+    public boolean isLabled;
+
     public Image(Long uid, String uuid, String imagePath) {
         this.uuid = uuid;
         this.imagePath = imagePath;
         this.uid = uid;
+        isLabled = false;
+
     }
 
     public Image(){

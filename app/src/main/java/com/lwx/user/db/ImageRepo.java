@@ -59,4 +59,13 @@ public interface ImageRepo {
     Completable deleteImage(long uid,String uuid);
 
     Completable deleteAllImages(long uid);
+
+
+
+    Completable saveLabeledImage(String uuid,long uid,List<String> labels);
+
+    Observable<List<Image>> getAllLabeledImage(long uid);
+
+    Observable<List<String>> getLabeledImageLabels(String uuid,long uid);
+
 }
