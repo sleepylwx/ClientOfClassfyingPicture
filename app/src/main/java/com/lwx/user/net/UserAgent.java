@@ -30,4 +30,6 @@ public interface UserAgent {
     Completable markPicTag(String token, String uuid, String tagName);
 
     Completable uploadHeadPic(String token, String absolutePath);
+
+    Observable<String>getHeaderPath(long uid);
 }

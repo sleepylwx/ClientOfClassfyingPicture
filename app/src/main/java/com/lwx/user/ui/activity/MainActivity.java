@@ -259,6 +259,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     public void onUserLoadedSucceed(User user) {
 
+
         //curUser = user;
         CircleImageView header = (CircleImageView)((ViewGroup)navigationView.getHeaderView(0)).getChildAt(0);
         TextView userName = (TextView)((ViewGroup)navigationView.getHeaderView(0)).getChildAt(1);
@@ -272,6 +273,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 startActivity(intent);
             }
         });
+
+        Log.d(TAG,"userloadsuccess! " + user.headPath);
         imageLoader.loadImage(this,user.headPath,header);
         userName.setText(user.nickName);
 
@@ -367,9 +370,11 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     }
 
+    private int position;
     @Override
-    public void jumpToImageDetailActivity(String uuid) {
+    public void jumpToImageDetailActivity(String uuid,int position) {
 
+        this.position = position;
         Intent intent = new Intent(this, ImageDetailActivity.class);
         intent.putExtra(ImageDetailActivity.IMAGEUUID,uuid);
         startActivity(intent);

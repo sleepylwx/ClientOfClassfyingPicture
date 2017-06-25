@@ -6,5 +6,5 @@ package com.lwx.user.contracts;
 
 public interface CommonContract {
 
-    void jumpToImageDetailActivity(String uuid);
+    void jumpToImageDetailActivity(String uuid,int position);
 }

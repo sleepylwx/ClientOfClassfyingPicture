@@ -266,4 +266,15 @@ public class UserAgentImpl implements UserAgent{
         });
     }
 
+    @Override
+    public Observable<String> getHeaderPath(long uid) {
+
+        return Observable.create(new ObservableOnSubscribe<String>() {
+            @Override
+            public void subscribe(@NonNull ObservableEmitter<String> e) throws Exception {
+
+                e.onNext(App.BASE_URL + "headpic/" + uid);
+            }
+        });
+    }
 }

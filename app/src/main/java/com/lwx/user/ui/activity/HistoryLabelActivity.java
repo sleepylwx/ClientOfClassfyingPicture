@@ -112,9 +112,12 @@ public class HistoryLabelActivity extends AppCompatActivity implements HistoryLa
                     ss = labels.get(i);
                 }
 
+
                 Intent intent = new Intent(HistoryLabelActivity.this,HistoryImageActivity.class);
                 intent.putExtra(HistoryImageActivity.TITLE,ss);
                 startActivity(intent);
+
+                flowLayout.getAdapter().setSelectedList();
             }
         });
 

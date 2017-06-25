@@ -147,7 +147,7 @@ public class HistoryImageActivity extends AppCompatActivity implements HistoryIm
     }
 
     @Override
-    public void jumpToImageDetailActivity(String uuid) {
+    public void jumpToImageDetailActivity(String uuid,int position) {
 
         Intent intent = new Intent(this, ImageDetailActivity.class);
         intent.putExtra(ImageDetailActivity.IMAGEUUID,uuid);

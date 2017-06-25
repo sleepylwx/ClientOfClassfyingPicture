@@ -217,8 +217,12 @@ public class ImageDetailActivity extends Activity implements ImageDetailContract
 
         Toast.makeText(this,R.string.post_label_button,Toast.LENGTH_SHORT).show();
 
+
+
         presenter.changeUnSignedImageToSigned(App.getInstance().getUid(),uuid);
         presenter.saveSelectedLabelsByImage(App.getInstance().getUid(),curImage,labels);
+
+
 
         finish();
     }

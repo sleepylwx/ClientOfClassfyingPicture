@@ -55,8 +55,68 @@ public class MainPresenter implements MainContract.Presenter {
         return context;
     }
 
+    private String nickName;
+    private String headerPath;
     @Override
     public void getUser(long uid) {
+
+
+
+        userAgent.getNickName(uid)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+
+                        Log.d(TAG,"getNickName success!");
+                        nickName = s;
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                        Log.d(TAG,"getNickName failed");
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+
+        userAgent.getHeaderPath(uid)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+
+                        headerPath = s;
+                        Log.d(TAG,"getHeaderPath success!");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                        Log.d(TAG,"getHeaderPath failed");
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
 
         userRepo.getUser(uid)
                 .subscribeOn(Schedulers.io())
@@ -71,6 +131,14 @@ public class MainPresenter implements MainContract.Presenter {
                     @Override
                     public void onNext(User user) {
 
+                        if(nickName != null){
+
+                            user.nickName = nickName;
+                        }
+                        if(headerPath != null){
+
+                            user.headPath = headerPath;
+                        }
                         context.onUserLoadedSucceed(user);
                     }
 
