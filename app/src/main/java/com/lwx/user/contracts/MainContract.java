@@ -13,7 +13,7 @@ import java.util.List;
 
 public interface MainContract {
 
-    public interface View extends BaseContract.View<MainContract.Presenter>{
+    public interface View extends BaseContract.View<MainContract.Presenter>,CommonContract{
 
 
         void onUserLoadedSucceed(User user);
@@ -27,7 +27,7 @@ public interface MainContract {
         //adapter
 
         void startGetMorePicByNetWork();
-        void jumpToImageDetailActivity(String uuid);
+
         //view
 
         void showWaitingNetWork();

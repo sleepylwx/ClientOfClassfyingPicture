@@ -10,6 +10,7 @@ import android.widget.ImageView;
 
 import com.lwx.user.App;
 import com.lwx.user.R;
+import com.lwx.user.contracts.CommonContract;
 import com.lwx.user.contracts.MainContract;
 import com.lwx.user.db.model.Image;
 import com.lwx.user.utils.ImageLoader;
@@ -68,7 +69,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             @Override
             public void onClick(View v) {
 
-                ((MainContract.View)context).jumpToImageDetailActivity(image.uuid);
+                ((CommonContract)context).jumpToImageDetailActivity(image.uuid);
             }
         });
 

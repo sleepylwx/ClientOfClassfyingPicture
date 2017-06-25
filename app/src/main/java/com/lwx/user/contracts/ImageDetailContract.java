@@ -1,6 +1,7 @@
 package com.lwx.user.contracts;
 
 import com.lwx.user.db.model.Image;
+import com.lwx.user.db.model.Label;
 
 import java.util.List;
 
@@ -13,17 +14,18 @@ public interface ImageDetailContract {
     public interface View extends BaseContract.View<ImageDetailContract.Presenter>{
 
 
-        void onImageLoadSucceed(String path);
+        void onImageLoadSucceed(Image image);
         void onLabelsLoadSucceed(List<String> labels);
-        void onLabelsPostSucceed();
+        void onLabelsPostSucceed(List<String> labels);
         void onImageLabelAddedSucceed(String label);
+        void onSignedLabelsLoadSucceed(List<Label> labels);
     }
 
     public interface Presenter extends BaseContract.Presenter<ImageDetailContract.View>{
 
 
         void getImage(long uid,String uuid);
-        void getLabels(long uid,String uuid);
+        void getLabels(long uid,String uuid,boolean isLabeled);
 
         /**
          *
@@ -38,6 +40,12 @@ public interface ImageDetailContract {
          * 将用户自定义的label添加到本地数据库
          */
         void saveImageLabel(String label,String uuid);
+
+        void getSignedLabels(long uid,String uuid);
+
+        void changeUnSignedImageToSigned(long uid,String uuid);
+
+        void saveSelectedLabelsByImage(long uid,Image image,List<String> labels);
 
     }
 

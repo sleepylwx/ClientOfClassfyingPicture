@@ -120,7 +120,7 @@ public class MainPresenter implements MainContract.Presenter {
                         }
 
                         Log.d(TAG,"getPictures by network error!");
-                        imageRepo.getAllPictures(uid)
+                        imageRepo.getAllImages(uid,false)
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(new Observer<List<Image>>() {
@@ -368,7 +368,7 @@ public class MainPresenter implements MainContract.Presenter {
 
     private void addImageInDb(long uid,List<Image> images,String funcName){
 
-        imageRepo.saveImages(uid,images)
+        imageRepo.saveImages(uid,images,false)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new CompletableObserver() {
@@ -393,7 +393,7 @@ public class MainPresenter implements MainContract.Presenter {
     }
     private void deleteAndSaveImageInDb(long uid,List<Image> images,String funcName){
 
-        imageRepo.deleteAllImages(uid)
+        imageRepo.deleteAllImages(uid,false)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new CompletableObserver() {
@@ -406,7 +406,7 @@ public class MainPresenter implements MainContract.Presenter {
                     public void onComplete() {
 
                         Log.d(TAG,funcName + " delete db success!");
-                        imageRepo.saveImages(uid,images)
+                        imageRepo.saveImages(uid,images,false)
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(new CompletableObserver() {

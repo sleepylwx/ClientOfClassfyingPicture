@@ -136,14 +136,14 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
 
                     Intent intent = new Intent(MainActivity.this,HistoryLabelActivity.class);
-                    intent.putExtra(HistoryLabelActivity.USERID,App.getInstance().getUid());
+                    //intent.putExtra(HistoryLabelActivity.USERID,App.getInstance().getUid());
                     startActivity(intent);
 
                 }
                 else if(id == R.id.nav_image){
 
                     Intent intent = new Intent(MainActivity.this,HistoryImageActivity.class);
-                    intent.putExtra(HistoryImageActivity.USERID,App.getInstance().getUid());
+                    //intent.putExtra(HistoryImageActivity.USERID,App.getInstance().getUid());
                     startActivity(intent);
                 }
                 else if(id == R.id.nav_settting){
@@ -170,6 +170,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             }
         });
     }
+
     private void init(){
 
 

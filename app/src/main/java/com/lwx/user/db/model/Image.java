@@ -15,14 +15,15 @@ import java.util.List;
  * Created by 36249 on 2017/4/13.
  */
 
-@DatabaseTable(tableName = Image.IMAGE_TABLE_NAME)
+@DatabaseTable(tableName = "image")
 public class Image {
 
-    public static final String IMAGE_TABLE_NAME = "image";
+    public static final String ID_FIELD = "id";
     public static final String UID_FIELD = "uid";
     public static final String UUID_FIELD = "uuid";
+    public static final String ISLABLED_FIELD = "isLabeled";
 
-    @DatabaseField(columnName = "id", generatedId = true)
+    @DatabaseField(columnName = ID_FIELD, generatedId = true)
     public Long id;
 
     @DatabaseField(columnName = UUID_FIELD, uniqueCombo = true)
@@ -34,14 +35,22 @@ public class Image {
     @DatabaseField(columnName = UID_FIELD, uniqueCombo = true)
     public Long uid;
 
-    @DatabaseField(columnName = "isLabeled")
-    public boolean isLabled;
+    @DatabaseField(columnName =ISLABLED_FIELD,uniqueCombo = true)
+    public boolean isLabeled;
 
     public Image(Long uid, String uuid, String imagePath) {
+
         this.uuid = uuid;
         this.imagePath = imagePath;
         this.uid = uid;
-        isLabled = false;
+        this.isLabeled = false;
+    }
+
+    public Image(Long uid, String uuid, String imagePath,boolean isLabled) {
+        this.uuid = uuid;
+        this.imagePath = imagePath;
+        this.uid = uid;
+        this.isLabeled = isLabled;
 
     }
 

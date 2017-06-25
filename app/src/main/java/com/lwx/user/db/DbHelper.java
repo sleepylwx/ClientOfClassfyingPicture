@@ -2,10 +2,7 @@ package com.lwx.user.db;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.provider.ContactsContract;
-import android.support.design.widget.TabLayout;
 
-import com.bumptech.glide.load.resource.bitmap.ImageHeaderParser;
 import com.elvishew.xlog.XLog;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.support.ConnectionSource;
@@ -15,6 +12,7 @@ import com.lwx.user.db.model.Image;
 import com.lwx.user.db.model.ImageLabel;
 import com.lwx.user.db.model.Label;
 import com.lwx.user.db.model.User;
+
 
 /**
  * Created by henry on 17-2-16.
@@ -35,6 +33,7 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable(connectionSource, Image.class);
             TableUtils.createTable(connectionSource, ImageLabel.class);
             TableUtils.createTable(connectionSource, Label.class);
+
             XLog.v("数据库：创建数据表成功!");
         } catch (Exception e){
             XLog.e("数据库： 创建表时失败！" , e);

@@ -19,6 +19,8 @@ import com.github.chrisbanes.photoview.PhotoView;
 import com.lwx.user.App;
 import com.lwx.user.R;
 import com.lwx.user.contracts.ImageDetailContract;
+import com.lwx.user.db.model.Image;
+import com.lwx.user.db.model.Label;
 import com.lwx.user.presenter.ImageDetailPresenter;
 import com.lwx.user.utils.ImageLoader;
 import com.zhy.view.flowlayout.FlowLayout;
@@ -26,6 +28,7 @@ import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -36,6 +39,7 @@ import butterknife.OnClick;
 public class ImageDetailActivity extends Activity implements ImageDetailContract.View{
 
     public static final String IMAGEUUID = "IMAGEUUID";
+    public static final String ISLABELED = "ISLABELED";
 
     public static final int REQUESTCODE = 1;
     @BindView(R.id.photoview)PhotoView photoView;
@@ -67,18 +71,25 @@ public class ImageDetailActivity extends Activity implements ImageDetailContract
 
             selectedLabels.add(curLables.get(i));
         }
-        presenter.postSelectedLabels(App.getInstance().getToken(),uuid,selectedLabels);
+        presenter.postSelectedLabels(App.getInstance().getToken(),uuid,App.getInstance().getUid(),selectedLabels);
     }
     private String uuid;
     private ImageDetailContract.Presenter presenter;
     private ImageLoader imageLoader;
     private List<String> curLables;
+    private Image curImage;
+
+    private boolean isLabeled;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_detail);
         ButterKnife.bind(this);
-        presenter = new ImageDetailPresenter(this);
+        Intent intent = getIntent();
+        uuid = intent.getStringExtra(IMAGEUUID);
+        isLabeled = intent.getBooleanExtra(ISLABELED,false);
+
+        presenter = new ImageDetailPresenter(this,isLabeled);
         imageLoader = new ImageLoader();
         curLables = new ArrayList<>();
         init();
@@ -93,8 +104,10 @@ public class ImageDetailActivity extends Activity implements ImageDetailContract
 
     private void init(){
 
-        Intent intent = getIntent();
-        uuid = intent.getStringExtra(IMAGEUUID);
+
+
+
+
         initPhotoView(uuid);
         initLabels(uuid);
     }
@@ -106,7 +119,24 @@ public class ImageDetailActivity extends Activity implements ImageDetailContract
 
     private void initLabels(String uuid){
 
-        presenter.getLabels(App.getInstance().getUid(),uuid);
+        presenter.getLabels(App.getInstance().getUid(),uuid,isLabeled);
+    }
+
+    @Override
+    public void onSignedLabelsLoadSucceed(List<Label> labels) {
+
+        if(labels == null || labels.size() == 0){
+
+            return ;
+        }
+
+        Set<String> set = new HashSet<>();
+        for(int i = 0; i < labels.size(); ++i){
+
+            set.add(labels.get(i).label);
+        }
+        flowLayout.getAdapter().setSelectedList(set);
+
     }
 
     public static final String TAG = "ImageDetailActivity";
@@ -129,6 +159,11 @@ public class ImageDetailActivity extends Activity implements ImageDetailContract
             }
         });
 
+        if(isLabeled){
+
+
+            presenter.getSignedLabels(App.getInstance().getUid(),uuid);
+        }
 
     }
 
@@ -148,8 +183,9 @@ public class ImageDetailActivity extends Activity implements ImageDetailContract
 
 
     @Override
-    public void onImageLoadSucceed(String path) {
+    public void onImageLoadSucceed(Image image) {
 
+        String path = image.imagePath;
         imageLoader.loadImageWithListener(this, path, photoView, new RequestListener<String, GlideDrawable>() {
             @Override
             public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
@@ -171,13 +207,19 @@ public class ImageDetailActivity extends Activity implements ImageDetailContract
                 return false;
             }
         });
+
+        curImage = image;
     }
 
 
     @Override
-    public void onLabelsPostSucceed() {
+    public void onLabelsPostSucceed(List<String> labels) {
 
         Toast.makeText(this,R.string.post_label_button,Toast.LENGTH_SHORT).show();
+
+        presenter.changeUnSignedImageToSigned(App.getInstance().getUid(),uuid);
+        presenter.saveSelectedLabelsByImage(App.getInstance().getUid(),curImage,labels);
+
         finish();
     }
 
@@ -216,4 +258,6 @@ public class ImageDetailActivity extends Activity implements ImageDetailContract
                 break;
         }
     }
+
+
 }

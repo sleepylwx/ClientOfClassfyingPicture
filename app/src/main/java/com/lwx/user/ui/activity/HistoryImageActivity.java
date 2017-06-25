@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.lwx.user.App;
 import com.lwx.user.R;
 import com.lwx.user.adapter.RecyclerViewAdapter;
 import com.lwx.user.contracts.HistoryImageContract;
@@ -28,10 +29,13 @@ public class HistoryImageActivity extends AppCompatActivity implements HistoryIm
     @BindView(R.id.toolbar)Toolbar toolbar;
     @BindView(R.id.toolbar_textview)TextView textView;
     @BindView(R.id.recyclerview)RecyclerView recyclerView;
+    @BindView(R.id.textview_content_main1)TextView textView1;
 
-    public static final String USERID = "1";
+    public static final String TITLE = "2";
 
-    private long uid;
+
+    private String title;
+
 
     private RecyclerViewAdapter adapter;
     private List<Image> list;
@@ -39,7 +43,7 @@ public class HistoryImageActivity extends AppCompatActivity implements HistoryIm
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_history_image);
+        setContentView(R.layout.app_bar_main1);
         ButterKnife.bind(this);
 
         presenter = new HistoryImagePresenter(this);
@@ -72,16 +76,19 @@ public class HistoryImageActivity extends AppCompatActivity implements HistoryIm
     private void initState(){
 
         Intent intent = getIntent();
-        uid = intent.getLongExtra(USERID,-1);
-        if(uid == -1){
 
-            Toast.makeText(this,"登录状态有误",Toast.LENGTH_SHORT).show();
-            finish();
+
+        title = intent.getStringExtra(TITLE);
+        if(title == null){
+
+            title = "标记过的图片";
         }
+
 
     }
     private void initToolBar(){
 
+        toolbar.setTitle(title);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -91,8 +98,7 @@ public class HistoryImageActivity extends AppCompatActivity implements HistoryIm
                 finish();
             }
         });
-
-        textView.setText("标记的图片");
+        textView.setVisibility(View.GONE);
     }
 
     private void initRecyclerView(){
@@ -107,18 +113,25 @@ public class HistoryImageActivity extends AppCompatActivity implements HistoryIm
 
     private void initPicture(){
 
-        presenter.getLabeledImageInDb(uid);
+        presenter.getLabeledImagesInDb(App.getInstance().getUid(),title);
     }
 
     @Override
     public void onImageLoadedSucceed(List<Image> imageList) {
 
-
+        recyclerView.setVisibility(View.VISIBLE);
+        textView1.setVisibility(View.GONE);
         list.addAll(imageList);
 
         adapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void onImageLoadedFailed() {
+
+        recyclerView.setVisibility(View.GONE);
+        textView1.setVisibility(View.VISIBLE);
+    }
 
     @Override
     public HistoryImageContract.Presenter getPresenter() {
@@ -129,6 +142,15 @@ public class HistoryImageActivity extends AppCompatActivity implements HistoryIm
     @Override
     public void onNetWorkError() {
 
+        Toast.makeText(this,R.string.network_error,Toast.LENGTH_SHORT).show();
 
+    }
+
+    @Override
+    public void jumpToImageDetailActivity(String uuid) {
+
+        Intent intent = new Intent(this, ImageDetailActivity.class);
+        intent.putExtra(ImageDetailActivity.IMAGEUUID,uuid);
+        startActivity(intent);
     }
 }

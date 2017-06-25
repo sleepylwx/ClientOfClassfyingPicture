@@ -36,7 +36,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:textSize="20sp"
-                android:text="User"/>
+                android:text="User"
+                android:visibility="gone"/>
             </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>

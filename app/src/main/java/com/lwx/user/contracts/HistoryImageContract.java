@@ -8,11 +8,12 @@ import java.util.List;
  * Created by 36249 on 2017/5/22.
  */
 
-public class HistoryImageContract {
+public interface HistoryImageContract {
 
-    public interface View extends BaseContract.View<HistoryImageContract.Presenter>{
+    public interface View extends BaseContract.View<HistoryImageContract.Presenter>,CommonContract{
 
         void onImageLoadedSucceed(List<Image> imageList);
+        void onImageLoadedFailed();
 
     }
 
@@ -20,7 +21,7 @@ public class HistoryImageContract {
     public interface Presenter extends  BaseContract.Presenter<HistoryImageContract.View>{
 
 
-        void getLabeledImageInDb(long uid);
+        void getLabeledImagesInDb(long uid,String title);
 
     }
 }
