@@ -28,23 +28,57 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <TextView
+        android:layout_marginLeft="10dp"
+        android:id="@+id/textview_qa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textColor="#404040"
+        android:text="问题反馈"
+        android:layout_below="@id/appbarlayout"
+        />
+
+    <!--<EditText-->
+        <!--android:layout_below="@id/appbarlayout"-->
+        <!--android:id="@+id/feedbackedit"-->
+        <!--android:layout_margin="30dp"-->
+        <!--android:layout_width="400dp"-->
+        <!--android:layout_height="200dp"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--/>-->
 
     <EditText
-        android:layout_below="@id/appbarlayout"
         android:id="@+id/feedbackedit"
-        android:layout_margin="30dp"
-        android:layout_width="400dp"
-        android:layout_height="200dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textCursorDrawable="@null"
+        android:background="#e7e7ea"
+        android:ellipsize="end"
+        android:hint="在这里输入反馈"
+        android:paddingLeft="4dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:gravity="start"
+        android:layout_below="@id/textview_qa"
         android:layout_centerHorizontal="true"
-        />
+        android:paddingRight="4dp"
+        android:textColorHint="#808080"
+        android:lines="8"
+        android:layout_marginTop="10dp"
+        android:textSize="16sp"/>
 
     <Button
         android:id="@+id/feedbackbutton"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:paddingLeft="70dp"
+        android:paddingRight="70dp"
         android:layout_below="@id/feedbackedit"
         android:layout_centerHorizontal="true"
-        android:text="提交"/>
+        android:text="提交反馈"
+        android:textColor="#ffffff"
+        android:background="@drawable/feedback_button"/>
 
 </RelativeLayout>

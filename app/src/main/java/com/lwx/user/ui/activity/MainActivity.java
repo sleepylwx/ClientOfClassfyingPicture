@@ -143,7 +143,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
                 int id = item.getItemId();
 
-                if (id == R.id.nav_label) {
+                if(id == R.id.nav_dailytask){
+
+                    Intent intent = new Intent(MainActivity.this,DailyTaskActivity.class);
+                    startActivity(intent);
+                }
+                else if (id == R.id.nav_label) {
 
 
                     Intent intent = new Intent(MainActivity.this, HistoryLabelActivity.class);
