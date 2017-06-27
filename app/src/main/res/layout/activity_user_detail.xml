@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,4 +7,171 @@
     android:layout_height="match_parent"
     tools:context="com.lwx.user.ui.activity.UserDetailActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbarlayout"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:layout_scrollFlags="scroll|enterAlways|snap"
+            >
+
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:layout_below="@id/appbarlayout">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/header"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:src="@mipmap/ic_launcher"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+
+                app:civ_border_width="1dp"
+                app:civ_border_color="#BFBFBF"
+                android:layout_marginBottom="20dp"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/user"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+
+                    android:text="用户号"
+                    android:textSize="20sp"
+                    />
+
+                <TextView
+                    android:id="@+id/user1"
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/user"
+                    android:layout_alignTop="@id/user"
+                    android:text=" "
+                    android:textSize="20dp"
+                    android:textColor="#000000"
+                    />
+
+
+                <TextView
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/nickname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/user1"
+                    android:layout_marginLeft="10dp"
+                    android:text="昵称"
+                    android:textSize="20sp"/>
+
+
+                <EditText
+
+                    android:id="@+id/nickname1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@id/user1"
+
+                    android:maxLength="10"
+                    android:layout_below="@id/user1"
+                    android:text=" "
+                    android:textSize="20dp"
+                    />
+
+                <TextView
+                    android:id="@+id/num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_below="@+id/nickname1"
+                    android:textSize="20sp"
+                    android:text="积分"/>
+
+                <TextView
+                    android:id="@+id/num1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@id/nickname1"
+                    android:layout_below="@id/nickname1"
+                    android:layout_alignTop="@id/num"
+                    android:textSize="20sp"
+                    android:textColor="#000000"
+                    android:text=""/>
+
+            </RelativeLayout>
+
+
+
+
+            <View
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#33000000"/>
+
+            <TextView
+                android:layout_marginTop="10dp"
+                android:id="@+id/favorite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="喜好"
+                android:textSize="30sp"/>
+
+            <EditText
+                android:id="@+id/favorite1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:maxLength="10"
+                android:textSize="20sp"
+                android:hint="喜好1"/>
+            <EditText
+                android:id="@+id/favorite2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="5dp"
+                android:maxLength="10"
+                android:textSize="20sp"
+                android:hint="喜好2"/>
+            <EditText
+                android:id="@+id/favorite3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="5dp"
+                android:maxLength="10"
+                android:textSize="20sp"
+                android:hint="喜好3"/>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

@@ -146,11 +146,38 @@ public class HistoryImageActivity extends AppCompatActivity implements HistoryIm
 
     }
 
+    private int position;
     @Override
     public void jumpToImageDetailActivity(String uuid,int position) {
 
+        this.position = position;
         Intent intent = new Intent(this, ImageDetailActivity.class);
         intent.putExtra(ImageDetailActivity.IMAGEUUID,uuid);
-        startActivity(intent);
+        intent.putExtra(ImageDetailActivity.ISLABELED,true);
+        intent.putExtra(ImageDetailActivity.TITLE,title);
+        startActivityForResult(intent,REQUESTCODE);
+    }
+
+    public static final int RESULTCODE = 1;
+    public static final int REQUESTCODE = 2;
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (resultCode){
+
+            case RESULTCODE:
+                list.remove(position);
+                adapter.notifyItemRemoved(position);
+                adapter.notifyItemRangeChanged(position,list.size()-position);
+                if(list.size() == 0){
+
+                    finish();
+                    break;
+                }
+
+                break;
+        }
+
     }
 }

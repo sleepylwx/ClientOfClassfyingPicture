@@ -45,4 +45,14 @@ public interface UserService {
     @POST("/uploadheadpic.action")
     Call<ResponseBody> uploadHeadPic(@Part("token") RequestBody token,
                                      @Part MultipartBody.Part file);
+
+    @POST("/gsuserdata.action")
+    @FormUrlEncoded
+    Call<String> getUserInfo(@Field("token") String token,@Field("uid") long uid);
+
+    @POST("/gsuserdata.action")
+    @FormUrlEncoded
+    Call<String> updateUserInfo(@Field("token") String token,@Field("uid") long uid,@Field("newuserdata") String newData);
+
+
 }

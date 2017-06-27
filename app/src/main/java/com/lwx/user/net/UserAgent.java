@@ -32,4 +32,11 @@ public interface UserAgent {
     Completable uploadHeadPic(String token, String absolutePath);
 
     Observable<String>getHeaderPath(long uid);
+
+    Observable<User> getUserAllMessage(long uid,String token);
+
+    Completable uploadUserMessage(User user);
+
+
+    Completable postFeedBack(String token,String content);
 }

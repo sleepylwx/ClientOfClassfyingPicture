@@ -431,8 +431,17 @@ public class ImageImpl implements ImageRepo {
 
                 for(int i = 0 ; i < list.size() ;++i){
 
-                    labelDAO.delete(list.get(i).label);
+                    Label label = labelDAO.queryForSameId(list.get(i).label);
+
+                    --label.counter;
+                    if(label.counter <= 0){
+
+                        labelDAO.delete(list.get(i).label);
+
+                    }
+
                     imageLabelDAO.delete(list.get(i));
+
                 }
 
 
@@ -508,9 +517,16 @@ public class ImageImpl implements ImageRepo {
                             .eq(ImageLabel.IMAGE_FIELD,list.get(i))
                             .query();
 
-                    for(int j = 0 ; i < imageLabelList.size() ; ++j){
+                    for(int j = 0 ; j < imageLabelList.size() ; ++j){
 
-                        labelDAO.delete(imageLabelList.get(i).label);
+                        Label label = labelDAO.queryForSameId(imageLabelList.get(i).label);
+
+                        --label.counter;
+                        if(label.counter <= 0){
+
+                            labelDAO.delete(imageLabelList.get(i).label);
+                        }
+
                         imageLabelDAO.delete(imageLabelList.get(j));
 
                     }

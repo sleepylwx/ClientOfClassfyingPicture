@@ -39,6 +39,7 @@
             android:layout_weight="4"
             android:layout_height="match_parent"
             android:hint="登录邮箱"
+            android:maxLength="20"
             />
 
         <TextView
@@ -66,6 +67,7 @@
             android:layout_weight="4"
             android:layout_height="match_parent"
             android:hint="密码"
+            android:maxLength="20"
             android:inputType="textPassword"
             />
 
@@ -94,6 +96,7 @@
             android:layout_weight="4"
             android:layout_height="match_parent"
             android:hint="重复密码"
+            android:maxLength="20"
             android:inputType="textPassword"
             />
 

@@ -157,6 +157,32 @@ public class MainPresenter implements MainContract.Presenter {
 
 
     @Override
+    public void saveUser(User user) {
+
+        userRepo.saveUser(user)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new CompletableObserver() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                        Log.d(TAG,"saveUser success!");
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+
+                        Log.d(TAG,"saveUser error");
+                    }
+                });
+    }
+
+    @Override
     public void getPictures(long uid,String token,int num) {
 
         pictureAgent.getPicByToken(token,num)

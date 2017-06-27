@@ -35,6 +35,10 @@ public class SignUpActivity extends AppCompatActivity implements SignUpContract.
     @OnClick(R.id.submit)
     public void onClick(){
 
+        if(!(userNameOK && passwordOK)){
+
+            return;
+        }
         String user = userEdit.getText().toString();
         String passwd = passwdEdit.getText().toString();
         String passwdTwo = passwdTwoEdit.getText().toString();
@@ -89,6 +93,8 @@ public class SignUpActivity extends AppCompatActivity implements SignUpContract.
 
     }
 
+    private boolean userNameOK;
+    private boolean passwordOK;
     private void initEditTexts(){
 
 
@@ -110,8 +116,10 @@ public class SignUpActivity extends AppCompatActivity implements SignUpContract.
                 if(!str.contains("@") || str.startsWith("@")){
 
                     userCheck.setText(R.string.user_format_error);
+                    userNameOK = false;
                 }
                 else{
+                    userNameOK = true;
                     userCheck.setText(R.string.user_format_right);
                 }
 
@@ -156,9 +164,11 @@ public class SignUpActivity extends AppCompatActivity implements SignUpContract.
                 if(passwd.equals(passwdRepeat)){
 
                     passwdTwoCheck.setText(R.string.passwd_repeat_right);
+                    passwordOK = true;
                 }
                 else{
 
+                    passwordOK = false;
                     passwdTwoCheck.setText(R.string.passwd_repeat_error);
                 }
             }

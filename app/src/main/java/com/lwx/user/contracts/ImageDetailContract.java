@@ -11,14 +11,16 @@ import java.util.List;
 
 public interface ImageDetailContract {
 
-    public interface View extends BaseContract.View<ImageDetailContract.Presenter>{
+    public interface View extends BaseContract.View<ImageDetailContract.Presenter>,CheckTokenContract{
 
 
         void onImageLoadSucceed(Image image);
         void onLabelsLoadSucceed(List<String> labels);
         void onLabelsPostSucceed(List<String> labels);
         void onImageLabelAddedSucceed(String label);
-        void onSignedLabelsLoadSucceed(List<Label> labels);
+        //void onSignedLabelsLoadSucceed(List<Label> labels);
+        void onChangeUnSignedImageToSignedSuccess();
+
     }
 
     public interface Presenter extends BaseContract.Presenter<ImageDetailContract.View>{
@@ -41,9 +43,9 @@ public interface ImageDetailContract {
          */
         void saveImageLabel(String label,String uuid);
 
-        void getSignedLabels(long uid,String uuid);
+        //void getSignedLabels(long uid,String uuid);
 
-        void changeUnSignedImageToSigned(long uid,String uuid);
+        void changeUnSignedImageToSigned(long uid,String uuid,boolean oddLabeledState,boolean isLabeled);
 
         void saveSelectedLabelsByImage(long uid,Image image,List<String> labels);
 

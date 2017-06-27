@@ -40,6 +40,7 @@ public class ImageDetailActivity extends Activity implements ImageDetailContract
 
     public static final String IMAGEUUID = "IMAGEUUID";
     public static final String ISLABELED = "ISLABELED";
+    public static final String TITLE = "TITLE";
 
     public static final int REQUESTCODE = 1;
     @BindView(R.id.photoview)PhotoView photoView;
@@ -78,6 +79,7 @@ public class ImageDetailActivity extends Activity implements ImageDetailContract
     private ImageLoader imageLoader;
     private List<String> curLables;
     private Image curImage;
+    private String title;
 
     private boolean isLabeled;
     @Override
@@ -88,6 +90,7 @@ public class ImageDetailActivity extends Activity implements ImageDetailContract
         Intent intent = getIntent();
         uuid = intent.getStringExtra(IMAGEUUID);
         isLabeled = intent.getBooleanExtra(ISLABELED,false);
+        title = intent.getStringExtra(TITLE);
 
         presenter = new ImageDetailPresenter(this,isLabeled);
         imageLoader = new ImageLoader();
@@ -122,22 +125,35 @@ public class ImageDetailActivity extends Activity implements ImageDetailContract
         presenter.getLabels(App.getInstance().getUid(),uuid,isLabeled);
     }
 
-    @Override
-    public void onSignedLabelsLoadSucceed(List<Label> labels) {
-
-        if(labels == null || labels.size() == 0){
-
-            return ;
-        }
-
-        Set<String> set = new HashSet<>();
-        for(int i = 0; i < labels.size(); ++i){
-
-            set.add(labels.get(i).label);
-        }
-        flowLayout.getAdapter().setSelectedList(set);
-
-    }
+//    @Override
+//    public void onSignedLabelsLoadSucceed(List<Label> labels) {
+//
+//
+//        Log.d(TAG,"onSignedLabelsLoadSucceed");
+//
+//        if(labels == null || labels.size() == 0){
+//
+//            return ;
+//        }
+//
+//        Set<Integer> set = new HashSet<>();
+//
+//        for(int i = 0; i < labels.size() ; ++i){
+//
+//
+//            for(int j = 0; j < curLables.size() ; ++j){
+//
+//                if(labels.get(i).label.equals(curLables.get(j))){
+//
+//                    set.add(j);
+//                    break;
+//                }
+//
+//            }
+//        }
+//        flowLayout.getAdapter().setSelectedList(set);
+//
+//    }
 
     public static final String TAG = "ImageDetailActivity";
     @Override
@@ -148,6 +164,8 @@ public class ImageDetailActivity extends Activity implements ImageDetailContract
             Log.d(TAG,labels.get(i));
         }
         curLables = labels;
+
+
         flowLayout.setAdapter(new TagAdapter<String >(labels) {
             @Override
             public View getView(FlowLayout parent, int position, String o) {
@@ -159,11 +177,11 @@ public class ImageDetailActivity extends Activity implements ImageDetailContract
             }
         });
 
-        if(isLabeled){
-
-
-            presenter.getSignedLabels(App.getInstance().getUid(),uuid);
-        }
+//        if(isLabeled){
+//
+//
+//            presenter.getSignedLabels(App.getInstance().getUid(),uuid);
+//        }
 
     }
 
@@ -211,29 +229,102 @@ public class ImageDetailActivity extends Activity implements ImageDetailContract
         curImage = image;
     }
 
-
+    private List<String> postedLabels;
     @Override
     public void onLabelsPostSucceed(List<String> labels) {
 
         Toast.makeText(this,R.string.post_label_button,Toast.LENGTH_SHORT).show();
 
+        postedLabels = labels;
+
+        presenter.changeUnSignedImageToSigned(App.getInstance().getUid(),uuid,isLabeled,true);
 
 
-        presenter.changeUnSignedImageToSigned(App.getInstance().getUid(),uuid);
-        presenter.saveSelectedLabelsByImage(App.getInstance().getUid(),curImage,labels);
+        if(!isLabeled){
+
+            Log.d(TAG,"onLabelsPostSucceed unSigned");
+
+            Intent intent = new Intent();
+            setResult(MainActivity.RESULTCODE,intent);
+            finish();
+        }
+        else{
 
 
+            if(title == null || title.equals("")){
 
-        finish();
+                finish();
+                return;
+            }
+            if(title.equals("标记过的图片")){
+
+                finish();
+                return;
+            }
+
+            int flag = 0;
+            for(int i = 0; i < labels.size(); ++i){
+
+                if(labels.get(i).equals(title)){
+
+                    flag = 1;
+                    break;
+                }
+            }
+            if(flag == 0){
+
+                Intent intent = new Intent();
+                setResult(HistoryImageActivity.RESULTCODE,intent);
+                finish();
+            }
+            else{
+
+                finish();
+            }
+
+
+        }
+
+    }
+
+    @Override
+    public void onChangeUnSignedImageToSignedSuccess() {
+
+        for(int i = 0 ; i < postedLabels.size() ;++i){
+
+            Log.d(TAG,"postedLabels " + postedLabels.get(i));
+        }
+        presenter.saveSelectedLabelsByImage(App.getInstance().getUid(),curImage,postedLabels);
+
     }
 
     @Override
     public void onImageLabelAddedSucceed(String label) {
 
-        presenter.saveImageLabel(label,uuid);
+        if(!isLabeled){
+
+            presenter.saveImageLabel(label,uuid);
+        }
         onLabelsLoadSucceed(curLables);
     }
 
+    @Override
+    public void jumpToLoginActivityForTokenError() {
+
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.putExtra(LoginActivity.MATCH_NUM, App.getInstance().getUid());
+        intent.putExtra(LoginActivity.ISAUTHFAILED, true);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public void onTokenError() {
+
+        Toast.makeText(this, R.string.token_auth_failed, Toast.LENGTH_SHORT).show();
+
+    }
 
     public static final int RESULTCODE = 1;
     @Override

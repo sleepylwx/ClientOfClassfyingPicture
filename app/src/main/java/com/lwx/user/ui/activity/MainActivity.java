@@ -20,6 +20,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.signature.StringSignature;
 import com.lwx.user.App;
 import com.lwx.user.R;
 import com.lwx.user.adapter.RecyclerViewAdapter;
@@ -31,22 +34,29 @@ import com.lwx.user.utils.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class MainActivity extends AppCompatActivity implements MainContract.View{
+public class MainActivity extends AppCompatActivity implements MainContract.View {
 
 
-    @BindView(R.id.toolbar)Toolbar toolbar;
-    @BindView(R.id.nav_view)NavigationView navigationView;
-    @BindView(R.id.flush) SwipeRefreshLayout swipeRefresh;
-    @BindView(R.id.recyclerview) RecyclerView recyclerView;
-    @BindView(R.id.drawer_layout)DrawerLayout drawerLayout;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.nav_view)
+    NavigationView navigationView;
+    @BindView(R.id.flush)
+    SwipeRefreshLayout swipeRefresh;
+    @BindView(R.id.recyclerview)
+    RecyclerView recyclerView;
+    @BindView(R.id.drawer_layout)
+    DrawerLayout drawerLayout;
     CircleImageView headerImageView;
 
     public static final String MATCH_NUM = "1";
+    public static final int RESULTCODE = 2;
     private MainContract.Presenter presenter;
     private ImageLoader imageLoader;
 
@@ -56,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     private Menu menu;
     public static final String TAG = "MainActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     }
 
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -90,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
 
         moveTaskToBack(false);
     }
@@ -106,25 +118,24 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if(userMode == 0){
+        if (userMode == 0) {
 
             userMode = 1;
             menu.getItem(0).setTitle("随机推送");
-            presenter.clearAndGetMoreRandomPicByNet(App.getInstance().getUid(),App.getInstance().getpullPicNum());
-        }
-        else{
+            presenter.clearAndGetMoreRandomPicByNet(App.getInstance().getUid(), App.getInstance().getpullPicNum());
+        } else {
 
             userMode = 0;
             menu.getItem(0).setTitle("用户推送");
             presenter.clearAndGetPicByNetWork(App.getInstance().getUid(),
-                    App.getInstance().getToken(),App.getInstance().getpullPicNum());
+                    App.getInstance().getToken(), App.getInstance().getpullPicNum());
         }
 
         return super.onOptionsItemSelected(item);
 
     }
 
-    private void initNavigationView(){
+    private void initNavigationView() {
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -135,30 +146,33 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 if (id == R.id.nav_label) {
 
 
-                    Intent intent = new Intent(MainActivity.this,HistoryLabelActivity.class);
+                    Intent intent = new Intent(MainActivity.this, HistoryLabelActivity.class);
                     //intent.putExtra(HistoryLabelActivity.USERID,App.getInstance().getUid());
                     startActivity(intent);
 
-                }
-                else if(id == R.id.nav_image){
+                } else if (id == R.id.nav_image) {
 
-                    Intent intent = new Intent(MainActivity.this,HistoryImageActivity.class);
+                    Intent intent = new Intent(MainActivity.this, HistoryImageActivity.class);
                     //intent.putExtra(HistoryImageActivity.USERID,App.getInstance().getUid());
                     startActivity(intent);
-                }
-                else if(id == R.id.nav_settting){
+                } else if (id == R.id.nav_settting) {
 
 
-                    Intent intent = new Intent(MainActivity.this,SettingActivity.class);
+                    Intent intent = new Intent(MainActivity.this, SettingActivity.class);
+                    startActivity(intent);
+
+                }else if(id == R.id.nav_feedback){
+
+                    Intent intent = new Intent(MainActivity.this,FeedBackActivity.class);
                     startActivity(intent);
 
                 }
-                else if(id == R.id.nav_exit){
+                else if (id == R.id.nav_exit) {
 
-                    Intent intent = new Intent(MainActivity.this,LoginActivity.class);
-                    intent.putExtra(LoginActivity.MATCH_NUM,App.getInstance().getUid());
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    intent.putExtra(LoginActivity.MATCH_NUM, App.getInstance().getUid());
 
-                    Log.d(TAG,"exit login" + " " + App.getInstance().getUid());
+                    Log.d(TAG, "exit login" + " " + App.getInstance().getUid());
                     startActivity(intent);
                     finish();
                 }
@@ -171,8 +185,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         });
     }
 
-    private void init(){
-
+    private void init() {
 
 
         initNavigationView();
@@ -186,7 +199,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     private int userMode;
 
-    private void initSwipeRefresh(){
+    private void initSwipeRefresh() {
 
         swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
 
@@ -194,32 +207,31 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             @Override
             public void onRefresh() {
 
-                if(userMode == 0){
+                if (userMode == 0) {
 
                     presenter.clearAndGetPicByNetWork(App.getInstance().getUid()
-                            ,App.getInstance().getToken(),App.getInstance().getpullPicNum());
-                }
-                else{
+                            , App.getInstance().getToken(), App.getInstance().getpullPicNum());
+                } else {
 
-                    presenter.clearAndGetMoreRandomPicByNet(App.getInstance().getUid(),App.getInstance().getpullPicNum());
+                    presenter.clearAndGetMoreRandomPicByNet(App.getInstance().getUid(), App.getInstance().getpullPicNum());
                 }
 
             }
         });
     }
-    private void initUser(){
+
+    private void initUser() {
 
 
         Intent intent = getIntent();
-        long uid = intent.getLongExtra(MATCH_NUM,-1);
+        long uid = intent.getLongExtra(MATCH_NUM, -1);
 
-        if(uid ==-1){
+        if (uid == -1) {
 
-            Intent intent1 = new Intent(this,LoginActivity.class);
+            Intent intent1 = new Intent(this, LoginActivity.class);
             startActivity(intent1);
             finish();
-        }
-        else{
+        } else {
 
             //App.getInstance().setUid(uid);
             presenter.getUser(uid);
@@ -227,9 +239,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     }
 
-    private void initPicture(){
+    private void initPicture() {
 
-        presenter.getPictures(App.getInstance().getUid(),App.getInstance().getToken(),App.getInstance().getpullPicNum());
+        presenter.getPictures(App.getInstance().getUid(), App.getInstance().getToken(), App.getInstance().getpullPicNum());
 
     }
 
@@ -242,40 +254,52 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     public void onNetWorkError() {
 
-        Toast.makeText(this,R.string.network_error,Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.network_error, Toast.LENGTH_SHORT).show();
 
     }
 
     @Override
     public void onUserLoadedFailed() {
 
-        Toast.makeText(this,R.string.user_loaded_failed,Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(this,LoginActivity.class);
+        Toast.makeText(this, R.string.user_loaded_failed, Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
-
 
 
     @Override
     public void onUserLoadedSucceed(User user) {
 
-
+        presenter.saveUser(user);
         //curUser = user;
-        CircleImageView header = (CircleImageView)((ViewGroup)navigationView.getHeaderView(0)).getChildAt(0);
-        TextView userName = (TextView)((ViewGroup)navigationView.getHeaderView(0)).getChildAt(1);
-        LinearLayout linearLayout = (LinearLayout)navigationView.getHeaderView(0);
+        CircleImageView header = (CircleImageView) ((ViewGroup) navigationView.getHeaderView(0)).getChildAt(0);
+        TextView userName = (TextView) ((ViewGroup) navigationView.getHeaderView(0)).getChildAt(1);
+        LinearLayout linearLayout = (LinearLayout) navigationView.getHeaderView(0);
         linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(MainActivity.this,UserDetailActivity.class);
-                intent.putExtra(UserDetailActivity.USERID,App.getInstance().getUid());
-                startActivity(intent);
+                Intent intent = new Intent(MainActivity.this, UserDetailActivity.class);
+                //intent.putExtra(UserDetailActivity.USERID, App.getInstance().getUid());
+                startActivityForResult(intent,REQUESTCODE);
             }
         });
 
-        Log.d(TAG,"userloadsuccess! " + user.headPath);
-        imageLoader.loadImage(this,user.headPath,header);
+        Log.d(TAG, "userloadsuccess! " + user.headPath);
+        if(user.headPath == null || user.headPath.equals("")){
+
+            imageLoader.loadImage(this,R.mipmap.ic_launcher,header);
+        }
+        else{
+
+            //imageLoader.loadImage(this, user.headPath, header);
+            Glide.with(this)
+                    .load(user.headPath)
+                    .signature(new StringSignature(UUID.randomUUID().toString()))
+                    .error(R.mipmap.ic_launcher)
+                    .into(header);
+        }
+
         userName.setText(user.nickName);
 
         //strenthenToolBar.setHeaderPicture(imageLoader,user.headPath);
@@ -285,11 +309,11 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     public void onImageLoadedSucceed(List<Image> imageList) {
 
-        Log.d(TAG,"imageLoaded succeed!");
+        Log.d(TAG, "imageLoaded succeed!");
 
-        for(int i = 0; i < imageList.size(); ++i){
+        for (int i = 0; i < imageList.size(); ++i) {
 
-            Log.d(TAG,"uuid:" + imageList.get(i).uuid + " path:" + imageList.get(i).imagePath);
+            Log.d(TAG, "uuid:" + imageList.get(i).uuid + " path:" + imageList.get(i).imagePath);
         }
         canScroll = true;
 
@@ -300,16 +324,16 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     public void clearAndSaveList(List<Image> imageList) {
 
-        if(imageList != null){
+        if (imageList != null) {
 
             this.list = imageList;
         }
-        Log.d(TAG,"clear and save list");
+        Log.d(TAG, "clear and save list");
         adapter.setData(this.list);
         adapter.notifyDataSetChanged();
     }
 
-    private void addImages(List<Image> images){
+    private void addImages(List<Image> images) {
 
         this.list.addAll(images);
         //adapter.addData(images);
@@ -319,15 +343,15 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     private boolean canScroll;
 
 
-    private void initRecycleView(){
+    private void initRecycleView() {
 
 //        if(imageList != null){
 //
 //            list.addAll(imageList);
 //        }
-        Log.d(TAG,"" + list.size());
-        adapter = new RecyclerViewAdapter(this,this.list);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this,3);
+        Log.d(TAG, "" + list.size());
+        adapter = new RecyclerViewAdapter(this, this.list);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(gridLayoutManager);
 
@@ -342,17 +366,16 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
-                if(canScroll && isRecyclerViewBootom()){
+                if (canScroll && isRecyclerViewBootom()) {
 
                     canScroll = false;
 
-                    if(userMode == 0){
+                    if (userMode == 0) {
 
                         startGetMorePicByNetWork();
-                    }
-                    else{
+                    } else {
 
-                        presenter.getMoreRandomPicturesByNetWork(App.getInstance().getUid(),App.getInstance().getpullPicNum());
+                        presenter.getMoreRandomPicturesByNetWork(App.getInstance().getUid(), App.getInstance().getpullPicNum());
                     }
 
                 }
@@ -366,18 +389,21 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
         //showWaitingNetWork();
         presenter.getMorePicturesByNetWork(App.getInstance().getUid()
-                ,App.getInstance().getToken(), App.getInstance().getpullPicNum());
+                , App.getInstance().getToken(), App.getInstance().getpullPicNum());
 
     }
 
     private int position;
-    @Override
-    public void jumpToImageDetailActivity(String uuid,int position) {
 
+    public static final int REQUESTCODE = 1;
+    @Override
+    public void jumpToImageDetailActivity(String uuid, int position) {
+
+        Log.d(TAG,"position + " + position);
         this.position = position;
         Intent intent = new Intent(this, ImageDetailActivity.class);
-        intent.putExtra(ImageDetailActivity.IMAGEUUID,uuid);
-        startActivity(intent);
+        intent.putExtra(ImageDetailActivity.IMAGEUUID, uuid);
+        startActivityForResult(intent,REQUESTCODE);
 
     }
 
@@ -396,7 +422,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     public void nonShowSwipe() {
 
-        if(swipeRefresh.isRefreshing()){
+        if (swipeRefresh.isRefreshing()) {
 
             swipeRefresh.setRefreshing(false);
         }
@@ -404,14 +430,14 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
 
-    private boolean isRecyclerViewBootom(){
+    private boolean isRecyclerViewBootom() {
 
-        if(recyclerView == null){
+        if (recyclerView == null) {
 
             return false;
         }
 
-        if (recyclerView.computeVerticalScrollExtent() + recyclerView.computeVerticalScrollOffset() >= recyclerView.computeVerticalScrollRange()){
+        if (recyclerView.computeVerticalScrollExtent() + recyclerView.computeVerticalScrollOffset() >= recyclerView.computeVerticalScrollRange()) {
 
             return true;
         }
@@ -430,7 +456,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     public void onLoadPicInDbError() {
 
-        Toast.makeText(this,"读取缓存图片失败，下拉刷新试试吧...",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "读取缓存图片失败，下拉刷新试试吧...", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -442,9 +468,10 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     public void jumpToLoginActivityForTokenError() {
 
-        Intent intent = new Intent(this,LoginActivity.class);
-        intent.putExtra(LoginActivity.MATCH_NUM,App.getInstance().getUid());
-        intent.putExtra(LoginActivity.ISAUTHFAILED,true);
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.putExtra(LoginActivity.MATCH_NUM, App.getInstance().getUid());
+        intent.putExtra(LoginActivity.ISAUTHFAILED, true);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
     }
@@ -452,6 +479,47 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     public void onTokenError() {
 
-        Toast.makeText(this,R.string.token_auth_failed,Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.token_auth_failed, Toast.LENGTH_SHORT).show();
     }
+
+    public static final int RESULTCODE1 = 10;
+    public static final int RESULTCODE2 = 20;
+    public static final int RESULTCODE3 = 30;
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d(TAG,"resultcode " + resultCode);
+        switch (resultCode){
+
+
+            case RESULTCODE:
+                Log.d(TAG,"delete unSignedLabel");
+                list.remove(position);
+                Log.d(TAG,"position size " + list.size());
+                adapter.notifyItemRemoved(position);
+                adapter.notifyItemRangeChanged(position,list.size()-position);
+                break;
+
+            case RESULTCODE1:
+                String a = data.getStringExtra(UserDetailActivity.NICKNAME);
+                TextView textView =  (TextView) ((ViewGroup) navigationView.getHeaderView(0)).getChildAt(1);
+                Log.d(TAG,"a = " + a);
+                textView.setText(a);
+                break;
+            case RESULTCODE2:
+                String b = data.getStringExtra(UserDetailActivity.HEADERPATH);
+                CircleImageView header = (CircleImageView) ((ViewGroup) navigationView.getHeaderView(0)).getChildAt(0);
+                Glide.with(this)
+                        .load(b)
+                        .signature(new StringSignature(UUID.randomUUID().toString()))
+                        .error(R.mipmap.ic_launcher)
+                        .into(header);
+
+            default:
+
+                break;
+        }
+    }
+
 }

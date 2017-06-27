@@ -45,11 +45,17 @@ public class HistoryLabelActivity extends AppCompatActivity implements HistoryLa
         init();
     }
 
+    @Override
+    protected void onStart() {
+
+        super.onStart();
+        initLabel();
+    }
 
     private void init(){
 
         initToolbar();
-        initLabel();
+        //initLabel();
 
     }
 

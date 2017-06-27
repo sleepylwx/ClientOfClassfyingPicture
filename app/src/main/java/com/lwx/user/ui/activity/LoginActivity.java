@@ -21,6 +21,7 @@ import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.signature.StringSignature;
 import com.j256.ormlite.stmt.query.In;
 import com.lwx.user.R;
 import com.lwx.user.adapter.ListPopWindowAdapter;
@@ -32,6 +33,7 @@ import com.lwx.user.utils.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -178,7 +180,8 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
             public void onDismiss() {
 
                 ImageView imageView = userEdittext.getComponentItem(1);
-                imageLoader.loadImage(LoginActivity.this,R.drawable.arrowdown,imageView);
+                imageView.setImageBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.arrow_down));
+                //imageLoader.loadImage(LoginActivity.this,R.drawable.arrowdown,imageView);
                 isClicked = false;
             }
         });
@@ -189,9 +192,12 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         List<ImageView> list = new ArrayList<>();
         list.add(new ImageView(this));
         list.add(new ImageView(this));
-        imageLoader.loadImage(this,R.drawable.clear,list.get(0));
-        imageLoader.loadImage(this,R.drawable.arrowdown,list.get(1));
+        //imageLoader.loadImage(this,R.drawable.clear,list.get(0));
+        list.get(0).setImageBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.clear));
+        //imageLoader.loadImage(this,R.drawable.arrowdown,list.get(1));
+        list.get(1).setImageBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.arrow_down));
         imageLoader.loadImage(this,R.mipmap.ic_launcher,circleImageView);
+
 
         userEdittext.setComponent(list);
         userEdittext.setComponentPadding(10);
@@ -210,7 +216,8 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
                 if(!isClicked){
 
-                    imageLoader.loadImage(LoginActivity.this,R.drawable.arrowup,userEdittext.getComponentItem(1));
+                    //imageLoader.loadImage(LoginActivity.this,R.drawable.arrowup,userEdittext.getComponentItem(1));
+                    userEdittext.getComponentItem(1).setImageBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.arrow_up));
 
                     isClicked = true;
 
@@ -228,8 +235,9 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
                 }
                 else{
 
-                    imageLoader.loadImage(LoginActivity.this,R.drawable.arrowdown,userEdittext.getComponentItem(1));
+                    //imageLoader.loadImage(LoginActivity.this,R.drawable.arrowdown,userEdittext.getComponentItem(1));
 
+                    userEdittext.getComponentItem(1).setImageBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.arrow_down));
                     isClicked = false;
 
                     popupWindow.dismiss();
@@ -357,13 +365,18 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
                                     curToken = null;
                                     editState = false;
                                     imageLoader.loadImage(LoginActivity.this,R.mipmap.ic_launcher,circleImageView);
+                                    passwdEdittext.setText("");
                                 }
                                 else{
 
                                     editState = true;
                                     curToken = user.token;
                                     curUid = user.uid;
-                                    imageLoader.loadImage(LoginActivity.this,user.headPath,circleImageView);
+                                    Glide.with(LoginActivity.this)
+                                            .load(user.headPath)
+                                            .signature(new StringSignature(UUID.randomUUID().toString()))
+                                            .error(R.mipmap.ic_launcher)
+                                            .into(circleImageView);
 
                                     passwdEdittext.setText(MASKED_PASSWD);
 
@@ -380,7 +393,8 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
         List<ImageView> list1 = new ArrayList<>();
         list1.add(new ImageView(this));
-        imageLoader.loadImage(this,R.drawable.clear,list1.get(0));
+        //imageLoader.loadImage(this,R.drawable.clear,list1.get(0));
+        list1.get(0).setImageBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.clear));
         passwdEdittext.setComponent(list1);
         passwdEdittext.setComponentPadding(10);
         passwdEdittext.setEditTextPaddingLeft(10);
@@ -458,6 +472,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
                     curToken = null;
                     passwdEdittext.setText("");
+
 
                 }
 

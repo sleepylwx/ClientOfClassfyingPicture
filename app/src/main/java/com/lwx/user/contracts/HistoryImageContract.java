@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface HistoryImageContract {
 
-    public interface View extends BaseContract.View<HistoryImageContract.Presenter>,CommonContract{
+    public interface View extends BaseContract.View<HistoryImageContract.Presenter>,ToImageDetailContract {
 
         void onImageLoadedSucceed(List<Image> imageList);
         void onImageLoadedFailed();

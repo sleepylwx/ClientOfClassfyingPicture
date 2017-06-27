@@ -13,6 +13,7 @@ import com.lwx.user.db.model.Image;
 import com.lwx.user.db.model.Label;
 import com.lwx.user.net.PictureAgent;
 import com.lwx.user.net.PictureImpl;
+import com.lwx.user.utils.ConstStringMessages;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -129,6 +130,12 @@ public class ImageDetailPresenter implements ImageDetailContract.Presenter{
     @Override
     public void getLabels(long uid,String uuid,boolean isLabeled) {
 
+        if(isLabeled){
+
+            getLabelsInDb(uid,uuid,isLabeled);
+            return;
+
+        }
         pictureAgent.getPicTags(uuid)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -150,7 +157,7 @@ public class ImageDetailPresenter implements ImageDetailContract.Presenter{
 
                             Log.d(TAG,"getLabels by network success!");
                             context.onLabelsLoadSucceed(strings);
-                            removeAndSaveunSignedLabels(uid,uuid,strings,isLabeled);
+                            removeAndSaveLabels(uid,uuid,strings,isLabeled);
                         }
 
                     }
@@ -218,9 +225,9 @@ public class ImageDetailPresenter implements ImageDetailContract.Presenter{
                 });
     }
 
-    private void removeAndSaveunSignedLabels(long uid,String imageId,List<String> strings,boolean isLabeled){
+    private void removeAndSaveLabels(long uid,String imageId,List<String> strings,boolean isLabeled){
 
-        imageRepo.deleteLabelByImage(uid,imageId,false)
+        imageRepo.deleteLabelByImage(uid,imageId,isLabeled)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new CompletableObserver() {
@@ -289,6 +296,14 @@ public class ImageDetailPresenter implements ImageDetailContract.Presenter{
                     @Override
                     public void onError(@NonNull Throwable e) {
 
+                        Log.d(TAG,"postSelectedLabels onError " + e.getMessage());
+                        if(ConstStringMessages.TOKEN_ERROR.equals(e.getMessage())){
+
+                            context.onTokenError();
+                            context.jumpToLoginActivityForTokenError();
+                            return;
+                        }
+
                         Log.d(TAG,"postSelectedLabels onError" + labels.size() + labels.get(0) + labels.get(labels.size() - 1));
                         e.printStackTrace();
                         context.onNetWorkError();
@@ -353,44 +368,44 @@ public class ImageDetailPresenter implements ImageDetailContract.Presenter{
     }
 
 
+//    @Override
+//    public void getSignedLabels(long uid, String uuid) {
+//
+//        imageRepo.getLabelsByImage(uid,uuid,true)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Observer<List<Label>>() {
+//                    @Override
+//                    public void onSubscribe(Disposable d) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(List<Label> labels) {
+//
+//                        Log.d(TAG,"getSignedLabels success");
+//                        context.onSignedLabelsLoadSucceed(labels);
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//
+//                        Log.d(TAG,"getSignedLabels error");
+//                        e.printStackTrace();
+//                    }
+//
+//                    @Override
+//                    public void onComplete() {
+//
+//                    }
+//                });
+//    }
+
     @Override
-    public void getSignedLabels(long uid, String uuid) {
-
-        imageRepo.getLabelsByImage(uid,uuid,true)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<List<Label>>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onNext(List<Label> labels) {
-
-                        Log.d(TAG,"getSignedLabels success");
-                        context.onSignedLabelsLoadSucceed(labels);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                        Log.d(TAG,"getSignedLabels error");
-                        e.printStackTrace();
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
-    }
-
-    @Override
-    public void changeUnSignedImageToSigned(long uid, String uuid) {
+    public void changeUnSignedImageToSigned(long uid, String uuid,boolean oddLabeledState,boolean isLabeled) {
 
         //image的Labeled属性切换后后 它的label自动清除
-        imageRepo.changeImageLabeledProperty(uid,uuid,false,true)
+        imageRepo.changeImageLabeledProperty(uid,uuid,oddLabeledState,isLabeled)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new CompletableObserver() {
@@ -403,12 +418,13 @@ public class ImageDetailPresenter implements ImageDetailContract.Presenter{
                     public void onComplete() {
 
                         Log.d(TAG,"removeThisImage success");
+                        context.onChangeUnSignedImageToSignedSuccess();
                     }
 
                     @Override
                     public void onError(@NonNull Throwable e) {
 
-                        Log.d(TAG,"removeThisImage error");
+                        Log.d(TAG,"removeThisImage error " + e.getMessage());
                         e.printStackTrace();
                     }
                 });

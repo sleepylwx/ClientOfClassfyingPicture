@@ -1,6 +1,7 @@
 package com.lwx.user.net;
 
 import android.icu.lang.UScript;
+import android.util.Log;
 
 import com.elvishew.xlog.XLog;
 import com.lwx.user.App;
@@ -276,5 +277,118 @@ public class UserAgentImpl implements UserAgent{
                 e.onNext(App.BASE_URL + "headpic/" + uid);
             }
         });
+    }
+
+
+    @Override
+    public Observable<User> getUserAllMessage(long uid, String token) {
+
+        return Observable.create(new ObservableOnSubscribe<User>() {
+            @Override
+            public void subscribe(@NonNull ObservableEmitter<User> e) throws Exception {
+
+                try{
+
+                    Response<String> response = userService.getUserInfo(token,uid).execute();
+                    String content = response.body();
+
+                    JSONObject jsonObject = new JSONObject(content);
+                    if(jsonObject.getBoolean("err")){
+
+                        e.onError(new Throwable(jsonObject.getString("msg")));
+                    }
+
+                    JSONObject message = jsonObject.getJSONObject("userdata");
+                    User user = new User();
+                    user.uid = jsonObject.getLong("uid");
+                    user.token = message.getString("token");
+                    user.user = message.getString("username");
+                    user.nickName = message.getString("nickname");
+                    user.num = message.getInt("score");
+                    user.headPath = App.BASE_URL + "headpic/" + user.uid;
+                    JSONArray jsonArray = message.getJSONArray("likedtags");
+                    user.favorite1 = jsonArray.getString(0);
+                    user.favorite2 = jsonArray.getString(1);
+                    user.favorite3 = jsonArray.getString(2);
+                    user.extra = message.getString("password");
+
+                    e.onNext(user);
+                }
+                catch (IOException | JSONException ex){
+
+                    e.onError(ex);
+                }
+
+            }
+        });
+    }
+
+    @Override
+    public Completable uploadUserMessage(User user) {
+
+
+        return Completable.create(new CompletableOnSubscribe() {
+            @Override
+            public void subscribe(@NonNull CompletableEmitter e) throws Exception {
+
+                try{
+
+                    String token = user.token;
+                    long uid = user.uid;
+                    String newValue = toJson(user);
+
+                    Response<String> response = userService.updateUserInfo(token,uid,newValue).execute();
+                    String content = response.body();
+
+                    JSONObject jsonObject = new JSONObject(content);
+
+                    if(jsonObject.getBoolean("err")){
+
+                        e.onError(new Exception(jsonObject.getString("msg")));
+                        return;
+                    }
+
+                    e.onComplete();
+
+                }
+                catch (IOException | JSONException ex){
+
+                    e.onError(ex);
+                }
+
+            }
+        });
+    }
+
+    private String toJson(User user){
+
+        StringBuffer stringBuffer = new StringBuffer();
+//        if(!((user.favorite1 == null || user.favorite1.equals(""))
+//                && (user.favorite2 == null || user.favorite2.equals(""))
+//                && (user.favorite3 == null || user.favorite3.equals("")))){
+//
+//
+//        }
+
+        stringBuffer.append("{\"likedtags\": [\"");
+        stringBuffer.append(user.favorite1);
+        stringBuffer.append("\",\"");
+        stringBuffer.append(user.favorite2);
+        stringBuffer.append("\",\"");
+        stringBuffer.append(user.favorite3);
+        stringBuffer.append("\"],\"nickname\": \"");
+        stringBuffer.append(user.nickName);
+        stringBuffer.append("\",\"password\":\"");
+        stringBuffer.append((String)user.extra);
+        stringBuffer.append("\"}");
+
+        String temp = stringBuffer.toString();
+        Log.d("UserAgentImpl",temp);
+        return temp;
+    }
+
+    @Override
+    public Completable postFeedBack(String token, String content) {
+        return null;
     }
 }

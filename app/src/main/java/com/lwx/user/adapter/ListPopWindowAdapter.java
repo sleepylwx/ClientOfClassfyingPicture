@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.signature.StringSignature;
 import com.lwx.user.App;
 import com.lwx.user.R;
 import com.lwx.user.contracts.LoginContract;
@@ -19,6 +20,7 @@ import com.lwx.user.db.model.User;
 import com.lwx.user.utils.ImageLoader;
 
 import java.util.List;
+import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -65,7 +67,18 @@ public class ListPopWindowAdapter extends ArrayAdapter<User> {
             viewHolder = (ViewHolder)convertView.getTag();
         }
         //imageLoader.loadImage(context,user.headPath,viewHolder.circleImageView);
-        Glide.with(context).load(user.headPath).into(viewHolder.circleImageView);
+        if(user.headPath == null || user.headPath.equals("")){
+
+            Glide.with(context).load(R.mipmap.ic_launcher).into(viewHolder.circleImageView);
+        }
+        else{
+
+            Glide.with(context)
+                    .load(user.headPath)
+                    .signature(new StringSignature(UUID.randomUUID().toString()))
+                    .error(R.mipmap.ic_launcher)
+                    .into(viewHolder.circleImageView);
+        }
         viewHolder.textView.setText(user.user);
         viewHolder.imageView.setImageBitmap(BitmapFactory.decodeResource(context.getResources(),R.drawable.clear));
         //Glide.with(context).load(R.drawable.clear).into(viewHolder.imageView);

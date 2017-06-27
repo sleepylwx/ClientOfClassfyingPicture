@@ -1,7 +1,5 @@
 package com.lwx.user.contracts;
 
-import android.support.v7.widget.RecyclerView;
-
 import com.lwx.user.db.model.Image;
 import com.lwx.user.db.model.User;
 
@@ -13,7 +11,7 @@ import java.util.List;
 
 public interface MainContract {
 
-    public interface View extends BaseContract.View<MainContract.Presenter>,CommonContract{
+    public interface View extends BaseContract.View<MainContract.Presenter>,ToImageDetailContract,CheckTokenContract {
 
 
         void onUserLoadedSucceed(User user);
@@ -39,14 +37,13 @@ public interface MainContract {
 
         void onImageLoadedFailed();
 
-        void jumpToLoginActivityForTokenError();
 
-        void onTokenError();
     }
 
     public interface Presenter extends BaseContract.Presenter<MainContract.View>{
 
         void getUser(long uid);
+        void saveUser(User user);
         void getPictures(long uid,String token,int num);
 
         void getMorePicturesByNetWork(long uid,String token,int num);
@@ -56,6 +53,8 @@ public interface MainContract {
         void clearAndGetMoreRandomPicByNet(long uid,int num);
 
         void getMoreRandomPicturesByNetWork(long uid,int num);
+
+
     }
 
 }

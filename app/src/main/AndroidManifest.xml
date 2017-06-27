@@ -53,6 +53,19 @@
         </activity>
         <activity android:name=".ui.activity.HistoryImageActivity">
         </activity>
+        <activity
+            android:name="cn.finalteam.rxgalleryfinal.ui.activity.MediaActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".ui.activity.FeedBackActivity">
+        </activity>
+        <activity android:name=".ui.activity.DailyTaskActivity">
+        </activity>
     </application>
 
 </manifest>

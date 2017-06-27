@@ -2,20 +2,16 @@ package com.lwx.user.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.lwx.user.App;
 import com.lwx.user.R;
-import com.lwx.user.contracts.CommonContract;
-import com.lwx.user.contracts.MainContract;
+import com.lwx.user.contracts.ToImageDetailContract;
 import com.lwx.user.db.model.Image;
 import com.lwx.user.utils.ImageLoader;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -69,7 +65,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             @Override
             public void onClick(View v) {
 
-                ((CommonContract)context).jumpToImageDetailActivity(image.uuid,position);
+                ((ToImageDetailContract)context).jumpToImageDetailActivity(image.uuid,position);
             }
         });
 
