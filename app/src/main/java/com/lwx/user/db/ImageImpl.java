@@ -83,9 +83,9 @@ public class ImageImpl implements ImageRepo {
 
                     for(int j = 0; j < imageLabelList.size() ; ++j){
 
-                        labelDAO.delete(imageLabelList.get(i).label);
+                        labelDAO.delete(imageLabelList.get(j).label);
 
-                        imageLabelDAO.delete(imageLabelList.get(i));
+                        imageLabelDAO.delete(imageLabelList.get(j));
                     }
                 }
 
