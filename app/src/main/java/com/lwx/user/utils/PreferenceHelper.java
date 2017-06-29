@@ -27,4 +27,46 @@ public class PreferenceHelper {
         return preferences.getLong(LOGINUSERID,-1);
 
     }
+
+    public int getInt(String tag,int defaultValue){
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(App.getInstance());
+        return preferences.getInt(tag,defaultValue);
+    }
+
+    public void setInt(String tag,int value){
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(App.getInstance());
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt(tag,value);
+        editor.apply();
+    }
+
+    public boolean getBoolean(String tag,boolean defaultValue){
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(App.getInstance());
+        return preferences.getBoolean(tag,defaultValue);
+    }
+
+    public void setBoolean(String tag,boolean value){
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(App.getInstance());
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean(tag,value);
+        editor.apply();
+    }
+
+    public long getLong(String tag,long defValue){
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(App.getInstance());
+        return preferences.getLong(tag,defValue);
+    }
+
+    public void setLong(String tag,long value){
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(App.getInstance());
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putLong(tag,value);
+        editor.apply();
+    }
 }

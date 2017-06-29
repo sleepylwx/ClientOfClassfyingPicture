@@ -23,6 +23,7 @@ import com.lwx.user.db.model.Image;
 import com.lwx.user.db.model.Label;
 import com.lwx.user.presenter.ImageDetailPresenter;
 import com.lwx.user.utils.ImageLoader;
+import com.lwx.user.utils.PreferenceHelper;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
@@ -81,6 +82,8 @@ public class ImageDetailActivity extends Activity implements ImageDetailContract
     private Image curImage;
     private String title;
 
+    private PreferenceHelper preferenceHelper;
+
     private boolean isLabeled;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +95,7 @@ public class ImageDetailActivity extends Activity implements ImageDetailContract
         isLabeled = intent.getBooleanExtra(ISLABELED,false);
         title = intent.getStringExtra(TITLE);
 
+        preferenceHelper = new PreferenceHelper();
         presenter = new ImageDetailPresenter(this,isLabeled);
         imageLoader = new ImageLoader();
         curLables = new ArrayList<>();
@@ -233,7 +237,36 @@ public class ImageDetailActivity extends Activity implements ImageDetailContract
     @Override
     public void onLabelsPostSucceed(List<String> labels) {
 
-        Toast.makeText(this,R.string.post_label_button,Toast.LENGTH_SHORT).show();
+        StringBuffer stringBuffer = new StringBuffer("提交标签成功");
+
+
+        if(App.getInstance().isInTask()){
+
+            ++App.getInstance().finishNum;
+            stringBuffer.append(",任务进度(");
+            stringBuffer.append(App.getInstance().finishNum);
+            stringBuffer.append("/");
+            stringBuffer.append(App.getInstance().taskNum);
+            stringBuffer.append(")");
+
+        }
+        if(App.getInstance().isInTask() && App.getInstance().finishNum >=  App.getInstance().taskNum){
+
+            presenter.finishTask(App.getInstance().getToken(),App.getInstance().finishNum);
+            App.getInstance().finishNum = 0;
+            App.getInstance().taskNum = -1;
+            App.getInstance().setInTask(false);
+            preferenceHelper.setInt(DailyTaskActivity.FINISH+App.getInstance().getUid(),0);
+            preferenceHelper.setInt(DailyTaskActivity.TASK + App.getInstance().getUid(),-1);
+            stringBuffer = new StringBuffer();
+            stringBuffer.append("提交标签成功,恭喜您，日常任务完成!");
+
+        }
+        else{
+
+            preferenceHelper.setInt(DailyTaskActivity.FINISH+App.getInstance().getUid(),App.getInstance().finishNum);
+        }
+        Toast.makeText(this,stringBuffer.toString(),Toast.LENGTH_SHORT).show();
 
         postedLabels = labels;
 

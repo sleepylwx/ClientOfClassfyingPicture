@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import com.elvishew.xlog.LogConfiguration;
 import com.elvishew.xlog.LogLevel;
 import com.elvishew.xlog.XLog;
+import com.lwx.user.db.model.User;
 
 import io.reactivex.plugins.RxJavaPlugins;
 
@@ -19,7 +20,13 @@ public class App extends Application {
     private long uid;
     private  static App sInstance;
     private int pullPicNum;
-    public static final String BASE_URL = "http://ttxs.ac.cn:8088/";
+    private boolean haveTask;
+    private boolean inTask;
+    public int taskNum;
+    public int finishNum;
+
+    //public static final String BASE_URL = "http://ttxs.ac.cn:8088/";
+    public static final String BASE_URL = "http://hw.acoder.me:8088/";
 
     @Override
     public void onCreate() {
@@ -71,4 +78,37 @@ public class App extends Application {
     }
 
 
+    public boolean getHaveTask(){
+
+        return haveTask;
+    }
+
+    public void setHaveTask(boolean haveTask){
+
+        this.haveTask = haveTask;
+    }
+
+    public boolean isInTask() {
+        return inTask;
+    }
+
+    public void setInTask(boolean inTask) {
+        this.inTask = inTask;
+    }
+
+    public int getTaskNum() {
+        return taskNum;
+    }
+
+    public void setTaskNum(int taskNum) {
+        this.taskNum = taskNum;
+    }
+
+    public int getFinishNum() {
+        return finishNum;
+    }
+
+    public void setFinishNum(int finishNum) {
+        this.finishNum = finishNum;
+    }
 }

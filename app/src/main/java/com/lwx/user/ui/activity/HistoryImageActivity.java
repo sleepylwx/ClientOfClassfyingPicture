@@ -52,16 +52,13 @@ public class HistoryImageActivity extends AppCompatActivity implements HistoryIm
         init();
     }
 
-    public HistoryImageActivity() {
-        super();
 
-        presenter = null;
-
-    }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        presenter = null;
+        adapter = null;
     }
 
     private void init(){

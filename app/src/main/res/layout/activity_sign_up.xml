@@ -7,115 +7,185 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.lwx.user.ui.activity.SignUpActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/signup">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="#aaffffff">
+
+
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        >
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:title="@string/sign_up"
-             />
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:layout_scrollFlags="scroll|enterAlways|snap"
+            >
+
+
+        </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
 
-    <LinearLayout
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        android:text="登录邮箱"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="6dp"
+        />
 
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:orientation="horizontal"
-        android:layout_below="@id/appbar"
-        android:layout_marginTop="60dp">
+
+
+        <!--<EditText-->
+            <!--android:id="@+id/user"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_weight="4"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:hint="登录邮箱"-->
+            <!--android:maxLength="20"-->
+            <!--/>-->
 
         <EditText
+            android:layout_marginTop="3dp"
             android:id="@+id/user"
-            android:layout_width="0dp"
-            android:layout_weight="4"
-            android:layout_height="match_parent"
-            android:hint="登录邮箱"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:textColor="#000000"
+            android:inputType="text"
             android:maxLength="20"
-            />
+            android:ellipsize="end"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:textColorHint="#ffeeff"
 
-        <TextView
-            android:id="@+id/user_check"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            />
-
-
-    </LinearLayout>
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp"/>
 
 
-    <LinearLayout
 
+    <TextView
+        android:id="@+id/user_check"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="6dp"
+        android:textColor="#bc8f8f"
+
+        />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#000000"
+        android:text="密码"
+        android:textStyle="bold"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="6dp"
+        />
+
+
+
+    <EditText
+        android:layout_marginTop="3dp"
+        android:id="@+id/passwd"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:orientation="horizontal"
-        android:layout_below="@id/appbar"
-        android:layout_marginTop="30dp">
+        android:layout_height="50dp"
 
-        <EditText
-            android:id="@+id/passwd"
-            android:layout_width="0dp"
-            android:layout_weight="4"
-            android:layout_height="match_parent"
-            android:hint="密码"
-            android:maxLength="20"
-            android:inputType="textPassword"
-            />
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+
+        android:inputType="textPassword"
+        android:maxLength="20"
+        android:ellipsize="end"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:textColorHint="#808080"
+        android:textColor="#000000"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"/>
 
         <TextView
             android:id="@+id/passwd_check"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:textColor="#bc8f8f"
             />
 
 
-    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#000000"
+        android:text="重复密码"
+        android:textStyle="bold"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="6dp"
+        />
 
 
-    <LinearLayout
 
+
+    <EditText
+        android:layout_marginTop="3dp"
+        android:id="@+id/passwd_two"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:orientation="horizontal"
-        android:layout_below="@id/appbar"
-        android:layout_marginTop="30dp">
+        android:layout_height="50dp"
 
-        <EditText
-            android:id="@+id/passwd_two"
-            android:layout_width="0dp"
-            android:layout_weight="4"
-            android:layout_height="match_parent"
-            android:hint="重复密码"
-            android:maxLength="20"
-            android:inputType="textPassword"
-            />
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+
+        android:textColor="#000000"
+        android:textStyle="bold"
+        android:inputType="textPassword"
+        android:maxLength="20"
+        android:ellipsize="end"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:textColorHint="#808080"
+
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"/>
 
         <TextView
             android:id="@+id/passwd_two_check"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:textColor="#bc8f8f"
             />
 
 
-    </LinearLayout>
+
 
     <Button
         android:id="@+id/submit"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
+        android:textColor="#ffffff"
         android:layout_margin="20dp"
-        android:text="@string/button_submit"/>
+        android:text="@string/button_submit"
+        android:background="@drawable/feedback_button"/>
 
 
+    </LinearLayout>
 </LinearLayout>

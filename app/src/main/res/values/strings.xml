@@ -6,9 +6,9 @@
 
     <!--SignUpActivity-->
     <string name="sign_up">注册</string>
-    <string name="passwd_repeat_error">"两次密码输入不一致"</string>
+    <string name="passwd_repeat_error">"两次密码输入不一致!"</string>
     <string name="passwd_repeat_right">OK</string>
-    <string name="user_format_error">用户名格式有误</string>
+    <string name="user_format_error">用户名格式有误!</string>
     <string name="user_format_right">OK</string>
     <string name="button_submit">提交</string>
 

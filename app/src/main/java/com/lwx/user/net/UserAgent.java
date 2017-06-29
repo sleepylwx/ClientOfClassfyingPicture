@@ -1,5 +1,6 @@
 package com.lwx.user.net;
 
+import com.lwx.user.db.model.Task;
 import com.lwx.user.db.model.User;
 
 import java.util.List;
@@ -39,4 +40,6 @@ public interface UserAgent {
 
 
     Completable postFeedBack(String token,String content);
+
+    Observable<Integer> finishTask(String token,int num);
 }

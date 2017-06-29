@@ -54,5 +54,7 @@ public interface UserService {
     @FormUrlEncoded
     Call<String> updateUserInfo(@Field("token") String token,@Field("uid") long uid,@Field("newuserdata") String newData);
 
-
+    @POST("postfeedback.action")
+    @FormUrlEncoded
+    Call<String> uploadFeedBack(@Field("token") String token,@Field("content")String content);
 }

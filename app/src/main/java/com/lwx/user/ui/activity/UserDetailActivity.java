@@ -67,6 +67,8 @@ public class UserDetailActivity extends AppCompatActivity implements UserDetailC
     private boolean headerNeedPost;
     private boolean messageNeedPost;
 
+    private boolean canSaved;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +80,12 @@ public class UserDetailActivity extends AppCompatActivity implements UserDetailC
         isCroped = false;
 
         init();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter = null;
     }
 
     private Menu menu;
@@ -95,7 +103,11 @@ public class UserDetailActivity extends AppCompatActivity implements UserDetailC
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
 
+        if(!canSaved){
 
+            Toast.makeText(this,"网络错误，请回到主界面后再试",Toast.LENGTH_SHORT).show();
+            return super.onOptionsItemSelected(item);
+        }
 
         curUser.nickName = nickName.getText().toString();
         curUser.favorite1 = favorite1.getText().toString();
@@ -211,6 +223,13 @@ public class UserDetailActivity extends AppCompatActivity implements UserDetailC
     @Override
     public void onUserGetSuccess(User user) {
 
+        if(user.extra == null || ((String)user.extra).isEmpty()){
+
+            canSaved = false;
+        }
+        else{
+            canSaved = true;
+        }
         curUser = user;
         temp = new User();
         temp.nickName = curUser.nickName;
@@ -238,9 +257,6 @@ public class UserDetailActivity extends AppCompatActivity implements UserDetailC
         this.favorite1.setText(user.favorite1);
         this.favorite2.setText(user.favorite2);
         this.favorite3.setText(user.favorite3);
-
-
-
 
 
     }
@@ -311,6 +327,7 @@ public class UserDetailActivity extends AppCompatActivity implements UserDetailC
     @Override
     public void onUserSaveHeaderSuccess() {
 
+
         headerPost = true;
 
         if(headerPost && !messageNeedPost){
@@ -355,6 +372,5 @@ public class UserDetailActivity extends AppCompatActivity implements UserDetailC
     public void onTokenError() {
 
         Toast.makeText(this, R.string.token_auth_failed, Toast.LENGTH_SHORT).show();
-
     }
 }

@@ -74,6 +74,7 @@ public class FeedBackActivity extends AppCompatActivity {
 
     private void onFeedBackPostSuccess(){
 
+        Toast.makeText(this,"反馈成功",Toast.LENGTH_SHORT).show();
         finish();
     }
 

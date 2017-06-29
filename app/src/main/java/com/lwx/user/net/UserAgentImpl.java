@@ -287,6 +287,7 @@ public class UserAgentImpl implements UserAgent{
             @Override
             public void subscribe(@NonNull ObservableEmitter<User> e) throws Exception {
 
+
                 try{
 
                     Response<String> response = userService.getUserInfo(token,uid).execute();
@@ -307,11 +308,41 @@ public class UserAgentImpl implements UserAgent{
                     user.num = message.getInt("score");
                     user.headPath = App.BASE_URL + "headpic/" + user.uid;
                     JSONArray jsonArray = message.getJSONArray("likedtags");
-                    user.favorite1 = jsonArray.getString(0);
-                    user.favorite2 = jsonArray.getString(1);
-                    user.favorite3 = jsonArray.getString(2);
-                    user.extra = message.getString("password");
 
+
+                    if(jsonArray == null || jsonArray.length() == 0){
+
+                        user.favorite1 = "";
+                        user.favorite2 = "";
+                        user.favorite3 = "";
+                    }
+                    else if(jsonArray.length() == 1){
+
+                        user.favorite1 = jsonArray.getString(0);
+                        user.favorite2 = "";
+                        user.favorite3 = "";
+                    }
+                    else if(jsonArray.length() == 2){
+
+                        user.favorite1 = jsonArray.getString(0);
+                        user.favorite2 = jsonArray.getString(1);
+                        user.favorite3 = "";
+                    }
+                    else{
+
+                        user.favorite1 = jsonArray.getString(0);
+                        user.favorite2 = jsonArray.getString(1);
+                        user.favorite3 = jsonArray.getString(2);
+                    }
+                    user.extra = message.getString("password");
+                    if(user.extra == null){
+
+                        Log.d("mimain","null");
+                    }
+                    else{
+
+                        Log.d("mimain",(String)user.extra);
+                    }
                     e.onNext(user);
                 }
                 catch (IOException | JSONException ex){
@@ -331,6 +362,15 @@ public class UserAgentImpl implements UserAgent{
             @Override
             public void subscribe(@NonNull CompletableEmitter e) throws Exception {
 
+                if(user.extra == null){
+
+                    Log.d("mimaout","null");
+                }
+                else{
+
+                    Log.d("mimaout",(String)user.extra);
+
+                }
                 try{
 
                     String token = user.token;
@@ -389,6 +429,33 @@ public class UserAgentImpl implements UserAgent{
 
     @Override
     public Completable postFeedBack(String token, String content) {
+        return Completable.create(new CompletableOnSubscribe() {
+            @Override
+            public void subscribe(@NonNull CompletableEmitter e) throws Exception {
+
+                try{
+
+                    Response<String> response = userService.uploadFeedBack(token,content).execute();
+                    String content = response.body();
+                    JSONObject jsonObject = new JSONObject(content);
+                    if(jsonObject.getBoolean("err")){
+
+                        e.onError(new Throwable(jsonObject.getString("mes")));
+                        return;
+                    }
+
+                    e.onComplete();
+                }
+                catch (IOException | JSONException ex){
+
+                    e.onError(ex);
+                }
+            }
+        });
+    }
+
+    @Override
+    public Observable<Integer> finishTask(String token, int num) {
         return null;
     }
 }

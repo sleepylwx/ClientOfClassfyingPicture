@@ -53,11 +53,15 @@ public class UserDetailPresenter implements UserDetailContract.Presenter {
                     @Override
                     public void onNext(User user) {
 
+                        Log.d("UserDetailPresenter","db success");
+
                         context.onUserGetSuccess(user);
                     }
 
                     @Override
                     public void onError(Throwable e) {
+
+                        Log.d("UserDetailPresenter","db error");
 
                         context.onUserGetNetWorkError();
                     }
@@ -80,6 +84,7 @@ public class UserDetailPresenter implements UserDetailContract.Presenter {
                     @Override
                     public void onNext(@NonNull User user) {
 
+                        Log.d("UserDetailPresenter","network success");
                         context.onUserGetSuccess(user);
                     }
 
@@ -92,7 +97,9 @@ public class UserDetailPresenter implements UserDetailContract.Presenter {
                             context.jumpToLoginActivityForTokenError();
                             return;
                         }
-
+                        context.onNetWorkError();
+                        Log.d("UserDetailPresenter","network error");
+                        Log.d("UserDetailPresenter"," a + " + e.getMessage());
 
                     }
 

@@ -31,6 +31,7 @@ import com.lwx.user.db.model.Image;
 import com.lwx.user.db.model.User;
 import com.lwx.user.presenter.MainPresenter;
 import com.lwx.user.utils.ImageLoader;
+import com.lwx.user.utils.PreferenceHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
 
     private RecyclerViewAdapter adapter;
+    private PreferenceHelper preferenceHelper;
     private List<Image> list;
 
     private Menu menu;
@@ -76,6 +78,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         presenter = new MainPresenter(this);
         imageLoader = new ImageLoader();
         list = new ArrayList<>();
+        preferenceHelper = new PreferenceHelper();
         //headerImageView =strenthenToolBar.getHeaderView();
 
         //
@@ -104,7 +107,13 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     public void onBackPressed() {
 
-        moveTaskToBack(false);
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }
+        else{
+
+            moveTaskToBack(false);
+        }
     }
 
     @Override
@@ -160,13 +169,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                     Intent intent = new Intent(MainActivity.this, HistoryImageActivity.class);
                     //intent.putExtra(HistoryImageActivity.USERID,App.getInstance().getUid());
                     startActivity(intent);
-                } else if (id == R.id.nav_settting) {
+                }
 
-
-                    Intent intent = new Intent(MainActivity.this, SettingActivity.class);
-                    startActivity(intent);
-
-                }else if(id == R.id.nav_feedback){
+                else if(id == R.id.nav_feedback){
 
                     Intent intent = new Intent(MainActivity.this,FeedBackActivity.class);
                     startActivity(intent);
@@ -192,7 +197,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     private void init() {
 
-
+        detectTask();
         initNavigationView();
         initSwipeRefresh();
         initRecycleView();
@@ -507,24 +512,62 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 break;
 
             case RESULTCODE1:
-                String a = data.getStringExtra(UserDetailActivity.NICKNAME);
-                TextView textView =  (TextView) ((ViewGroup) navigationView.getHeaderView(0)).getChildAt(1);
-                Log.d(TAG,"a = " + a);
-                textView.setText(a);
+                updateNickName(data);
                 break;
             case RESULTCODE2:
-                String b = data.getStringExtra(UserDetailActivity.HEADERPATH);
-                CircleImageView header = (CircleImageView) ((ViewGroup) navigationView.getHeaderView(0)).getChildAt(0);
-                Glide.with(this)
-                        .load(b)
-                        .signature(new StringSignature(UUID.randomUUID().toString()))
-                        .error(R.mipmap.ic_launcher)
-                        .into(header);
-
+                updateHeader(data);
+                break;
+            case RESULTCODE3:
+                updateNickName(data);
+                updateHeader(data);
+                break;
             default:
 
                 break;
         }
     }
 
+    private void updateNickName(Intent data){
+
+
+        String a = data.getStringExtra(UserDetailActivity.NICKNAME);
+        TextView textView =  (TextView) ((ViewGroup) navigationView.getHeaderView(0)).getChildAt(1);
+        Log.d(TAG,"a = " + a);
+        textView.setText(a);
+
+    }
+
+
+    private void updateHeader(Intent data){
+
+        String b = data.getStringExtra(UserDetailActivity.HEADERPATH);
+        CircleImageView header = (CircleImageView) ((ViewGroup) navigationView.getHeaderView(0)).getChildAt(0);
+        Glide.with(this)
+                .load(b)
+                .signature(new StringSignature(UUID.randomUUID().toString()))
+                .error(R.mipmap.ic_launcher)
+                .into(header);
+    }
+
+
+    private void detectTask(){
+
+        long curTime = System.currentTimeMillis();
+        long curDay = curTime / (1000* 60*60*24);
+        long lastDay = preferenceHelper.getLong(DailyTaskActivity.TIME+App.getInstance().getUid(),-1);
+        Log.d("days",lastDay + " " + curDay + " " + curTime);
+
+        if(lastDay == -1 || curDay - lastDay > 0){
+
+
+            preferenceHelper.setLong(DailyTaskActivity.TIME+App.getInstance().getUid(),curDay);
+            App.getInstance().setHaveTask(true);
+
+        }
+
+        else{
+
+            App.getInstance().setHaveTask(false);
+        }
+    }
 }

@@ -32,7 +32,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 
-        android:layout_below="@id/appbarlayout">
+        android:layout_below="@id/appbarlayout"
+        android:background="@drawable/open">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -48,53 +49,47 @@
                 android:layout_marginTop="20dp"
 
                 app:civ_border_width="1dp"
-                app:civ_border_color="#BFBFBF"
-                android:layout_marginBottom="20dp"/>
+                app:civ_border_color="#BFBFBF"/>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/user"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-
-                    android:text="用户号"
-                    android:textSize="20sp"
-                    />
-
-                <TextView
+                    android:layout_marginTop="3dp"
                     android:id="@+id/user1"
                     android:layout_marginLeft="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/user"
-                    android:layout_alignTop="@id/user"
+                    android:layout_gravity="center"
                     android:text=" "
+                    android:background="#00ffffff"
                     android:textSize="20dp"
                     android:textColor="#000000"
                     />
-
 
                 <TextView
                     android:layout_marginTop="10dp"
                     android:id="@+id/nickname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/user1"
                     android:layout_marginLeft="10dp"
-                    android:text="昵称"
-                    android:textSize="20sp"/>
+                    android:text="昵称"/>
 
 
                 <EditText
-
+                    android:layout_marginTop="3dp"
                     android:id="@+id/nickname1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignLeft="@id/user1"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
+
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:inputType="text"
+                    android:ellipsize="end"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="4dp"
+                    android:textColorHint="#808080"
+                    android:textCursorDrawable="@null"
 
                     android:maxLength="10"
                     android:layout_below="@id/user1"
@@ -103,32 +98,35 @@
                     />
 
                 <TextView
+                    android:layout_marginTop="10dp"
                     android:id="@+id/num"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:layout_below="@+id/nickname1"
-                    android:textSize="20sp"
+
                     android:text="积分"/>
 
                 <TextView
+                    android:background="#00ffffff"
                     android:id="@+id/num1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignLeft="@id/nickname1"
                     android:layout_below="@id/nickname1"
                     android:layout_alignTop="@id/num"
+                    android:layout_marginLeft="10dp"
                     android:textSize="20sp"
                     android:textColor="#000000"
                     android:text=""/>
 
-            </RelativeLayout>
 
 
 
 
             <View
                 android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="0dp"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="#33000000"/>
@@ -140,31 +138,65 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:text="喜好"
-                android:textSize="30sp"/>
+                />
 
             <EditText
+                android:layout_marginTop="3dp"
+
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+
+                android:inputType="text"
+                android:ellipsize="end"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:textColorHint="#808080"
+                android:textCursorDrawable="@null"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="6dp"
                 android:id="@+id/favorite1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
                 android:maxLength="10"
                 android:textSize="20sp"
                 android:hint="喜好1"/>
             <EditText
+                android:layout_marginTop="3dp"
+
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+
+                android:inputType="text"
+                android:ellipsize="end"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:textColorHint="#808080"
+                android:textCursorDrawable="@null"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="6dp"
                 android:id="@+id/favorite2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="5dp"
                 android:maxLength="10"
                 android:textSize="20sp"
                 android:hint="喜好2"/>
             <EditText
+                android:layout_marginTop="3dp"
+
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+
+                android:inputType="text"
+                android:ellipsize="end"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:textColorHint="#808080"
+                android:textCursorDrawable="@null"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="6dp"
                 android:id="@+id/favorite3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="5dp"
                 android:maxLength="10"
                 android:textSize="20sp"
                 android:hint="喜好3"/>

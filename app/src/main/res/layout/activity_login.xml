@@ -2,7 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/tar">
+
+
+
+
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/circleImageView"
@@ -34,8 +39,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="登录"
+        android:layout_marginTop="15dp"
+        android:textColor="#ffffff"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"/>
+        android:layout_marginRight="20dp"
+        android:background="@drawable/feedback_button"/>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -57,9 +65,12 @@
             android:layout_alignParentRight="true"
             android:text="注册账号"
             android:textSize="8sp"
+            android:textStyle="bold"
             android:background="#00000000"
+            android:textColor="#ffffff"
             />
     </RelativeLayout>
+
 
 
 </LinearLayout>

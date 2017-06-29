@@ -49,6 +49,8 @@ public interface ImageDetailContract {
 
         void saveSelectedLabelsByImage(long uid,Image image,List<String> labels);
 
+        void finishTask(String token,int num);
+
     }
 
 }

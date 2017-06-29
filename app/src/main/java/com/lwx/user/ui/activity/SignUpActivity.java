@@ -1,6 +1,7 @@
 package com.lwx.user.ui.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -35,13 +36,37 @@ public class SignUpActivity extends AppCompatActivity implements SignUpContract.
     @OnClick(R.id.submit)
     public void onClick(){
 
-        if(!(userNameOK && passwordOK)){
-
-            return;
-        }
         String user = userEdit.getText().toString();
         String passwd = passwdEdit.getText().toString();
         String passwdTwo = passwdTwoEdit.getText().toString();
+
+        if(user.isEmpty()){
+
+            Toast.makeText(this,"用户名未输入",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(passwd.isEmpty()){
+
+            Toast.makeText(this,"密码未输入",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(passwdTwo.isEmpty()){
+
+            Toast.makeText(this,"重复密码未输入",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(!userNameOK){
+
+            Toast.makeText(this,"用户名格式有误",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(!passwordOK){
+
+            Toast.makeText(this,"两次密码输入不一致",Toast.LENGTH_SHORT).show();
+        }
+
+
         if(passwd.equals(passwdTwo)){
 
             presenter.doSignUp(user,passwd);
@@ -86,6 +111,7 @@ public class SignUpActivity extends AppCompatActivity implements SignUpContract.
 
     private void initToolbar(){
 
+        toolbar.setTitle("注册");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(v->finish());
@@ -167,6 +193,8 @@ public class SignUpActivity extends AppCompatActivity implements SignUpContract.
                     passwordOK = true;
                 }
                 else{
+
+
 
                     passwordOK = false;
                     passwdTwoCheck.setText(R.string.passwd_repeat_error);

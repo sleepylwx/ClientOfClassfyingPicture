@@ -13,6 +13,8 @@ import com.lwx.user.db.model.Image;
 import com.lwx.user.db.model.Label;
 import com.lwx.user.net.PictureAgent;
 import com.lwx.user.net.PictureImpl;
+import com.lwx.user.net.UserAgent;
+import com.lwx.user.net.UserAgentImpl;
 import com.lwx.user.utils.ConstStringMessages;
 
 import java.util.ArrayList;
@@ -37,6 +39,7 @@ public class ImageDetailPresenter implements ImageDetailContract.Presenter{
     private ImageRepo imageRepo;
     private LabelRepo labelRepo;
     private PictureAgent pictureAgent;
+    private UserAgent userAgent;
     private boolean isLabeled;
 
 
@@ -48,6 +51,7 @@ public class ImageDetailPresenter implements ImageDetailContract.Presenter{
         this.imageRepo = ImageImpl.getInstance();
         this.labelRepo = LabelImpl.getInstance();
         this.pictureAgent = PictureImpl.getInstance();
+        this.userAgent = UserAgentImpl.getInstance();
         this.isLabeled = isLabeled;
     }
 
@@ -457,5 +461,35 @@ public class ImageDetailPresenter implements ImageDetailContract.Presenter{
                     }
                 });
 
+    }
+
+    @Override
+    public void finishTask(String token, int num) {
+
+        userAgent.finishTask(token,num)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Integer>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(@NonNull Integer integer) {
+
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+
+                        Log.d(TAG,"finishTask");
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 }

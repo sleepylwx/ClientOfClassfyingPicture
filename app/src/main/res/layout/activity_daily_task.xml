@@ -1,10 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.lwx.user.ui.activity.DailyTaskActivity">
+    tools:context="com.lwx.user.ui.activity.DailyTaskActivity"
+    android:background="@drawable/back">
 
-</android.support.constraint.ConstraintLayout>
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbarlayout"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:layout_scrollFlags="scroll|enterAlways|snap"
+            >
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+
+    <TextView
+        android:id="@+id/notask"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="暂时还没有任务噢~"
+        android:visibility="gone"
+        android:layout_centerInParent="true"
+        android:textColor="#ffffff"/>
+
+    <TextView
+        android:id="@+id/task"
+        android:layout_marginTop="60dp"
+        android:layout_width="300dp"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/appbarlayout"
+        android:textColor="#ffffff"
+        android:textStyle="bold"/>
+
+    <Button
+        android:id="@+id/dotask"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:layout_below="@id/task"
+        android:layout_marginTop="30dp"
+        android:text="开始任务"
+        android:textColor="#ffffff"
+        android:background="@drawable/feedback_button"/>
+
+</RelativeLayout>

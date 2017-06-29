@@ -45,6 +45,9 @@
                 android:layout_margin="10dp"
                 android:layout_weight="1"
                 android:text="添加标签"
+                android:background="@drawable/feedback_button"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
                 android:textStyle="bold"
                 android:enabled="false"/>
 
@@ -55,10 +58,13 @@
                 android:layout_below="@id/flowlayout"
                 android:layout_margin="10dp"
                 android:layout_toRightOf="@id/add_label"
+                android:background="@drawable/feedback_button"
                 android:layout_weight="1"
                 android:text="提交标签"
                 android:textStyle="bold"
-                android:enabled="false"/>
+                android:enabled="false"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"/>
 
         </LinearLayout>
 
