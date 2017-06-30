@@ -37,7 +37,9 @@ public interface MainContract {
 
         void onImageLoadedFailed();
 
+        void onAllPictureLoadedInDBSuccess(List<Image> images);
 
+        void onImageLoadedDBSucceed(List<Image> images);
     }
 
     public interface Presenter extends BaseContract.Presenter<MainContract.View>{
@@ -54,7 +56,11 @@ public interface MainContract {
 
         void getMoreRandomPicturesByNetWork(long uid,int num);
 
+        void getAllPicturesInDb(long uid,boolean isLabeled);
 
+        void savePicturesInDb(long uid,List<Image> images);
+
+        void refreshUnLabeledImageDb(long uid,List<Image> images);
     }
 
 }

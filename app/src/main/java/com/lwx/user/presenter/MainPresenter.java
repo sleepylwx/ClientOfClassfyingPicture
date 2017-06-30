@@ -199,7 +199,7 @@ public class MainPresenter implements MainContract.Presenter {
 
                         Log.d(TAG,"getPictures by network success!");
                         context.onImageLoadedSucceed(images);
-                        addImageInDb(uid,images,"getPictures");
+                        //addImageInDb(uid,images,"getPictures");
                     }
 
                     @Override
@@ -234,7 +234,7 @@ public class MainPresenter implements MainContract.Presenter {
                                         }
                                         else{
 
-                                            context.onImageLoadedSucceed(images);
+                                            context.onImageLoadedDBSucceed(images);
                                         }
 
                                     }
@@ -262,6 +262,12 @@ public class MainPresenter implements MainContract.Presenter {
 
     }
 
+
+    @Override
+    public void savePicturesInDb(long uid, List<Image> images) {
+        addImageInDb(uid,images,"savePicturesInDb");
+    }
+
     @Override
     public void getMorePicturesByNetWork(long uid,String token,int num) {
 
@@ -281,7 +287,7 @@ public class MainPresenter implements MainContract.Presenter {
                         //context.nonShowWaitingNetWork();
                         //context.nonShowSwipe();
                         context.onImageLoadedSucceed(imageList);
-                        addImageInDb(uid,imageList,"getMorePicturesByNetWork");
+                        //addImageInDb(uid,imageList,"getMorePicturesByNetWork");
                     }
 
                     @Override
@@ -325,7 +331,7 @@ public class MainPresenter implements MainContract.Presenter {
                         context.nonShowSwipe();
                         context.clearAndSaveList(imageList);
 
-                        deleteAndSaveImageInDb(uid,imageList,"clearAndGetPicByNetWork");
+                        //deleteAndSaveImageInDb(uid,imageList,"clearAndGetPicByNetWork");
                     }
 
                     @Override
@@ -351,39 +357,12 @@ public class MainPresenter implements MainContract.Presenter {
                 });
     }
 
+    @Override
+    public void refreshUnLabeledImageDb(long uid, List<Image> images) {
 
-//    @Override
-//    public void getRandomPicsByNetWork(int num) {
-//
-//        pictureAgent.getRandPic(num)
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new Observer<List<Image>>() {
-//                    @Override
-//                    public void onSubscribe(Disposable d) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onNext(List<Image> images) {
-//
-//                        Log.d(TAG,"getRandomPicsPicturesByNew onNext");
-//                        context.onImageLoadedSucceed(images);
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//
-//                        Log.d(TAG,"getRandomPicsByNet onError");
-//                        e.printStackTrace();
-//                    }
-//
-//                    @Override
-//                    public void onComplete() {
-//
-//                    }
-//                });
-//    }
+        deleteAndSaveImageInDb(uid,images,"refreshUnLabeledImageDb");
+    }
+
 
     @Override
     public void clearAndGetMoreRandomPicByNet(long uid,int num) {
@@ -405,7 +384,7 @@ public class MainPresenter implements MainContract.Presenter {
                         context.nonShowSwipe();
 
                         context.clearAndSaveList(images);
-                        deleteAndSaveImageInDb(uid,images,"clearAndGetMoreRandomPicByNet");
+                        //deleteAndSaveImageInDb(uid,images,"clearAndGetMoreRandomPicByNet");
 
                     }
 
@@ -443,7 +422,7 @@ public class MainPresenter implements MainContract.Presenter {
 
                         Log.d(TAG,"getMoreRandomPicturesByNetWork onNext");
                         context.onImageLoadedSucceed(images);
-                        addImageInDb(uid,images,"getMoreRandomPicturesByNetWork");
+                        //addImageInDb(uid,images,"getMoreRandomPicturesByNetWork");
                     }
 
                     @Override
@@ -461,6 +440,7 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     private void addImageInDb(long uid,List<Image> images,String funcName){
+
 
         imageRepo.saveImages(uid,images,false)
                 .subscribeOn(Schedulers.io())
@@ -528,6 +508,39 @@ public class MainPresenter implements MainContract.Presenter {
                     public void onError(@NonNull Throwable e) {
 
                         Log.d(TAG,funcName + " delete db error!");
+                    }
+                });
+    }
+
+
+    @Override
+    public void getAllPicturesInDb(long uid, boolean isLabeled) {
+
+        imageRepo.getAllImages(uid,isLabeled)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<List<Image>>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(@NonNull List<Image> images) {
+
+                        Log.d(TAG,"getAllPicturesInDb success!");
+                        context.onAllPictureLoadedInDBSuccess(images);
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+
+                        Log.d(TAG,"getAllPicturesInDb failed!");
+                    }
+
+                    @Override
+                    public void onComplete() {
+
                     }
                 });
     }

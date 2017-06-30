@@ -34,7 +34,9 @@ import com.lwx.user.utils.ImageLoader;
 import com.lwx.user.utils.PreferenceHelper;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import butterknife.BindView;
@@ -65,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     private RecyclerViewAdapter adapter;
     private PreferenceHelper preferenceHelper;
     private List<Image> list;
+    private Set<String> set;
 
     private Menu menu;
     public static final String TAG = "MainActivity";
@@ -78,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         presenter = new MainPresenter(this);
         imageLoader = new ImageLoader();
         list = new ArrayList<>();
+        set = new HashSet<>();
         preferenceHelper = new PreferenceHelper();
         //headerImageView =strenthenToolBar.getHeaderView();
 
@@ -203,8 +207,27 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         initRecycleView();
 
         initUser();
-        initPicture();
+        initSet();
+        //initPicture();
 
+    }
+    private void initSet(){
+
+        presenter.getAllPicturesInDb(App.getInstance().getUid(),
+                true);
+    }
+
+    @Override
+    public void onAllPictureLoadedInDBSuccess(List<Image> images) {
+
+        for(int i = 0; i < images.size(); ++i){
+
+            set.add(images.get(i).uuid);
+        }
+
+        Log.d(TAG,"setNum " + set.size());
+
+        initPicture();
     }
 
     private int userMode;
@@ -319,28 +342,70 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     public void onImageLoadedSucceed(List<Image> imageList) {
 
-        Log.d(TAG, "imageLoaded succeed!");
 
+        Log.d(TAG, "imageLoaded succeed!");
+        List<Image> temp = new ArrayList<>();
         for (int i = 0; i < imageList.size(); ++i) {
 
             Log.d(TAG, "uuid:" + imageList.get(i).uuid + " path:" + imageList.get(i).imagePath);
+
+            if(!set.contains(imageList.get(i).uuid)){
+
+
+                temp.add(imageList.get(i));
+            }
+
+        }
+        canScroll = true;
+        Log.d(TAG,"tempSize " + temp.size() + " " + imageList.size() );
+        addImages(temp);
+        presenter.savePicturesInDb(App.getInstance().getUid(),temp);
+    }
+
+    @Override
+    public void onImageLoadedDBSucceed(List<Image> imageList) {
+
+        Log.d(TAG, "imageLoadedDB succeed!");
+        List<Image> temp = new ArrayList<>();
+        for (int i = 0; i < imageList.size(); ++i) {
+
+            Log.d(TAG, "uuid:" + imageList.get(i).uuid + " path:" + imageList.get(i).imagePath);
+
+//            if(!set.contains(imageList.get(i))){
+//
+//
+//                temp.add(imageList.get(i));
+//            }
+
         }
         canScroll = true;
 
-        addImages(imageList);
-
+        addImages(temp);
     }
 
     @Override
     public void clearAndSaveList(List<Image> imageList) {
 
-        if (imageList != null) {
+        if(imageList == null){
 
-            this.list = imageList;
+            return;
         }
+
+        List<Image> images = new ArrayList<>();
+
+        for(int i = 0; i < imageList.size() ; ++i){
+
+            if(!set.contains(imageList.get(i).uuid)){
+
+                images.add(imageList.get(i));
+            }
+        }
+        this.list = images;
         Log.d(TAG, "clear and save list");
         adapter.setData(this.list);
         adapter.notifyDataSetChanged();
+
+        presenter.refreshUnLabeledImageDb(App.getInstance().getUid(),list);
     }
 
     private void addImages(List<Image> images) {
@@ -505,6 +570,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
             case RESULTCODE:
                 Log.d(TAG,"delete unSignedLabel");
+                set.add(list.get(position).uuid);
+                Log.d(TAG,"setNum " + set.size());
+
                 list.remove(position);
                 Log.d(TAG,"position size " + list.size());
                 adapter.notifyItemRemoved(position);
@@ -570,4 +638,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             App.getInstance().setHaveTask(false);
         }
     }
+
+
+
 }

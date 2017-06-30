@@ -1,5 +1,7 @@
 package com.lwx.user.db;
 
+import android.util.Log;
+
 import com.elvishew.xlog.XLog;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
@@ -505,6 +507,10 @@ public class ImageImpl implements ImageRepo {
                         .and()
                         .eq(Image.ISLABLED_FIELD,oddIsLabeled)
                         .query();
+
+                Log.d("ImageImpl",list.get(0).uid + " " +
+                list.get(0).imagePath + " " + list.get(0).isLabeled + " "
+                + list.get(0).uuid);
 
                 for(int i = 0 ; i < list.size() ; ++i){
 

@@ -105,6 +105,8 @@ public class ImageDetailActivity extends Activity implements ImageDetailContract
 
     @Override
     protected void onDestroy() {
+
+        Log.d(TAG,"onDestroy");
         super.onDestroy();
         presenter = null;
     }
@@ -234,6 +236,7 @@ public class ImageDetailActivity extends Activity implements ImageDetailContract
     }
 
     private List<String> postedLabels;
+    private List<String> tempLabels;
     @Override
     public void onLabelsPostSucceed(List<String> labels) {
 
@@ -269,9 +272,24 @@ public class ImageDetailActivity extends Activity implements ImageDetailContract
         Toast.makeText(this,stringBuffer.toString(),Toast.LENGTH_SHORT).show();
 
         postedLabels = labels;
-
+        tempLabels = labels;
         presenter.changeUnSignedImageToSigned(App.getInstance().getUid(),uuid,isLabeled,true);
 
+
+
+
+    }
+
+    @Override
+    public void onChangeUnSignedImageToSignedSuccess() {
+
+        for(int i = 0 ; i < postedLabels.size() ;++i){
+
+            Log.d(TAG,"postedLabels " + postedLabels.get(i));
+        }
+
+        Log.d(TAG,"presenter + " + presenter);
+        presenter.saveSelectedLabelsByImage(App.getInstance().getUid(),curImage,postedLabels);
 
         if(!isLabeled){
 
@@ -296,9 +314,9 @@ public class ImageDetailActivity extends Activity implements ImageDetailContract
             }
 
             int flag = 0;
-            for(int i = 0; i < labels.size(); ++i){
+            for(int i = 0; i < tempLabels.size(); ++i){
 
-                if(labels.get(i).equals(title)){
+                if(tempLabels.get(i).equals(title)){
 
                     flag = 1;
                     break;
@@ -317,18 +335,6 @@ public class ImageDetailActivity extends Activity implements ImageDetailContract
 
 
         }
-
-    }
-
-    @Override
-    public void onChangeUnSignedImageToSignedSuccess() {
-
-        for(int i = 0 ; i < postedLabels.size() ;++i){
-
-            Log.d(TAG,"postedLabels " + postedLabels.get(i));
-        }
-        presenter.saveSelectedLabelsByImage(App.getInstance().getUid(),curImage,postedLabels);
-
     }
 
     @Override
