@@ -38,5 +38,5 @@ public interface UserRepo {
 
     Observable<User> getUser(long uid);
 
-    Completable clearToken(long uid);
+
 }

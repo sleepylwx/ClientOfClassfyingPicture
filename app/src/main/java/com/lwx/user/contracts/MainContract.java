@@ -62,7 +62,7 @@ public interface MainContract {
 
         void refreshUnLabeledImageDb(long uid,List<Image> images);
 
-        void clearToken(long uid);
+
     }
 
 }
