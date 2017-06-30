@@ -8,6 +8,12 @@
     tools:context="com.lwx.user.ui.activity.DailyTaskActivity"
     android:background="@drawable/back">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#aaffffff">
+
+
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbarlayout"
@@ -38,7 +44,7 @@
         android:text="暂时还没有任务噢~"
         android:visibility="gone"
         android:layout_centerInParent="true"
-        android:textColor="#ffffff"/>
+        android:textColor="#000000"/>
 
     <TextView
         android:id="@+id/task"
@@ -47,7 +53,7 @@
         android:layout_height="100dp"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/appbarlayout"
-        android:textColor="#ffffff"
+        android:textColor="#000000"
         android:textStyle="bold"/>
 
     <Button
@@ -61,4 +67,5 @@
         android:textColor="#ffffff"
         android:background="@drawable/feedback_button"/>
 
+    </RelativeLayout>
 </RelativeLayout>

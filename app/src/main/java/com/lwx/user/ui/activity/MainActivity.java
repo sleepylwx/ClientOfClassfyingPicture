@@ -187,6 +187,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                     intent.putExtra(LoginActivity.MATCH_NUM, App.getInstance().getUid());
 
                     Log.d(TAG, "exit login" + " " + App.getInstance().getUid());
+
                     startActivity(intent);
                     finish();
                 }

@@ -20,6 +20,7 @@ public interface ImageDetailContract {
         void onImageLabelAddedSucceed(String label);
         //void onSignedLabelsLoadSucceed(List<Label> labels);
         void onChangeUnSignedImageToSignedSuccess();
+        void onSaveSelectedLabelsByImageSuccess();
 
     }
 

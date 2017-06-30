@@ -544,5 +544,11 @@ public class MainPresenter implements MainContract.Presenter {
                     }
                 });
     }
+
+    @Override
+    public void clearToken(long uid){
+
+
+    }
 }
 

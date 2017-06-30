@@ -29,11 +29,8 @@
             android:name=".ui.activity.LoginActivity"
             android:launchMode="singleTask"/>
         <activity android:name=".ui.activity.SignUpActivity"/>
-        <activity android:name=".debug.DebugActivity">
-            <intent-filter>
-                <action android:name="acoder.me.debug"/>
-            </intent-filter>
-        </activity>
+
+
         <activity android:name=".ui.activity.FindPasswdActivity">
         </activity>
         <activity

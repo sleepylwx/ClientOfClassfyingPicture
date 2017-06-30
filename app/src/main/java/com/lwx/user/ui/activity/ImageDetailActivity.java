@@ -291,6 +291,13 @@ public class ImageDetailActivity extends Activity implements ImageDetailContract
         Log.d(TAG,"presenter + " + presenter);
         presenter.saveSelectedLabelsByImage(App.getInstance().getUid(),curImage,postedLabels);
 
+
+    }
+
+    @Override
+    public void onSaveSelectedLabelsByImageSuccess() {
+
+
         if(!isLabeled){
 
             Log.d(TAG,"onLabelsPostSucceed unSigned");
@@ -335,6 +342,7 @@ public class ImageDetailActivity extends Activity implements ImageDetailContract
 
 
         }
+
     }
 
     @Override

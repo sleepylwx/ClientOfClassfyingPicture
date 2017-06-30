@@ -450,6 +450,7 @@ public class ImageDetailPresenter implements ImageDetailContract.Presenter{
                     public void onComplete() {
 
                         Log.d(TAG,"saveSelectedImageAndLabels second success");
+                        context.onSaveSelectedLabelsByImageSuccess();
                     }
 
                     @Override
@@ -478,12 +479,20 @@ public class ImageDetailPresenter implements ImageDetailContract.Presenter{
                     @Override
                     public void onNext(@NonNull Integer integer) {
 
+                        Log.d(TAG,"finishTask");
                     }
 
                     @Override
                     public void onError(@NonNull Throwable e) {
 
-                        Log.d(TAG,"finishTask");
+                        if(ConstStringMessages.TOKEN_ERROR.equals(e.getMessage())){
+
+                            context.onTokenError();
+                            context.jumpToLoginActivityForTokenError();
+                            return;
+                        }
+
+
                     }
 
                     @Override

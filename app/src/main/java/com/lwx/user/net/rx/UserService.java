@@ -57,4 +57,9 @@ public interface UserService {
     @POST("postfeedback.action")
     @FormUrlEncoded
     Call<String> uploadFeedBack(@Field("token") String token,@Field("content")String content);
+
+
+    @POST("finishjob.action")
+    @FormUrlEncoded
+    Call<String> finishTask(@Field("token")String token,@Field("jobid")int jobid,@Field("param") int num);
 }

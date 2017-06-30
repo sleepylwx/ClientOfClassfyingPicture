@@ -61,6 +61,8 @@ public interface MainContract {
         void savePicturesInDb(long uid,List<Image> images);
 
         void refreshUnLabeledImageDb(long uid,List<Image> images);
+
+        void clearToken(long uid);
     }
 
 }

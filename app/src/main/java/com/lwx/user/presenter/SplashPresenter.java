@@ -60,8 +60,8 @@ public class SplashPresenter implements SplashContract.Presenter {
         if (uid == -1) {
 
             Log.d(TAG,"auto login error : no uid has logined");
-            checkTimeMatched(startTime);
-            context.jumpToLoginActivity(-1,false);
+            //checkTimeMatched(startTime);
+            context.dispatch(0,-1,false);
             return;
         }
 
@@ -74,9 +74,8 @@ public class SplashPresenter implements SplashContract.Presenter {
 
                         if (s == null || s.equals("")) {
 
-                            checkTimeMatched(startTime);
-                            context.onTokenInvalid();
-                            context.jumpToLoginActivity(uid,true);
+                            //checkTimeMatched(startTime);
+                            context.dispatch(1,uid,false);
 
                         } else {
 
@@ -95,32 +94,32 @@ public class SplashPresenter implements SplashContract.Presenter {
                                         public void onComplete() {
 
                                             isAuthFailed = false;
-                                            checkTimeMatched(startTime);
+                                            //checkTimeMatched(startTime);
                                             App.getInstance().setToken(s);
                                             App.getInstance().setUid(uid);
-                                            context.jumpToMainActivity(uid);
+                                            context.dispatch(2,uid,false);
+
                                         }
 
                                         @Override
                                         public void onError(Throwable e) {
 
 
-                                            checkTimeMatched(startTime);
+
 
                                             if(TOKENAUTHFAILED.equals(e.getMessage())){
 
                                                 isAuthFailed = true;
-                                                context.onTokenAuthFailed();
-                                                context.jumpToLoginActivity(uid,isAuthFailed);
+                                                context.dispatch(3,uid,isAuthFailed);
                                                 Log.d(TAG,"Auth failed, token incorrect!");
                                             }
                                             else{
 
                                                 isAuthFailed = false;
-                                                context.onNetWorkError();
+
                                                 App.getInstance().setUid(uid);
                                                 App.getInstance().setToken(s);
-                                                context.jumpToMainActivity(uid);
+                                                context.dispatch(4,uid,false);
                                                 Log.d(TAG,"Auth failed,network error!");
                                             }
 
@@ -140,6 +139,7 @@ public class SplashPresenter implements SplashContract.Presenter {
         long minus = System.currentTimeMillis() - startTime;
         if(minus < WAIT_TIME){
 
+            Log.d(TAG,"checkTimeMatched " + (WAIT_TIME - minus));
             SystemClock.sleep(WAIT_TIME - minus);
         }
     }

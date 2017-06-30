@@ -456,6 +456,33 @@ public class UserAgentImpl implements UserAgent{
 
     @Override
     public Observable<Integer> finishTask(String token, int num) {
-        return null;
+
+
+        return Observable.create(new ObservableOnSubscribe<Integer>() {
+            @Override
+            public void subscribe(@NonNull ObservableEmitter<Integer> e) throws Exception {
+
+                try{
+
+                    Response<String> response = userService.finishTask(token,1,num).execute();
+
+                    String content = response.body();
+                    JSONObject jsonObject = new JSONObject(content);
+                    if(jsonObject.getBoolean("err")){
+
+                        e.onError(new Throwable(jsonObject.getString("msg")));
+                        return;
+                    }
+
+                    e.onNext(jsonObject.getInt("score"));
+                }
+
+                catch (IOException | JSONException ex){
+
+                    e.onError(ex);
+                }
+
+            }
+        });
     }
 }

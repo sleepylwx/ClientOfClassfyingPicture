@@ -82,6 +82,16 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
         String user = userEdittext.getText();
         String passwd = passwdEdittext.getText();
+        if(user.isEmpty()){
+
+            Toast.makeText(this,"请输入用户名",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(passwd.isEmpty()){
+
+            Toast.makeText(this,"请输入密码",Toast.LENGTH_SHORT).show();
+            return;
+        }
         if(curToken == null){
 
             presenter.login(user,passwd);

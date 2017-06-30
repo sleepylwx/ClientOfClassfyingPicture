@@ -14,6 +14,8 @@ public interface SplashContract {
 
         void onTokenInvalid();
 
+        void dispatch(int param,long uid,boolean isAuthFailed);
+
     }
 
     public interface Presenter extends BaseContract.Presenter<SplashContract.View>{
