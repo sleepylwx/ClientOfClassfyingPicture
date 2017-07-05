@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.lwx.user.ui.activity.HistoryStatisticsActivity">
+
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbarlayout"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:layout_scrollFlags="scroll|enterAlways|snap"
+            >
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/appbarlayout">
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.beardedhen.androidbootstrap.BootstrapButtonGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="BootstrapButtonGroup"
+                android:orientation="horizontal"
+                app:bootstrapBrand="success"
+                app:bootstrapSize="lg"
+                app:roundedCorners="true"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                >
+                <com.beardedhen.androidbootstrap.BootstrapButton
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:text="日"
+                    />
+                <com.beardedhen.androidbootstrap.BootstrapButton
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:text="月"
+                    />
+                <com.beardedhen.androidbootstrap.BootstrapButton
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:text="年"
+                    />
+            </com.beardedhen.androidbootstrap.BootstrapButtonGroup>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                >
+
+                <Button
+                    android:id="@+id/left"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:background="@drawable/left_selector"
+                    android:layout_marginLeft="10dp"
+                    android:layout_alignParentLeft="true"/>
+
+                <TextView
+                    android:id="@+id/date_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:text= "text"
+                    android:gravity="center"
+                    android:layout_centerInParent="true"/>
+
+                <Button
+                    android:id="@+id/right"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:background="@drawable/right_selector"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="10dp"/>
+
+            </RelativeLayout>
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/chart"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                />
+
+
+            <com.github.mikephil.charting.charts.PieChart
+
+                android:id="@+id/piechart"
+                android:layout_width="match_parent"
+                android:layout_height="600dp"
+                android:layout_marginTop="30dp"
+                />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_margin="50dp"
+                android:background="#bc8f8f"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text = "当前已标记:"
+                    android:textColor="#ffffff"
+                    android:layout_marginLeft="5dp"/>
+
+                <TextView
+                    android:id="@+id/num_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:textColor="#ffffff"
+                    android:textSize="30sp"
+                    />
+
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+
+
+
+</RelativeLayout>

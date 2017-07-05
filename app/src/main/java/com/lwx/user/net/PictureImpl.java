@@ -1,9 +1,12 @@
 package com.lwx.user.net;
 
+import android.util.Log;
+
 import com.elvishew.xlog.XLog;
 import com.lwx.user.App;
 import com.lwx.user.db.model.Image;
 import com.lwx.user.db.model.ImageLabel;
+import com.lwx.user.db.model.Pair;
 import com.lwx.user.net.rx.PictureService;
 import com.lwx.user.net.rx.StringConverterFactory;
 
@@ -13,6 +16,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import io.reactivex.Completable;
@@ -38,6 +43,8 @@ public class PictureImpl implements PictureAgent {
     public static PictureImpl getInstance() {
         return ourInstance;
     }
+
+    public static final String TAG = "PictureImpl";
     private PictureService picService;
 
     private PictureImpl() {
@@ -118,6 +125,7 @@ public class PictureImpl implements PictureAgent {
                     for(int i = 0 ; i < len ;i++){
                         ansList.add(jsonArray.getString(i));
                     }
+
                     e.onNext(ansList);
 
                 } catch (IOException |JSONException ex) {
@@ -232,5 +240,67 @@ public class PictureImpl implements PictureAgent {
                 observer.onNext(new Image(-1L,uuid,App.BASE_URL + "getpic.action?uuid=" + uuid));
             }
         };
+    }
+
+    @Override
+    public Observable<Integer> getTotalLabelsNum(long uid) {
+
+        return Observable.create(new ObservableOnSubscribe<Integer>() {
+            @Override
+            public void subscribe(@NonNull ObservableEmitter<Integer> e) throws Exception {
+
+
+
+                try{
+
+                    Response<String> response = picService.getUserTotalLabelsNum(uid).execute();
+                    String content = response.body();
+                    JSONObject jsonObject = new JSONObject(content);
+                    e.onNext(jsonObject.getInt("tagcnt"));
+
+                }
+                catch (IOException |JSONException ex){
+
+                    e.onError(ex);
+                }
+            }
+        });
+    }
+
+
+    @Override
+    public Observable<List<Pair>> getLabelsNum(long uid) {
+
+        return Observable.create(new ObservableOnSubscribe<List<Pair>>() {
+            @Override
+            public void subscribe(@NonNull ObservableEmitter<List<Pair>> e) throws Exception {
+
+                try{
+
+                    Response<String> response = picService.getLabelsNum(uid).execute();
+                    String content = response.body();
+                    JSONObject jsonObject = new JSONObject(content);
+
+                    JSONArray array = jsonObject.getJSONArray("tags");
+
+                    List<Pair> list = new ArrayList<Pair>();
+                    Log.d(TAG,"jsonarray size : " + list.size());
+                    for(int i = 0; i < array.length(); ++i){
+
+                        JSONObject map = array.getJSONObject(i);
+                        list.add(new Pair(map.getString("tagname"),
+                                map.getInt("cnt")));
+                    }
+
+                    Collections.sort(list);
+                    e.onNext(list);
+                }
+
+                catch (IOException | JSONException ex){
+
+                    e.onError(ex);
+                }
+            }
+        });
     }
 }

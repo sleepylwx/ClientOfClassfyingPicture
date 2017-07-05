@@ -56,4 +56,6 @@ dependencies {
     compile 'cn.finalteam.rxgalleryfinal:library:1.0.8'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+    compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
+    compile 'com.beardedhen:androidbootstrap:+'
 }

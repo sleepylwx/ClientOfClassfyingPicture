@@ -33,5 +33,11 @@ public interface PictureService {
     @FormUrlEncoded
     Call<String> markMutiTags(@Field("token") String token,@Field("tagnames") String tagNames, @Field("uuid") String uuid);
 
+    @POST("/getusertagcntall.action")
+    @FormUrlEncoded
+    Call<String> getUserTotalLabelsNum(@Field("uid") long uid);
 
+    @POST("/getusertagcnt.action")
+    @FormUrlEncoded
+    Call<String> getLabelsNum(@Field("uid")long uid);
 }

@@ -2,6 +2,7 @@ package com.lwx.user.net;
 
 import com.lwx.user.db.model.Image;
 import com.lwx.user.db.model.ImageLabel;
+import com.lwx.user.db.model.Pair;
 
 import java.util.List;
 
@@ -50,4 +51,8 @@ public interface PictureAgent {
     Completable markMutiTags(String token, String uuid, List<String> tags);
 
     Observable<Image> getSpecificPic(String uuid);
+
+    Observable<Integer> getTotalLabelsNum(long uid);
+
+    Observable<List<Pair>> getLabelsNum(long uid);
 }

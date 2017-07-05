@@ -29,8 +29,6 @@
             android:name=".ui.activity.LoginActivity"
             android:launchMode="singleTask"/>
         <activity android:name=".ui.activity.SignUpActivity"/>
-
-
         <activity android:name=".ui.activity.FindPasswdActivity">
         </activity>
         <activity
@@ -62,6 +60,8 @@
         <activity android:name=".ui.activity.FeedBackActivity">
         </activity>
         <activity android:name=".ui.activity.DailyTaskActivity">
+        </activity>
+        <activity android:name=".ui.activity.HistoryStatisticsActivity">
         </activity>
     </application>
 

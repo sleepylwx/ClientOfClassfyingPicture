@@ -10,7 +10,6 @@ import android.widget.Toast;
 
 import com.lwx.user.App;
 import com.lwx.user.R;
-import com.lwx.user.db.model.Task;
 import com.lwx.user.net.UserAgent;
 import com.lwx.user.net.UserAgentImpl;
 import com.lwx.user.utils.PreferenceHelper;
@@ -20,11 +19,6 @@ import java.util.Random;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
 public class DailyTaskActivity extends AppCompatActivity {
 

@@ -3,6 +3,7 @@ package com.lwx.user;
 import android.app.Application;
 import android.support.annotation.NonNull;
 
+import com.beardedhen.androidbootstrap.TypefaceProvider;
 import com.elvishew.xlog.LogConfiguration;
 import com.elvishew.xlog.LogLevel;
 import com.elvishew.xlog.XLog;
@@ -46,6 +47,8 @@ public class App extends Application {
         XLog.init(config);
 
         RxJavaPlugins.setErrorHandler(t->{XLog.e("Unhandled Exception By RxJava" , t);});
+
+        TypefaceProvider.registerDefaultIconSets();
     }
 
     public void setGetPicNum(int num){

@@ -34,6 +34,11 @@ public class FeedBackActivity extends AppCompatActivity {
     public void onClick(){
 
         String text = editText.getText().toString();
+        if(text.isEmpty()){
+
+            Toast.makeText(this,"请输入反馈信息",Toast.LENGTH_SHORT).show();
+            return;
+        }
         UserAgent userAgent = UserAgentImpl.getInstance();
 
         userAgent.postFeedBack(App.getInstance().getToken(),text)

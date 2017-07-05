@@ -17,6 +17,10 @@
         <menu>
 
             <item
+                android:id="@+id/nav_history"
+                android:title="统计信息"/>
+
+            <item
                 android:id="@+id/nav_label"
                 android:title="标记的标签" />
 

@@ -1,6 +1,5 @@
 package com.lwx.user.net;
 
-import com.lwx.user.db.model.Task;
 import com.lwx.user.db.model.User;
 
 import java.util.List;

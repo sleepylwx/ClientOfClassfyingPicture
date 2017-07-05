@@ -21,7 +21,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.signature.StringSignature;
 import com.lwx.user.App;
 import com.lwx.user.R;
@@ -159,6 +158,11 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 if(id == R.id.nav_dailytask){
 
                     Intent intent = new Intent(MainActivity.this,DailyTaskActivity.class);
+                    startActivity(intent);
+                }
+                else if(id == R.id.nav_history){
+
+                    Intent intent = new Intent(MainActivity.this,HistoryStatisticsActivity.class);
                     startActivity(intent);
                 }
                 else if (id == R.id.nav_label) {
