@@ -37,4 +37,9 @@ public class DayNum {
         num = 0;
     }
 
+    public DayNum(){
+
+
+    }
+
 }

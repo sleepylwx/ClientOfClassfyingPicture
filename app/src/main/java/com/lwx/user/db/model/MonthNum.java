@@ -33,4 +33,9 @@ public class MonthNum {
         num = 0;
     }
 
+    public MonthNum(){
+
+
+    }
+
 }

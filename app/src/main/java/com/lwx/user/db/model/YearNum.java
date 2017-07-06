@@ -7,7 +7,7 @@ import com.j256.ormlite.table.DatabaseTable;
  * Created by 36249 on 2017/7/6.
  */
 
-@DatabaseTable(tableName = "monthnum")
+@DatabaseTable(tableName = "yearnum")
 public class YearNum {
 
 
@@ -27,6 +27,11 @@ public class YearNum {
         this.uid = uid;
         this.year = year;
         this.num = 0;
+    }
+
+    public YearNum(){
+
+
     }
 
 }
