@@ -1,11 +1,15 @@
 package com.lwx.user.presenter;
 
+import android.util.Log;
+
 import com.lwx.user.contracts.HistoryStatisticsContract;
+import com.lwx.user.db.ImageImpl;
 import com.lwx.user.db.ImageRepo;
 import com.lwx.user.db.model.Pair;
 import com.lwx.user.net.PictureAgent;
 import com.lwx.user.net.PictureImpl;
 
+import java.util.Calendar;
 import java.util.List;
 
 import io.reactivex.Observer;
@@ -23,11 +27,12 @@ public class HistoryStatisticsPresenter implements HistoryStatisticsContract.Pre
 
     private HistoryStatisticsContract.View context;
     private PictureAgent pictureAgent;
+    private ImageRepo imageRepo;
     public HistoryStatisticsPresenter(HistoryStatisticsContract.View context){
 
         this.context = context;
         pictureAgent = PictureImpl.getInstance();
-
+        imageRepo = ImageImpl.getInstance();
     }
 
     @Override
@@ -36,9 +41,34 @@ public class HistoryStatisticsPresenter implements HistoryStatisticsContract.Pre
     }
 
     @Override
-    public void getTimeNum(long uid, int kind, int start, int end) {
+    public void getTimeNum(long uid, int kind, Calendar start,Calendar end) {
 
+        imageRepo.getTimeNum(uid,kind,start,end)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<List<Integer>>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
 
+                    }
+
+                    @Override
+                    public void onNext(@NonNull List<Integer> integers) {
+
+                        Log.d("HistoryStatistics","onNextSuccess");
+                        context.onGetTimeNumSuccess(integers);
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 
     @Override

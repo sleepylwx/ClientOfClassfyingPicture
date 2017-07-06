@@ -2,9 +2,13 @@ package com.lwx.user.db;
 
 
 
+import android.content.Intent;
+
 import com.lwx.user.db.model.Image;
 import com.lwx.user.db.model.Label;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import io.reactivex.Completable;
@@ -122,4 +126,14 @@ public interface ImageRepo {
     Observable<List<Image>> getImagesByLabel(long uid,String label,boolean isLabeled);
 
     Completable changeImageLabeledProperty(long uid,String uuid,boolean oddIsLabeled,boolean isLabeled);
+
+    Completable addDayNum(long uid,int year,int month,int day);
+
+    Completable addMonthNum(long uid,int year,int month);
+
+    Completable addYearNum(long uid,int year);
+
+    Observable<List<Integer>> getTimeNum(long uid, int kind, Calendar start, Calendar end);
+
+
 }

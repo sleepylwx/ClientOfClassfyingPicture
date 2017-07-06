@@ -1,17 +1,22 @@
 package com.lwx.user.db;
 
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.elvishew.xlog.XLog;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
-import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.lwx.user.db.model.Image;
 import com.lwx.user.db.model.ImageLabel;
 import com.lwx.user.db.model.Label;
+import com.lwx.user.db.model.DayNum;
+import com.lwx.user.db.model.MonthNum;
+import com.lwx.user.db.model.YearNum;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import io.reactivex.Completable;
@@ -299,7 +304,9 @@ public class ImageImpl implements ImageRepo {
     Dao<Image, String> imageDAO = null;
     Dao<ImageLabel, Long> imageLabelDAO = null;
     Dao<Label, String> labelDAO = null;
-
+    Dao<DayNum,Long> dayNumDAO = null;
+    Dao<MonthNum,Long> monthNumDAO = null;
+    Dao<YearNum,Long> yearNumDAO = null;
 
     @Override
     public Observable<List<Image>> getAllImages(long uid,boolean isLabeled) {
@@ -554,8 +561,165 @@ public class ImageImpl implements ImageRepo {
             imageDAO = DbHelper.getInstance().getDao(Image.class);
             imageLabelDAO = DbHelper.getInstance().getDao(ImageLabel.class);
             labelDAO = DbHelper.getInstance().getDao(Label.class);
+            dayNumDAO = DbHelper.getInstance().getDao(DayNum.class);
+            monthNumDAO = DbHelper.getInstance().getDao(MonthNum.class);
+            yearNumDAO = DbHelper.getInstance().getDao(YearNum.class);
+
         }catch (Exception e){
             XLog.e("SQL Exception" , e);
         }
+    }
+
+    @Override
+    public Completable addDayNum(long uid, int year, int month, int day) {
+
+        return Completable.create(new CompletableOnSubscribe() {
+            @Override
+            public void subscribe(@NonNull CompletableEmitter e) throws Exception {
+
+
+                DayNum temp =  dayNumDAO.queryForSameId(new DayNum(
+                        uid,year,month,day
+                ));
+                if(temp == null){
+
+                    temp = new DayNum(uid,year,month,day);
+                }
+                ++temp.num;
+                dayNumDAO.createOrUpdate(temp);
+                e.onComplete();
+
+            }
+        });
+
+    }
+
+    @Override
+    public Completable addMonthNum(long uid, int year, int month) {
+
+        return Completable.create(new CompletableOnSubscribe() {
+            @Override
+            public void subscribe(@NonNull CompletableEmitter e) throws Exception {
+
+                MonthNum temp = monthNumDAO.queryForSameId(new MonthNum(
+                        uid,year,month
+                ));
+                if(temp == null){
+
+                    temp = new MonthNum(uid,year,month);
+                }
+                ++temp.num;
+                monthNumDAO.createOrUpdate(temp);
+                e.onComplete();
+            }
+        });
+    }
+
+    @Override
+    public Completable addYearNum(long uid, int year) {
+
+
+        return Completable.create(new CompletableOnSubscribe() {
+            @Override
+            public void subscribe(@NonNull CompletableEmitter e) throws Exception {
+
+                YearNum temp = yearNumDAO.queryForSameId(new YearNum(
+                        uid,year
+                ));
+                if(temp == null){
+
+                    temp = new YearNum(uid,year);
+                }
+                ++temp.num;
+                yearNumDAO.createOrUpdate(temp);
+                e.onComplete();
+            }
+        });
+    }
+
+    @Override
+    public Observable<List<Integer>> getTimeNum(long uid, int kind, Calendar start, Calendar end) {
+
+        return Observable.create(new ObservableOnSubscribe<List<Integer>>() {
+            @Override
+            public void subscribe(@NonNull ObservableEmitter<List<Integer>> e) throws Exception {
+
+                Calendar temp = (Calendar) start.clone();
+                List<Integer> list = new ArrayList<Integer>();
+                if(kind == 0){
+
+                    while(temp.before(end) || temp.equals(end)){
+
+                        int year = temp.get(Calendar.YEAR);
+                        int month = temp.get(Calendar.MONTH) + 1;
+                        int day = temp.get(Calendar.DAY_OF_MONTH);
+
+                        DayNum dayNum = dayNumDAO.queryForSameId(new DayNum(uid,year,month,day));
+
+                        if(dayNum == null){
+
+                            list.add(0);
+                        }
+                        else{
+
+                            list.add(dayNum.num);
+                        }
+
+                        temp.add(Calendar.DAY_OF_MONTH,1);
+                    }
+
+
+                    e.onNext(list);
+                }
+                else if(kind == 1){
+
+
+                    while(temp.before(end) || temp.equals(end)){
+
+                        int year = temp.get(Calendar.YEAR);
+                        int month = temp.get(Calendar.MONTH);
+
+                        MonthNum monthNum = monthNumDAO.queryForSameId(new MonthNum(uid,year,month));
+
+                        if(monthNum == null){
+
+                            list.add(0);
+                        }
+                        else{
+
+                            list.add(monthNum.num);
+                        }
+
+                        temp.add(Calendar.MONTH,1);
+                    }
+
+                    e.onNext(list);
+                }
+                else{
+
+                    while(temp.before(end) || temp.equals(end)){
+
+
+                        int year = temp.get(Calendar.YEAR);
+
+                        YearNum yearNum = yearNumDAO.queryForSameId(new YearNum(uid,year));
+
+                        if(yearNum == null){
+
+                            list.add(0);
+                        }
+                        else{
+
+                            list.add(yearNum.num);
+                        }
+
+                        temp.add(Calendar.YEAR,1);
+                    }
+
+                    e.onNext(list);
+                }
+
+            }
+        });
     }
 }

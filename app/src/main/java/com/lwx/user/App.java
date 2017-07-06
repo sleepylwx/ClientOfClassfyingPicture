@@ -29,6 +29,7 @@ public class App extends Application {
     //public static final String BASE_URL = "http://ttxs.ac.cn:8088/";
     public static final String BASE_URL = "http://hw.acoder.me:8088/";
 
+
     @Override
     public void onCreate() {
 
@@ -44,7 +45,11 @@ public class App extends Application {
                 .b()                                                   // Enable border, disabled by default
                 .build();
 
+
+
         XLog.init(config);
+
+
 
         RxJavaPlugins.setErrorHandler(t->{XLog.e("Unhandled Exception By RxJava" , t);});
 

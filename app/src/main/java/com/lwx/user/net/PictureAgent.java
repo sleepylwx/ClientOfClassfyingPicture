@@ -55,4 +55,5 @@ public interface PictureAgent {
     Observable<Integer> getTotalLabelsNum(long uid);
 
     Observable<List<Pair>> getLabelsNum(long uid);
+
 }

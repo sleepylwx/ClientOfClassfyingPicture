@@ -58,4 +58,9 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
     compile 'com.beardedhen:androidbootstrap:+'
+
+    testCompile "org.robolectric:robolectric:3.3.1"
+    testCompile "org.mockito:mockito-core:+"
+    testCompile 'org.khronos:opengl-api:gl1.1-android-2.1_r1'
+
 }

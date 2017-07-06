@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
@@ -38,22 +40,117 @@ import com.lwx.user.presenter.HistoryStatisticsPresenter;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class HistoryStatisticsActivity extends AppCompatActivity implements HistoryStatisticsContract.View{
 
     @BindView(R.id.toolbar)Toolbar toolbar;
     @BindView(R.id.date_text)TextView dateText;
+    @BindView(R.id.day)BootstrapButton dayButton;
+    @BindView(R.id.month)BootstrapButton monthButton;
+    @BindView(R.id.year)BootstrapButton yearButon;
+    @BindView(R.id.left)Button left;
+    @BindView(R.id.right)Button right;
     @BindView(R.id.chart)BarChart barChart;
     @BindView(R.id.piechart)PieChart pieChart;
     @BindView(R.id.num_text)TextView numText;
 
     private int count = 0;
 
+    private int kind = 0;
+
+
     private HistoryStatisticsContract.Presenter presenter;
+
+    private Calendar start;
+    private Calendar end;
+
+    @OnClick(R.id.left)
+    void onClick(){
+
+        if(kind == 0 ){
+
+            start.add(Calendar.DAY_OF_MONTH,-7);
+            end.add(Calendar.DAY_OF_MONTH,-7);
+            presenter.getTimeNum(App.getInstance().getUid(),kind,start,end);
+        }
+        else if(kind == 1){
+
+            start.add(Calendar.MONTH,-7);
+            end.add(Calendar.MONTH,-7);
+            presenter.getTimeNum(App.getInstance().getUid(),
+                    kind,start,end);
+        }
+        else{
+
+
+            start.add(Calendar.YEAR,-4);
+            end.add(Calendar.YEAR,-4);
+            presenter.getTimeNum(App.getInstance().getUid(),
+                    kind,start,end);
+        }
+    }
+
+    @OnClick(R.id.right)
+    void onClick1(){
+
+        if(kind == 0 ){
+
+            start.add(Calendar.DAY_OF_MONTH,7);
+            end.add(Calendar.DAY_OF_MONTH,7);
+            presenter.getTimeNum(App.getInstance().getUid(),kind,start,end);
+        }
+        else if(kind == 1){
+
+            start.add(Calendar.MONTH,7);
+            end.add(Calendar.MONTH,7);
+            presenter.getTimeNum(App.getInstance().getUid(),
+                    kind,start,end);
+        }
+        else{
+
+
+            start.add(Calendar.YEAR,4);
+            end.add(Calendar.YEAR,4);
+            presenter.getTimeNum(App.getInstance().getUid(),
+                    kind,start,end);
+        }
+    }
+    @OnClick(R.id.day)
+    void onClick2(){
+
+        kind = 0;
+        end = Calendar.getInstance();
+        start = (Calendar) end.clone();
+        start.add(Calendar.DAY_OF_MONTH,-6);
+        presenter.getTimeNum(App.getInstance().getUid(),kind,start,end);
+    }
+
+    @OnClick(R.id.month)
+    void onClick3(){
+        kind = 1;
+        end = Calendar.getInstance();
+        start = (Calendar) end.clone();
+        start.add(Calendar.MONTH,-6);
+        presenter.getTimeNum(App.getInstance().getUid(),kind,start,end);
+    }
+
+    @OnClick(R.id.year)
+    void onClick4(){
+
+        kind = 2;
+        end = Calendar.getInstance();
+        start = (Calendar) end.clone();
+        start.add(Calendar.YEAR,-3);
+        presenter.getTimeNum(App.getInstance().getUid(),kind,start,end);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,10 +205,22 @@ public class HistoryStatisticsActivity extends AppCompatActivity implements Hist
         barChart.getAxisRight().setEnabled(false);
         barChart.animateXY(1000,2000);
 
-        barChart.setTouchEnabled(false);
-        barChart.setDragEnabled(false);
-        barChart.setScaleEnabled(false);
+//        barChart.setTouchEnabled(false);
+//        barChart.setDragEnabled(false);
+//        barChart.setScaleEnabled(false);
 
+
+        //temp.
+        //dateText.setText(temp.getYear() +"年" +temp.getMonth() + "月" +
+       // start + "日~" +  end + "日") ;
+
+        Calendar end = Calendar.getInstance();
+        Calendar start = (Calendar) end.clone();
+        this.start =start;
+        this.end = end;
+        start.add(Calendar.DAY_OF_MONTH,-6);
+        presenter.getTimeNum(App.getInstance().getUid(),
+                kind,start,end);
 
         //chart.setDrawValueAboveBar(true);
         //chart.setHighlightFullBarEnabled(true);
@@ -120,22 +229,7 @@ public class HistoryStatisticsActivity extends AppCompatActivity implements Hist
 
        // chart.setDoubleTapToZoomEnabled(true);
 
-        List<BarEntry> entries = new ArrayList<>();
-        entries.add(new BarEntry(1,10));
-        entries.add(new BarEntry(2,20));
-        entries.add(new BarEntry(3,30));
-        entries.add(new BarEntry(4,40));
-        entries.add(new BarEntry(5,50));
-        entries.add(new BarEntry(6,60));
-        entries.add(new BarEntry(7,70));
 
-        BarDataSet barDataSet = new BarDataSet(entries,"labels");
-       // barDataSet.setColors(new int[]{Color.rgb(255, 241, 226),Color.rgb(155, 241, 226),Color.rgb(255, 21, 226), Color.rgb(255, 241, 26)});
-
-        BarData barData = new BarData(barDataSet);
-
-        barChart.setData(barData);
-        barChart.invalidate();
     }
 
     private void initPieChart(){
@@ -200,8 +294,48 @@ public class HistoryStatisticsActivity extends AppCompatActivity implements Hist
 
 
     @Override
-    public void onGetTimeNumSuccess(List<Pair> list) {
+    public void onGetTimeNumSuccess(List<Integer> list) {
 
+        Log.d(TAG,"size + " + list.size());
+        List<BarEntry> entries = new ArrayList<>();
+
+        Calendar temp = (Calendar) start.clone();
+
+        if(kind == 0){
+
+
+            for(int i = 0; i < list.size() ; ++i){
+
+                entries.add(new BarEntry(temp.get(Calendar.DAY_OF_MONTH),list.get(i)));
+                temp.add(Calendar.DAY_OF_MONTH,1);
+            }
+
+        }
+        else if(kind == 1){
+
+            for(int i = 0; i < list.size() ; ++i){
+
+                entries.add(new BarEntry(temp.get(Calendar.MONTH)+1,list.get(i)));
+                temp.add(Calendar.MONTH,1);
+            }
+        }
+        else{
+
+            for(int i = 0; i < list.size() ;++i){
+
+                entries.add(new BarEntry(temp.get(Calendar.YEAR),list.get(i)));
+                temp.add(Calendar.YEAR,1);
+            }
+        }
+
+        BarDataSet barDataSet = new BarDataSet(entries,"");
+        // barDataSet.setColors(new int[]{Color.rgb(255, 241, 226),Color.rgb(155, 241, 226),Color.rgb(255, 21, 226), Color.rgb(255, 241, 26)});
+
+        BarData barData = new BarData(barDataSet);
+
+
+        barChart.setData(barData);
+        barChart.invalidate();
 
     }
 

@@ -42,6 +42,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+
             <com.beardedhen.androidbootstrap.BootstrapButtonGroup
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -52,18 +53,23 @@
                 app:roundedCorners="true"
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
+                app:buttonMode="radio"
                 >
                 <com.beardedhen.androidbootstrap.BootstrapButton
+                    android:id="@+id/day"
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
                     android:text="日"
+                    app:checked="true"
                     />
                 <com.beardedhen.androidbootstrap.BootstrapButton
+                    android:id="@+id/month"
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
                     android:text="月"
                     />
                 <com.beardedhen.androidbootstrap.BootstrapButton
+                    android:id="@+id/year"
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
                     android:text="年"

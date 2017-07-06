@@ -52,6 +52,8 @@ public interface ImageDetailContract {
 
         void finishTask(String token,int num);
 
+        void addPostTimeNum(long uid,int year,int month,int day);
+
     }
 
 }

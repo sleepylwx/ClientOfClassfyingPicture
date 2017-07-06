@@ -29,6 +29,7 @@ import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -274,9 +275,9 @@ public class ImageDetailActivity extends Activity implements ImageDetailContract
         postedLabels = labels;
         tempLabels = labels;
         presenter.changeUnSignedImageToSigned(App.getInstance().getUid(),uuid,isLabeled,true);
-
-
-
+        Date date = new Date();
+        presenter.addPostTimeNum(App.getInstance().getUid(),
+                date.getYear(),date.getMonth(),date.getDay());
 
     }
 
