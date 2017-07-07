@@ -1,10 +1,10 @@
-package com.lwx.user.db;
+package com.lwx.user.model;
 
 import com.elvishew.xlog.XLog;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
-import com.lwx.user.db.model.ImageLabel;
-import com.lwx.user.db.model.Label;
+import com.lwx.user.model.model.ImageLabel;
+import com.lwx.user.model.model.Label;
 
 import java.util.List;
 

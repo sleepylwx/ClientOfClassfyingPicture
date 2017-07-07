@@ -2,11 +2,10 @@ package com.lwx.user.presenter;
 
 import android.util.Log;
 
-import com.lwx.user.contracts.HistoryImageContract;
 import com.lwx.user.contracts.HistoryLabelContract;
-import com.lwx.user.db.ImageImpl;
-import com.lwx.user.db.ImageRepo;
-import com.lwx.user.db.model.Label;
+import com.lwx.user.model.ImageImpl;
+import com.lwx.user.model.ImageRepo;
+import com.lwx.user.model.model.Label;
 
 import java.util.ArrayList;
 import java.util.List;

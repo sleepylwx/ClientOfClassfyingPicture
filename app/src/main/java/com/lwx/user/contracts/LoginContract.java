@@ -1,6 +1,6 @@
 package com.lwx.user.contracts;
 
-import com.lwx.user.db.model.User;
+import com.lwx.user.model.model.User;
 
 import java.util.List;
 

@@ -2,11 +2,10 @@ package com.lwx.user.presenter;
 
 import android.util.Log;
 
-import com.lwx.user.contracts.CheckTokenContract;
 import com.lwx.user.contracts.UserDetailContract;
-import com.lwx.user.db.UserImpl;
-import com.lwx.user.db.UserRepo;
-import com.lwx.user.db.model.User;
+import com.lwx.user.model.UserImpl;
+import com.lwx.user.model.UserRepo;
+import com.lwx.user.model.model.User;
 import com.lwx.user.net.UserAgent;
 import com.lwx.user.net.UserAgentImpl;
 import com.lwx.user.utils.ConstStringMessages;

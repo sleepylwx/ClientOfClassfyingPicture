@@ -1,6 +1,6 @@
-package com.lwx.user.db;
+package com.lwx.user.model;
 
-import com.lwx.user.db.model.User;
+import com.lwx.user.model.model.User;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.lwx.user.db.model;
+package com.lwx.user.model.model;
 
 import android.support.annotation.NonNull;
 

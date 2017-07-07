@@ -2,13 +2,11 @@ package com.lwx.user.ui.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,8 +17,7 @@ import com.github.chrisbanes.photoview.PhotoView;
 import com.lwx.user.App;
 import com.lwx.user.R;
 import com.lwx.user.contracts.ImageDetailContract;
-import com.lwx.user.db.model.Image;
-import com.lwx.user.db.model.Label;
+import com.lwx.user.model.model.Image;
 import com.lwx.user.presenter.ImageDetailPresenter;
 import com.lwx.user.utils.ImageLoader;
 import com.lwx.user.utils.PreferenceHelper;
@@ -29,8 +26,7 @@ import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
 
@@ -275,9 +271,10 @@ public class ImageDetailActivity extends Activity implements ImageDetailContract
         postedLabels = labels;
         tempLabels = labels;
         presenter.changeUnSignedImageToSigned(App.getInstance().getUid(),uuid,isLabeled,true);
-        Date date = new Date();
+
+        Calendar date = Calendar.getInstance();
         presenter.addPostTimeNum(App.getInstance().getUid(),
-                date.getYear(),date.getMonth(),date.getDay());
+                date.get(Calendar.YEAR),date.get(Calendar.MONTH)+1,date.get(Calendar.DAY_OF_MONTH));
 
     }
 

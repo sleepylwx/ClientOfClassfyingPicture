@@ -1,6 +1,4 @@
-package com.lwx.user.db;
-
-import static org.junit.Assert.*;
+package com.lwx.user.model;
 
 /**
  * Created by henry on 17-4-19.

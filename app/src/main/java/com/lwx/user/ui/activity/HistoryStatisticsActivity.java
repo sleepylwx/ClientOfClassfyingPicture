@@ -12,20 +12,18 @@ import android.widget.Toast;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
-import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
@@ -34,14 +32,12 @@ import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.lwx.user.App;
 import com.lwx.user.R;
 import com.lwx.user.contracts.HistoryStatisticsContract;
-import com.lwx.user.db.model.Pair;
+import com.lwx.user.model.model.Pair;
 import com.lwx.user.presenter.HistoryStatisticsPresenter;
-
-import org.w3c.dom.Text;
+import com.lwx.user.utils.Date;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -71,29 +67,36 @@ public class HistoryStatisticsActivity extends AppCompatActivity implements Hist
     private Calendar start;
     private Calendar end;
 
+    public static final int YEARCHANGE = 5;
+    public static final int MONTHCHANGE = 6;
+    public static final int DAYCHANGE = 7;
+
     @OnClick(R.id.left)
     void onClick(){
 
         if(kind == 0 ){
 
-            start.add(Calendar.DAY_OF_MONTH,-7);
-            end.add(Calendar.DAY_OF_MONTH,-7);
+            start.add(Calendar.DAY_OF_MONTH,-DAYCHANGE);
+            end.add(Calendar.DAY_OF_MONTH,-DAYCHANGE);
             presenter.getTimeNum(App.getInstance().getUid(),kind,start,end);
+            //initDateText();
         }
         else if(kind == 1){
 
-            start.add(Calendar.MONTH,-7);
-            end.add(Calendar.MONTH,-7);
+            start.add(Calendar.MONTH,-MONTHCHANGE);
+            end.add(Calendar.MONTH,-MONTHCHANGE);
             presenter.getTimeNum(App.getInstance().getUid(),
                     kind,start,end);
+            //initDateText();
         }
         else{
 
 
-            start.add(Calendar.YEAR,-4);
-            end.add(Calendar.YEAR,-4);
+            start.add(Calendar.YEAR,-YEARCHANGE);
+            end.add(Calendar.YEAR,-YEARCHANGE);
             presenter.getTimeNum(App.getInstance().getUid(),
                     kind,start,end);
+            //initDateText();
         }
     }
 
@@ -102,54 +105,30 @@ public class HistoryStatisticsActivity extends AppCompatActivity implements Hist
 
         if(kind == 0 ){
 
-            start.add(Calendar.DAY_OF_MONTH,7);
-            end.add(Calendar.DAY_OF_MONTH,7);
+            start.add(Calendar.DAY_OF_MONTH,DAYCHANGE);
+            end.add(Calendar.DAY_OF_MONTH,DAYCHANGE);
             presenter.getTimeNum(App.getInstance().getUid(),kind,start,end);
+            //initDateText();
         }
         else if(kind == 1){
 
-            start.add(Calendar.MONTH,7);
-            end.add(Calendar.MONTH,7);
+            start.add(Calendar.MONTH,MONTHCHANGE);
+            end.add(Calendar.MONTH,MONTHCHANGE);
             presenter.getTimeNum(App.getInstance().getUid(),
                     kind,start,end);
+            //initDateText();
         }
         else{
 
 
-            start.add(Calendar.YEAR,4);
-            end.add(Calendar.YEAR,4);
+            start.add(Calendar.YEAR,YEARCHANGE);
+            end.add(Calendar.YEAR,YEARCHANGE);
             presenter.getTimeNum(App.getInstance().getUid(),
                     kind,start,end);
+            //initDateText();
         }
     }
-    @OnClick(R.id.day)
-    void onClick2(){
 
-        kind = 0;
-        end = Calendar.getInstance();
-        start = (Calendar) end.clone();
-        start.add(Calendar.DAY_OF_MONTH,-6);
-        presenter.getTimeNum(App.getInstance().getUid(),kind,start,end);
-    }
-
-    @OnClick(R.id.month)
-    void onClick3(){
-        kind = 1;
-        end = Calendar.getInstance();
-        start = (Calendar) end.clone();
-        start.add(Calendar.MONTH,-6);
-        presenter.getTimeNum(App.getInstance().getUid(),kind,start,end);
-    }
-
-    @OnClick(R.id.year)
-    void onClick4(){
-
-        kind = 2;
-        end = Calendar.getInstance();
-        start = (Calendar) end.clone();
-        start.add(Calendar.YEAR,-3);
-        presenter.getTimeNum(App.getInstance().getUid(),kind,start,end);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -167,11 +146,63 @@ public class HistoryStatisticsActivity extends AppCompatActivity implements Hist
     private void init(){
 
         initToolbar();
+        initButton();
         initBarChart();
         initPieChart();
         initNumText();
     }
 
+    private void initButton(){
+
+        dayButton.setOnCheckedChangedListener(new BootstrapButton.OnCheckedChangedListener() {
+            @Override
+            public void OnCheckedChanged(BootstrapButton bootstrapButton, boolean isChecked) {
+
+                if(!isChecked){
+
+                    return;
+                }
+                kind = 0;
+                end = Calendar.getInstance();
+                start = (Calendar) end.clone();
+                start.add(Calendar.DAY_OF_MONTH,-(DAYCHANGE -1));
+                presenter.getTimeNum(App.getInstance().getUid(),kind,start,end);
+            }
+        });
+
+        monthButton.setOnCheckedChangedListener(new BootstrapButton.OnCheckedChangedListener() {
+            @Override
+            public void OnCheckedChanged(BootstrapButton bootstrapButton, boolean isChecked) {
+
+                if(!isChecked){
+
+                    return;
+                }
+                kind = 1;
+                end = Calendar.getInstance();
+                start = (Calendar) end.clone();
+                start.add(Calendar.MONTH,-(MONTHCHANGE - 1));
+                presenter.getTimeNum(App.getInstance().getUid(),kind,start,end);
+            }
+        });
+
+        yearButon.setOnCheckedChangedListener(new BootstrapButton.OnCheckedChangedListener() {
+            @Override
+            public void OnCheckedChanged(BootstrapButton bootstrapButton, boolean isChecked) {
+
+                if(!isChecked){
+
+                    return;
+                }
+
+                kind = 2;
+                end = Calendar.getInstance();
+                start = (Calendar) end.clone();
+                start.add(Calendar.YEAR,-(YEARCHANGE - 1));
+                presenter.getTimeNum(App.getInstance().getUid(),kind,start,end);
+            }
+        });
+    }
 
     private void initToolbar(){
 
@@ -201,6 +232,36 @@ public class HistoryStatisticsActivity extends AppCompatActivity implements Hist
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawAxisLine(true);
         xAxis.setDrawGridLines(false);
+        xAxis.setGranularity(1f);
+        xAxis.setValueFormatter(new IAxisValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+
+                int a = (int)value;
+                if(kind == 0){
+
+                    Date date = new Date();
+                    int year = start.get(Calendar.YEAR);
+                    int month = start.get(Calendar.MONTH)+1;
+                    int num = date.getMonthDayNum(year,month);
+                    if(a > num){
+
+                        a = a - num;
+                    }
+                }
+                else if(kind == 1){
+
+                    if(a > 12){
+
+                        a = a - 12;
+                    }
+                }
+                return String.valueOf(a);
+            }
+        });
+
+
+
         barChart.getAxisLeft().setEnabled(false);
         barChart.getAxisRight().setEnabled(false);
         barChart.animateXY(1000,2000);
@@ -218,7 +279,7 @@ public class HistoryStatisticsActivity extends AppCompatActivity implements Hist
         Calendar start = (Calendar) end.clone();
         this.start =start;
         this.end = end;
-        start.add(Calendar.DAY_OF_MONTH,-6);
+        start.add(Calendar.DAY_OF_MONTH,-(DAYCHANGE - 1));
         presenter.getTimeNum(App.getInstance().getUid(),
                 kind,start,end);
 
@@ -296,40 +357,72 @@ public class HistoryStatisticsActivity extends AppCompatActivity implements Hist
     @Override
     public void onGetTimeNumSuccess(List<Integer> list) {
 
+
+
         Log.d(TAG,"size + " + list.size());
+
+        for(int i = 0; i < list.size() ; ++i){
+
+            Log.d(TAG,"value + "+ list.get(i));
+        }
         List<BarEntry> entries = new ArrayList<>();
 
-        Calendar temp = (Calendar) start.clone();
 
         if(kind == 0){
 
-
+            int startDay = start.get(Calendar.DAY_OF_MONTH);
             for(int i = 0; i < list.size() ; ++i){
 
-                entries.add(new BarEntry(temp.get(Calendar.DAY_OF_MONTH),list.get(i)));
-                temp.add(Calendar.DAY_OF_MONTH,1);
+
+                entries.add(new BarEntry(startDay+i,list.get(i)));
+
             }
 
         }
         else if(kind == 1){
 
+            int startMonth = start.get(Calendar.MONTH)+1;
             for(int i = 0; i < list.size() ; ++i){
 
-                entries.add(new BarEntry(temp.get(Calendar.MONTH)+1,list.get(i)));
-                temp.add(Calendar.MONTH,1);
+                entries.add(new BarEntry(startMonth+i,list.get(i)));
+
             }
         }
         else{
 
+            int startYear = start.get(Calendar.YEAR);
             for(int i = 0; i < list.size() ;++i){
 
-                entries.add(new BarEntry(temp.get(Calendar.YEAR),list.get(i)));
-                temp.add(Calendar.YEAR,1);
+                entries.add(new BarEntry(startYear+i,list.get(i)));
+
             }
         }
 
+
         BarDataSet barDataSet = new BarDataSet(entries,"");
         // barDataSet.setColors(new int[]{Color.rgb(255, 241, 226),Color.rgb(155, 241, 226),Color.rgb(255, 21, 226), Color.rgb(255, 241, 26)});
+
+//        for(int i = 0; i < entries.size() ; ++i){
+//
+//            barDataSet.addEntryOrdered(entries.get(i));
+//        }
+
+
+
+        barDataSet.setValueFormatter(new IValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+
+                int a = (int)entry.getY();
+                if(a == 0){
+
+                    return " ";
+                }
+                return String.valueOf(a);
+
+            }
+        });
+
 
         BarData barData = new BarData(barDataSet);
 
@@ -337,8 +430,19 @@ public class HistoryStatisticsActivity extends AppCompatActivity implements Hist
         barChart.setData(barData);
         barChart.invalidate();
 
+        initDateText();
     }
 
+    private void initDateText(){
+
+        dateText.setText(
+                start.get(Calendar.YEAR) + "年" + (start.get(Calendar.MONTH)+1) + "月"
+                        + start.get(Calendar.DAY_OF_MONTH) + "日 ~ "
+                        + end.get(Calendar.YEAR) + "年" + (end.get(Calendar.MONTH)+1) + "月"
+                        + end.get(Calendar.DAY_OF_MONTH) + "日"
+        );
+
+    }
     @Override
     public void onGetLabelsNumSuccess(List<Pair> list) {
 

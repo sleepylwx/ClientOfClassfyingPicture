@@ -1,4 +1,4 @@
-package com.lwx.user.db.model;
+package com.lwx.user.model.model;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -11,15 +11,21 @@ import com.j256.ormlite.table.DatabaseTable;
 public class YearNum {
 
 
-    @DatabaseField(generatedId = true,columnName = "id")
+    public static final String ID = "id";
+    public static final String UID = "uid";
+    public static final String YEAR = "year";
+
+    public static final String NUM = "num";
+
+    @DatabaseField(generatedId = true,columnName = ID)
     public long id;
-    @DatabaseField(columnName = "uid",uniqueCombo = true)
+    @DatabaseField(columnName = UID,uniqueCombo = true)
     public long uid;
 
-    @DatabaseField(columnName = "year",uniqueCombo = true)
+    @DatabaseField(columnName = YEAR,uniqueCombo = true)
     public int year;
 
-    @DatabaseField(columnName = "num")
+    @DatabaseField(columnName = NUM)
     public int num;
 
     public YearNum(long uid,int year){

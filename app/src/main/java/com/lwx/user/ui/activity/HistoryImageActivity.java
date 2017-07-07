@@ -14,7 +14,7 @@ import com.lwx.user.App;
 import com.lwx.user.R;
 import com.lwx.user.adapter.RecyclerViewAdapter;
 import com.lwx.user.contracts.HistoryImageContract;
-import com.lwx.user.db.model.Image;
+import com.lwx.user.model.model.Image;
 import com.lwx.user.presenter.HistoryImagePresenter;
 
 import java.util.ArrayList;

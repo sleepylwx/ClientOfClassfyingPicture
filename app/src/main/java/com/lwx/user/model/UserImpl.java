@@ -1,10 +1,8 @@
-package com.lwx.user.db;
-
-import android.icu.lang.UScript;
+package com.lwx.user.model;
 
 import com.elvishew.xlog.XLog;
 import com.j256.ormlite.dao.Dao;
-import com.lwx.user.db.model.User;
+import com.lwx.user.model.model.User;
 
 import java.util.List;
 

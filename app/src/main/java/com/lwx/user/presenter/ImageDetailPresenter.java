@@ -1,16 +1,15 @@
 package com.lwx.user.presenter;
 
-import android.support.v7.widget.LinearLayoutCompat;
 import android.util.Log;
 
 import com.lwx.user.App;
 import com.lwx.user.contracts.ImageDetailContract;
-import com.lwx.user.db.ImageImpl;
-import com.lwx.user.db.ImageRepo;
-import com.lwx.user.db.LabelImpl;
-import com.lwx.user.db.LabelRepo;
-import com.lwx.user.db.model.Image;
-import com.lwx.user.db.model.Label;
+import com.lwx.user.model.ImageImpl;
+import com.lwx.user.model.ImageRepo;
+import com.lwx.user.model.LabelImpl;
+import com.lwx.user.model.LabelRepo;
+import com.lwx.user.model.model.Image;
+import com.lwx.user.model.model.Label;
 import com.lwx.user.net.PictureAgent;
 import com.lwx.user.net.PictureImpl;
 import com.lwx.user.net.UserAgent;
@@ -516,7 +515,7 @@ public class ImageDetailPresenter implements ImageDetailContract.Presenter{
 
                     @Override
                     public void onComplete() {
-
+                        Log.d(TAG,"addDayNum success");
                     }
 
                     @Override
@@ -537,6 +536,7 @@ public class ImageDetailPresenter implements ImageDetailContract.Presenter{
                     @Override
                     public void onComplete() {
 
+                        Log.d(TAG,"addMonthNum success");
                     }
 
                     @Override
@@ -556,6 +556,7 @@ public class ImageDetailPresenter implements ImageDetailContract.Presenter{
                     @Override
                     public void onComplete() {
 
+                        Log.d(TAG,"addYearNum success");
                     }
 
                     @Override

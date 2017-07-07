@@ -1,15 +1,12 @@
 package com.lwx.user.presenter;
 
-import android.content.Context;
 import android.util.Log;
 
 import com.lwx.user.contracts.SignUpContract;
-import com.lwx.user.db.model.User;
 import com.lwx.user.net.UserAgent;
 import com.lwx.user.net.UserAgentImpl;
 
 import io.reactivex.CompletableObserver;
-import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;

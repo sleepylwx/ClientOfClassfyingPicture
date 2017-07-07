@@ -1,22 +1,20 @@
-package com.lwx.user.db;
+package com.lwx.user.model;
 
-import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.elvishew.xlog.XLog;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.QueryBuilder;
-import com.lwx.user.db.model.Image;
-import com.lwx.user.db.model.ImageLabel;
-import com.lwx.user.db.model.Label;
-import com.lwx.user.db.model.DayNum;
-import com.lwx.user.db.model.MonthNum;
-import com.lwx.user.db.model.YearNum;
+import com.lwx.user.model.model.Image;
+import com.lwx.user.model.model.ImageLabel;
+import com.lwx.user.model.model.Label;
+import com.lwx.user.model.model.DayNum;
+import com.lwx.user.model.model.MonthNum;
+import com.lwx.user.model.model.YearNum;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import io.reactivex.Completable;
@@ -577,13 +575,27 @@ public class ImageImpl implements ImageRepo {
             @Override
             public void subscribe(@NonNull CompletableEmitter e) throws Exception {
 
+                QueryBuilder builder = dayNumDAO.queryBuilder();
 
-                DayNum temp =  dayNumDAO.queryForSameId(new DayNum(
-                        uid,year,month,day
-                ));
-                if(temp == null){
+
+                List<DayNum> list  =   builder.where()
+                        .eq(DayNum.UID,uid)
+                        .and()
+                        .eq(DayNum.YEAR,year)
+                        .and()
+                        .eq(DayNum.MONTH,month)
+                        .and()
+                        .eq(DayNum.DAY,day)
+                        .query();
+
+                DayNum temp ;
+                if(list == null || list.size() == 0){
 
                     temp = new DayNum(uid,year,month,day);
+                }
+                else{
+
+                    temp = list.get(0);
                 }
                 ++temp.num;
                 dayNumDAO.createOrUpdate(temp);
@@ -601,12 +613,24 @@ public class ImageImpl implements ImageRepo {
             @Override
             public void subscribe(@NonNull CompletableEmitter e) throws Exception {
 
-                MonthNum temp = monthNumDAO.queryForSameId(new MonthNum(
-                        uid,year,month
-                ));
-                if(temp == null){
+                QueryBuilder builder = monthNumDAO.queryBuilder();
+
+
+                List<MonthNum> list  =   builder.where()
+                        .eq(DayNum.UID,uid)
+                        .and()
+                        .eq(DayNum.YEAR,year)
+                        .and()
+                        .eq(DayNum.MONTH,month)
+                        .query();
+                MonthNum temp;
+                if(list == null || list.size() == 0){
 
                     temp = new MonthNum(uid,year,month);
+                }
+                else{
+
+                    temp = list.get(0);
                 }
                 ++temp.num;
                 monthNumDAO.createOrUpdate(temp);
@@ -623,13 +647,24 @@ public class ImageImpl implements ImageRepo {
             @Override
             public void subscribe(@NonNull CompletableEmitter e) throws Exception {
 
-                YearNum temp = yearNumDAO.queryForSameId(new YearNum(
-                        uid,year
-                ));
-                if(temp == null){
+                QueryBuilder builder = yearNumDAO.queryBuilder();
+
+
+                List<YearNum> list =   builder.where()
+                        .eq(DayNum.UID,uid)
+                        .and()
+                        .eq(DayNum.YEAR,year)
+                        .query();
+                YearNum temp;
+                if(list == null || list.size() == 0){
 
                     temp = new YearNum(uid,year);
                 }
+                else{
+
+                    temp = list.get(0);
+                }
+
                 ++temp.num;
                 yearNumDAO.createOrUpdate(temp);
                 e.onComplete();
@@ -654,15 +689,25 @@ public class ImageImpl implements ImageRepo {
                         int month = temp.get(Calendar.MONTH) + 1;
                         int day = temp.get(Calendar.DAY_OF_MONTH);
 
-                        DayNum dayNum = dayNumDAO.queryForSameId(new DayNum(uid,year,month,day));
+                        QueryBuilder builder = dayNumDAO.queryBuilder();
 
-                        if(dayNum == null){
+                        List<DayNum> qlist =   builder.where()
+                                .eq(DayNum.UID,uid)
+                                .and()
+                                .eq(DayNum.YEAR,year)
+                                .and()
+                                .eq(DayNum.MONTH,month)
+                                .and()
+                                .eq(DayNum.DAY,day)
+                                .query();
+
+                        if(qlist == null || qlist.size() == 0){
 
                             list.add(0);
                         }
                         else{
 
-                            list.add(dayNum.num);
+                            list.add(qlist.get(0).num);
                         }
 
                         temp.add(Calendar.DAY_OF_MONTH,1);
@@ -677,17 +722,25 @@ public class ImageImpl implements ImageRepo {
                     while(temp.before(end) || temp.equals(end)){
 
                         int year = temp.get(Calendar.YEAR);
-                        int month = temp.get(Calendar.MONTH);
+                        int month = temp.get(Calendar.MONTH)+1;
 
-                        MonthNum monthNum = monthNumDAO.queryForSameId(new MonthNum(uid,year,month));
+                        QueryBuilder builder = monthNumDAO.queryBuilder();
 
-                        if(monthNum == null){
+                        List<MonthNum> qlist =   builder.where()
+                                .eq(DayNum.UID,uid)
+                                .and()
+                                .eq(DayNum.YEAR,year)
+                                .and()
+                                .eq(DayNum.MONTH,month)
+                                .query();
+
+                        if(qlist == null || qlist.size() == 0){
 
                             list.add(0);
                         }
                         else{
 
-                            list.add(monthNum.num);
+                            list.add(qlist.get(0).num);
                         }
 
                         temp.add(Calendar.MONTH,1);
@@ -702,15 +755,21 @@ public class ImageImpl implements ImageRepo {
 
                         int year = temp.get(Calendar.YEAR);
 
-                        YearNum yearNum = yearNumDAO.queryForSameId(new YearNum(uid,year));
+                        QueryBuilder builder = yearNumDAO.queryBuilder();
 
-                        if(yearNum == null){
+                        List<YearNum> qlist =   builder.where()
+                                .eq(DayNum.UID,uid)
+                                .and()
+                                .eq(DayNum.YEAR,year)
+                                .query();
+
+                        if(qlist == null || qlist.size() == 0){
 
                             list.add(0);
                         }
                         else{
 
-                            list.add(yearNum.num);
+                            list.add(qlist.get(0).num);
                         }
 
                         temp.add(Calendar.YEAR,1);

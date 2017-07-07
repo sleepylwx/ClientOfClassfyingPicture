@@ -1,19 +1,15 @@
 package com.lwx.user.presenter;
 
-import android.content.Context;
 import android.util.Log;
 
 import com.lwx.user.App;
 import com.lwx.user.contracts.LoginContract;
-import com.lwx.user.db.UserImpl;
-import com.lwx.user.db.UserRepo;
-import com.lwx.user.db.model.User;
+import com.lwx.user.model.UserImpl;
+import com.lwx.user.model.UserRepo;
+import com.lwx.user.model.model.User;
 import com.lwx.user.net.UserAgent;
 import com.lwx.user.net.UserAgentImpl;
 import com.lwx.user.utils.PreferenceHelper;
-
-import org.reactivestreams.Subscriber;
-import org.reactivestreams.Subscription;
 
 import java.util.List;
 
@@ -22,8 +18,6 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.observers.SafeObserver;
 import io.reactivex.schedulers.Schedulers;
 
 /**

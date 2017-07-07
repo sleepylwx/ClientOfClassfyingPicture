@@ -1,4 +1,4 @@
-package com.lwx.user.db.model;
+package com.lwx.user.model.model;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;

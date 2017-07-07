@@ -13,11 +13,9 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.StringSignature;
-import com.lwx.user.App;
 import com.lwx.user.R;
 import com.lwx.user.contracts.LoginContract;
-import com.lwx.user.db.model.User;
-import com.lwx.user.utils.ImageLoader;
+import com.lwx.user.model.model.User;
 
 import java.util.List;
 import java.util.UUID;
@@ -25,11 +23,6 @@ import java.util.UUID;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
-import io.reactivex.BackpressureStrategy;
-import io.reactivex.Flowable;
-import io.reactivex.FlowableEmitter;
-import io.reactivex.FlowableOnSubscribe;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by 36249 on 2017/4/8.

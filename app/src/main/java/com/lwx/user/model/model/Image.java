@@ -1,15 +1,7 @@
-package com.lwx.user.db.model;
+package com.lwx.user.model.model;
 
-import android.provider.ContactsContract;
-
-import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.field.ForeignCollectionField;
-import com.j256.ormlite.field.types.LongObjectType;
 import com.j256.ormlite.table.DatabaseTable;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by 36249 on 2017/4/13.

@@ -1,6 +1,6 @@
 package com.lwx.user.contracts;
 
-import com.lwx.user.db.model.User;
+import com.lwx.user.model.model.User;
 
 /**
  * Created by 36249 on 2017/6/26.

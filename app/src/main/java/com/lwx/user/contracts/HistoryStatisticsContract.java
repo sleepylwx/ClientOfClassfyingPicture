@@ -1,6 +1,6 @@
 package com.lwx.user.contracts;
 
-import com.lwx.user.db.model.Pair;
+import com.lwx.user.model.model.Pair;
 
 import java.util.Calendar;
 import java.util.List;

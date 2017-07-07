@@ -1,11 +1,9 @@
 package com.lwx.user.net;
 
-import android.icu.lang.UScript;
 import android.util.Log;
 
-import com.elvishew.xlog.XLog;
 import com.lwx.user.App;
-import com.lwx.user.db.model.User;
+import com.lwx.user.model.model.User;
 import com.lwx.user.net.rx.StringConverterFactory;
 import com.lwx.user.net.rx.UserService;
 
@@ -16,7 +14,6 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import io.reactivex.Completable;

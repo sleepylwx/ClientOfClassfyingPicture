@@ -7,7 +7,6 @@ import com.beardedhen.androidbootstrap.TypefaceProvider;
 import com.elvishew.xlog.LogConfiguration;
 import com.elvishew.xlog.LogLevel;
 import com.elvishew.xlog.XLog;
-import com.lwx.user.db.model.User;
 
 import io.reactivex.plugins.RxJavaPlugins;
 

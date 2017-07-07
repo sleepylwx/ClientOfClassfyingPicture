@@ -5,16 +5,13 @@ import android.util.Log;
 
 import com.lwx.user.App;
 import com.lwx.user.contracts.SplashContract;
-import com.lwx.user.db.UserImpl;
-import com.lwx.user.db.UserRepo;
+import com.lwx.user.model.UserImpl;
+import com.lwx.user.model.UserRepo;
 import com.lwx.user.net.UserAgent;
 import com.lwx.user.net.UserAgentImpl;
 import com.lwx.user.utils.PreferenceHelper;
 
-import java.util.concurrent.TimeUnit;
-
 import io.reactivex.CompletableObserver;
-import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;

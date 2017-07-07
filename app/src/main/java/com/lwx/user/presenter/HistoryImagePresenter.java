@@ -3,9 +3,9 @@ package com.lwx.user.presenter;
 import android.util.Log;
 
 import com.lwx.user.contracts.HistoryImageContract;
-import com.lwx.user.db.ImageImpl;
-import com.lwx.user.db.ImageRepo;
-import com.lwx.user.db.model.Image;
+import com.lwx.user.model.ImageImpl;
+import com.lwx.user.model.ImageRepo;
+import com.lwx.user.model.model.Image;
 
 import java.util.List;
 

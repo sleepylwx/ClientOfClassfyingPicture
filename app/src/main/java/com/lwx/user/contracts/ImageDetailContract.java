@@ -1,7 +1,6 @@
 package com.lwx.user.contracts;
 
-import com.lwx.user.db.model.Image;
-import com.lwx.user.db.model.Label;
+import com.lwx.user.model.model.Image;
 
 import java.util.List;
 

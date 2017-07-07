@@ -2,14 +2,13 @@ package com.lwx.user.presenter;
 
 import android.util.Log;
 
-import com.lwx.user.App;
 import com.lwx.user.contracts.MainContract;
-import com.lwx.user.db.ImageImpl;
-import com.lwx.user.db.ImageRepo;
-import com.lwx.user.db.UserImpl;
-import com.lwx.user.db.UserRepo;
-import com.lwx.user.db.model.Image;
-import com.lwx.user.db.model.User;
+import com.lwx.user.model.ImageImpl;
+import com.lwx.user.model.ImageRepo;
+import com.lwx.user.model.UserImpl;
+import com.lwx.user.model.UserRepo;
+import com.lwx.user.model.model.Image;
+import com.lwx.user.model.model.User;
 import com.lwx.user.net.PictureAgent;
 import com.lwx.user.net.PictureImpl;
 import com.lwx.user.net.UserAgent;

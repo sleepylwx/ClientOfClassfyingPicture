@@ -1,8 +1,7 @@
 package com.lwx.user.net;
 
-import com.lwx.user.db.model.Image;
-import com.lwx.user.db.model.ImageLabel;
-import com.lwx.user.db.model.Pair;
+import com.lwx.user.model.model.Image;
+import com.lwx.user.model.model.Pair;
 
 import java.util.List;
 

@@ -9,7 +9,7 @@ import android.widget.ImageView;
 
 import com.lwx.user.R;
 import com.lwx.user.contracts.ToImageDetailContract;
-import com.lwx.user.db.model.Image;
+import com.lwx.user.model.model.Image;
 import com.lwx.user.utils.ImageLoader;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.lwx.user.db;
+package com.lwx.user.model;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -8,10 +8,13 @@ import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import com.lwx.user.App;
-import com.lwx.user.db.model.Image;
-import com.lwx.user.db.model.ImageLabel;
-import com.lwx.user.db.model.Label;
-import com.lwx.user.db.model.User;
+import com.lwx.user.model.model.DayNum;
+import com.lwx.user.model.model.Image;
+import com.lwx.user.model.model.ImageLabel;
+import com.lwx.user.model.model.Label;
+import com.lwx.user.model.model.MonthNum;
+import com.lwx.user.model.model.User;
+import com.lwx.user.model.model.YearNum;
 
 
 /**
@@ -33,7 +36,9 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable(connectionSource, Image.class);
             TableUtils.createTable(connectionSource, ImageLabel.class);
             TableUtils.createTable(connectionSource, Label.class);
-
+            TableUtils.createTable(connectionSource, DayNum.class);
+            TableUtils.createTable(connectionSource, MonthNum.class);
+            TableUtils.createTable(connectionSource, YearNum.class);
             XLog.v("数据库：创建数据表成功!");
         } catch (Exception e){
             XLog.e("数据库： 创建表时失败！" , e);

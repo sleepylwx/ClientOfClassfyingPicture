@@ -16,31 +16,19 @@ import com.bumptech.glide.signature.StringSignature;
 import com.lwx.user.App;
 import com.lwx.user.R;
 import com.lwx.user.contracts.UserDetailContract;
-import com.lwx.user.db.model.User;
+import com.lwx.user.model.model.User;
 import com.lwx.user.presenter.UserDetailPresenter;
 import com.lwx.user.utils.ImageLoader;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import cn.finalteam.rxgalleryfinal.RxGalleryFinal;
 import cn.finalteam.rxgalleryfinal.RxGalleryFinalApi;
-import cn.finalteam.rxgalleryfinal.bean.MediaBean;
-import cn.finalteam.rxgalleryfinal.imageloader.ImageLoaderType;
 import cn.finalteam.rxgalleryfinal.rxbus.RxBusResultSubscriber;
-import cn.finalteam.rxgalleryfinal.rxbus.event.ImageMultipleResultEvent;
 import cn.finalteam.rxgalleryfinal.ui.base.IRadioImageCheckedListener;
 import de.hdodenhof.circleimageview.CircleImageView;
-import io.reactivex.Single;
-import io.reactivex.SingleEmitter;
-import io.reactivex.SingleOnSubscribe;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.schedulers.Schedulers;
 
 public class UserDetailActivity extends AppCompatActivity implements UserDetailContract.View{
 
