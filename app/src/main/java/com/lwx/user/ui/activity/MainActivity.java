@@ -206,7 +206,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     private void init() {
 
-        detectTask();
+        detectNewTask();
         initNavigationView();
         initSwipeRefresh();
         initRecycleView();
@@ -623,7 +623,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
 
-    private void detectTask(){
+    private void detectNewTask(){
 
         long curTime = System.currentTimeMillis();
         long curDay = curTime / (1000* 60*60*24);
@@ -633,7 +633,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         if(lastDay == -1 || curDay - lastDay > 0){
 
 
-            preferenceHelper.setLong(DailyTaskActivity.TIME+App.getInstance().getUid(),curDay);
+            //preferenceHelper.setLong(DailyTaskActivity.TIME+App.getInstance().getUid(),curDay);
             App.getInstance().setHaveTask(true);
 
         }

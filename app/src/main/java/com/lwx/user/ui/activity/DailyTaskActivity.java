@@ -115,6 +115,9 @@ public class DailyTaskActivity extends AppCompatActivity {
 
             Random random = new Random();
             num = 10 + random.nextInt(22);
+            long curTime = System.currentTimeMillis();
+            long curDay = curTime / (1000* 60*60*24);
+            preferenceHelper.setLong(DailyTaskActivity.TIME+App.getInstance().getUid(),curDay);
             preferenceHelper.setInt(TASK+App.getInstance().getUid(),num);
         }
         else{
