@@ -530,12 +530,12 @@ public class ImageImpl implements ImageRepo {
 
                     for(int j = 0 ; j < imageLabelList.size() ; ++j){
 
-                        Label label = labelDAO.queryForSameId(imageLabelList.get(i).label);
+                        Label label = labelDAO.queryForSameId(imageLabelList.get(j).label);
 
                         --label.counter;
                         if(label.counter <= 0){
 
-                            labelDAO.delete(imageLabelList.get(i).label);
+                            labelDAO.delete(imageLabelList.get(j).label);
                         }
 
                         imageLabelDAO.delete(imageLabelList.get(j));
