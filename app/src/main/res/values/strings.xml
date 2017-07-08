@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">User</string>
+    <string name="app_name">志愿者APP</string>
 
     <!--Common-->
     <string name="network_error">网络出现问题了噢...</string>
