@@ -9,10 +9,9 @@
     tools:context="com.lwx.user.ui.activity.MainActivity">
 
     <android.support.design.widget.AppBarLayout
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
-
 
 
         <android.support.v7.widget.Toolbar
@@ -20,23 +19,69 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay"
             app:layout_scrollFlags="scroll|enterAlways|snap"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             >
-            
-            <TextView
-                android:id="@+id/toolbar_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textSize="20sp"
-                android:text="User"/>
-            </android.support.v7.widget.Toolbar>
+
+            <!--<android.support.v7.widget.SearchView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:iconifiedByDefault="false"-->
+                <!--android:queryHint="请输入搜索的标签"/>-->
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+
+                <Button
+                    android:id="@+id/searchbutton"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@android:drawable/ic_menu_search"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="5dp"
+                    android:visibility="invisible"
+                    />
+
+                <EditText
+                    android:id="@+id/header_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="45dp"
+                    android:hint="请输入待搜索的标签"
+                    android:maxLength="10"
+                    />
+
+
+            </RelativeLayout>
+
+        </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_main"/>
+    <include layout="@layout/content_main"
+        />
 
+    <!--<android.support.design.widget.BottomNavigationView-->
+    <!--android:id="@+id/bottomview"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="60dp"-->
+    <!--android:layout_gravity="bottom"-->
+    <!--app:menu="@menu/bottom"-->
+    <!--app:itemTextColor="@android:color/black"-->
+    <!--app:itemBackground="@android:color/white"/>-->
 
+    <com.ashokvarma.bottomnavigation.BottomNavigationBar
+        android:id="@+id/bottomview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:bnbAutoHideEnabled="true"
+
+        />
 
 </android.support.design.widget.CoordinatorLayout>

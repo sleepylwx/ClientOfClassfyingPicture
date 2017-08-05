@@ -1,6 +1,7 @@
 package com.lwx.user.contracts;
 
 import com.lwx.user.model.model.Image;
+import com.lwx.user.model.model.ImageSearch;
 import com.lwx.user.model.model.User;
 
 import java.util.List;
@@ -40,6 +41,13 @@ public interface MainContract {
         void onAllPictureLoadedInDBSuccess(List<Image> images);
 
         void onImageLoadedDBSucceed(List<Image> images);
+
+        void onImageSearchSucceed(List<Image> images);
+
+        void onImageSearchFailed();
+
+        void onGetImagesByLabelSucceed(List<Image> images);
+        void onGetImagesByLabelFailed();
     }
 
     public interface Presenter extends BaseContract.Presenter<MainContract.View>{
@@ -62,7 +70,11 @@ public interface MainContract {
 
         void refreshUnLabeledImageDb(long uid,List<Image> images);
 
+        void searchImages(String label, List<ImageSearch> imageSearchList);
 
+        void getImagesLabels(List<Image> image,List<ImageSearch> imageSearchList);
+
+        void getImagesByLabel(String label);
     }
 
 }

@@ -58,6 +58,7 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
     compile 'com.beardedhen:androidbootstrap:+'
+    compile "com.ashokvarma.android:bottom-navigation-bar:+"
 
     testCompile "org.robolectric:robolectric:3.3.1"
     testCompile "org.mockito:mockito-core:+"

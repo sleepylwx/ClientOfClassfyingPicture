@@ -1,7 +1,12 @@
 package com.lwx.user.ui.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -11,15 +16,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ashokvarma.bottomnavigation.BottomNavigationBar;
+import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.StringSignature;
 import com.lwx.user.App;
@@ -27,11 +40,13 @@ import com.lwx.user.R;
 import com.lwx.user.adapter.RecyclerViewAdapter;
 import com.lwx.user.contracts.MainContract;
 import com.lwx.user.model.model.Image;
+import com.lwx.user.model.model.ImageSearch;
 import com.lwx.user.model.model.User;
 import com.lwx.user.presenter.MainPresenter;
 import com.lwx.user.utils.ImageLoader;
 import com.lwx.user.utils.PreferenceHelper;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -40,6 +55,7 @@ import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity implements MainContract.View {
@@ -57,6 +73,25 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     DrawerLayout drawerLayout;
     CircleImageView headerImageView;
 
+    @BindView(R.id.bottomview)
+    BottomNavigationBar bottomNavigationView;
+    @BindView(R.id.header_edit)
+    EditText editText;
+    @BindView(R.id.searchbutton)
+    Button searchButton;
+
+    @OnClick(R.id.searchbutton)
+    public void onClick(){
+
+        String str = editText.getText().toString();
+        if(str == null || str.isEmpty()){
+
+            Toast.makeText(this,"请输入喜好标签",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        presenter.getImagesByLabel(str);
+
+    }
     public static final String MATCH_NUM = "1";
     public static final int RESULTCODE = 2;
     private MainContract.Presenter presenter;
@@ -66,9 +101,10 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     private RecyclerViewAdapter adapter;
     private PreferenceHelper preferenceHelper;
     private List<Image> list;
+    private List<ImageSearch> imageSearchList;
     private Set<String> set;
 
-    private Menu menu;
+
     public static final String TAG = "MainActivity";
 
     @Override
@@ -80,18 +116,13 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         presenter = new MainPresenter(this);
         imageLoader = new ImageLoader();
         list = new ArrayList<>();
+        imageSearchList = new ArrayList<>();
         set = new HashSet<>();
         preferenceHelper = new PreferenceHelper();
         //headerImageView =strenthenToolBar.getHeaderView();
 
         //
-        toolbar.setTitle("");
-        setSupportActionBar(toolbar);
 
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawerLayout.setDrawerListener(toggle);
-        toggle.syncState();
 
         //
         init();
@@ -119,33 +150,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
 
-        getMenuInflater().inflate(R.menu.main, menu);
-        this.menu = menu;
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
 
-        if (userMode == 0) {
-
-            userMode = 1;
-            menu.getItem(0).setTitle("随机推送");
-            presenter.clearAndGetMoreRandomPicByNet(App.getInstance().getUid(), App.getInstance().getpullPicNum());
-        } else {
-
-            userMode = 0;
-            menu.getItem(0).setTitle("用户推送");
-            presenter.clearAndGetPicByNetWork(App.getInstance().getUid(),
-                    App.getInstance().getToken(), App.getInstance().getpullPicNum());
-        }
-
-        return super.onOptionsItemSelected(item);
-
-    }
 
     private void initNavigationView() {
 
@@ -206,14 +213,153 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     private void init() {
 
+
         detectNewTask();
+
+        initToolBar();
         initNavigationView();
         initSwipeRefresh();
         initRecycleView();
-
+        initBottomNavigationView();
         initUser();
         initSet();
         //initPicture();
+
+    }
+
+    private InputMethodManager manager;
+    private TextWatcher textWatcher;
+    private void initToolBar(){
+
+
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.setDrawerListener(toggle);
+
+        toggle.syncState();
+
+        manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        editText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                editText.setFocusable(true);
+                editText.setFocusableInTouchMode(true);
+                editText.requestFocus();
+                editText.findFocus();
+                manager.showSoftInput(editText, InputMethodManager.SHOW_FORCED);
+            }
+        });
+
+        textWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                String str = s.toString();
+                if((s == null || s.length() == 0 )){
+
+                    adapter.setData(MainActivity.this.list);
+                    adapter.notifyDataSetChanged();
+                    swipeRefresh.setEnabled(true);
+                    canScroll = true;
+                    return;
+                }
+
+                swipeRefresh.setEnabled(false);
+                presenter.searchImages(str,imageSearchList);
+            }
+        };
+
+        editText.addTextChangedListener(textWatcher);
+
+
+    }
+
+    @Override
+    public void onImageSearchSucceed(List<Image> images) {
+
+        adapter.setData(images);
+        adapter.notifyDataSetChanged();
+    }
+
+    private void initBottomNavigationView(){
+
+        //bottomNavigationView.setAutoHideEnabled(false);
+        bottomNavigationView.addItem(new BottomNavigationItem(R.drawable.first,"画像"))
+                .addItem(new BottomNavigationItem(R.drawable.second,"随机"))
+                .addItem(new BottomNavigationItem(R.drawable.third,"兴趣"))
+                .initialise();
+
+        bottomNavigationView.setTabSelectedListener(new BottomNavigationBar.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(int position) {
+
+
+                canScroll = true;
+                editText.setFocusable(false);
+               // InputMethodManager manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                if(manager.isActive()){
+
+                    manager.hideSoftInputFromWindow(editText.getWindowToken(),0);
+                }
+
+                //canScroll = true;
+                if(position == 0){
+
+
+                    swipeRefresh.setEnabled(true);
+                    searchButton.setVisibility(View.INVISIBLE);
+                    presenter.clearAndGetPicByNetWork(App.getInstance().getUid(),
+                                App.getInstance().getToken(), App.getInstance().getpullPicNum());
+
+                    editText.removeTextChangedListener(textWatcher);
+                    editText.addTextChangedListener(textWatcher);
+                }
+                else if(position == 1){
+
+                    swipeRefresh.setEnabled(true);
+                    searchButton.setVisibility(View.INVISIBLE);
+                    editText.removeTextChangedListener(textWatcher);
+                    editText.addTextChangedListener(textWatcher);
+
+                    presenter.clearAndGetMoreRandomPicByNet(App.getInstance().getUid(), App.getInstance().getpullPicNum());
+                }
+                else{
+
+                    swipeRefresh.setEnabled(false);
+                    searchButton.setVisibility(View.VISIBLE);
+                    editText.removeTextChangedListener(textWatcher);
+
+                    adapter.setData(new ArrayList<>());
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onTabUnselected(int position) {
+
+            }
+
+            @Override
+            public void onTabReselected(int position) {
+
+            }
+        });
+
+
 
     }
     private void initSet(){
@@ -405,11 +551,16 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 images.add(imageList.get(i));
             }
         }
+
         this.list = images;
         Log.d(TAG, "clear and save list");
         adapter.setData(this.list);
         adapter.notifyDataSetChanged();
 
+        canScroll = true;
+
+        imageSearchList = new ArrayList<>();
+        presenter.getImagesLabels(this.list,imageSearchList);
         presenter.refreshUnLabeledImageDb(App.getInstance().getUid(),list);
     }
 
@@ -417,8 +568,13 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
         this.list.addAll(images);
         //adapter.addData(images);
+
+
         adapter.notifyDataSetChanged();
+
+        presenter.getImagesLabels(images,imageSearchList);
     }
+
 
     private boolean canScroll;
 
@@ -455,7 +611,10 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                         startGetMorePicByNetWork();
                     } else {
 
-                        presenter.getMoreRandomPicturesByNetWork(App.getInstance().getUid(), App.getInstance().getpullPicNum());
+                        if(adapter.getData() == list){
+
+                            presenter.getMoreRandomPicturesByNetWork(App.getInstance().getUid(), App.getInstance().getpullPicNum());
+                        }
                     }
 
                 }
@@ -468,6 +627,10 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     public void startGetMorePicByNetWork() {
 
         //showWaitingNetWork();
+        if(adapter.getData() != list){
+
+            return;
+        }
         presenter.getMorePicturesByNetWork(App.getInstance().getUid()
                 , App.getInstance().getToken(), App.getInstance().getpullPicNum());
 
@@ -580,6 +743,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
                 list.remove(position);
                 Log.d(TAG,"position size " + list.size());
+                imageSearchList.remove(position);
                 adapter.notifyItemRemoved(position);
                 adapter.notifyItemRangeChanged(position,list.size()-position);
                 break;
@@ -645,5 +809,22 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
 
+    @Override
+    public void onImageSearchFailed() {
 
+        Toast.makeText(this,"没有找到标记该标签的图片",Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onGetImagesByLabelSucceed(List<Image> images) {
+
+        adapter.setData(images);
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onGetImagesByLabelFailed() {
+
+        onImageSearchFailed();
+    }
 }

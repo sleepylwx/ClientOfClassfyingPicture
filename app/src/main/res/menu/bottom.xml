@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/first"
+        android:icon="@android:drawable/ic_menu_manage"
+        android:title="画像"/>
+
+    <item
+        android:id="@+id/second"
+        android:icon="@android:drawable/ic_menu_manage"
+        android:title="随机"/>
+
+    <item
+        android:id="@+id/third"
+        android:icon="@android:drawable/ic_menu_manage"
+        android:title="喜好"/>
+</menu>

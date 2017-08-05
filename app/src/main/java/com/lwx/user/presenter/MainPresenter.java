@@ -2,12 +2,14 @@ package com.lwx.user.presenter;
 
 import android.util.Log;
 
+import com.elvishew.xlog.XLog;
 import com.lwx.user.contracts.MainContract;
 import com.lwx.user.model.ImageImpl;
 import com.lwx.user.model.ImageRepo;
 import com.lwx.user.model.UserImpl;
 import com.lwx.user.model.UserRepo;
 import com.lwx.user.model.model.Image;
+import com.lwx.user.model.model.ImageSearch;
 import com.lwx.user.model.model.User;
 import com.lwx.user.net.PictureAgent;
 import com.lwx.user.net.PictureImpl;
@@ -15,9 +17,16 @@ import com.lwx.user.net.UserAgent;
 import com.lwx.user.net.UserAgentImpl;
 import com.lwx.user.utils.ConstStringMessages;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.Completable;
+import io.reactivex.CompletableEmitter;
 import io.reactivex.CompletableObserver;
+import io.reactivex.CompletableOnSubscribe;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
@@ -544,6 +553,122 @@ public class MainPresenter implements MainContract.Presenter {
                 });
     }
 
+    private long counter = 0;
+    @Override
+    public void searchImages(String label,List<ImageSearch> imageSearchList) {
 
+
+        Observable.create(new ObservableOnSubscribe<List<Image>>() {
+            @Override
+            public void subscribe(@NonNull ObservableEmitter<List<Image>> observableEmitter) throws Exception {
+
+                ++counter;
+                List<Image> res = new ArrayList<>();
+
+                if(imageSearchList == null || imageSearchList.size() == 0){
+
+                    observableEmitter.onError(new Exception());
+                    return;
+                }
+                long temp = counter;
+                for(int i = 0 ;temp == counter && i < imageSearchList.size() ; ++i){
+
+                    List<String> labels = imageSearchList.get(i).labels;
+                    for(int j = 0;temp == counter && j < labels.size() ;++j){
+
+
+                        if(label.equals(labels.get(j))){
+
+                            res.add(imageSearchList.get(i).image);
+                            break;
+                        }
+                    }
+                }
+
+                if(temp == counter){
+
+                    observableEmitter.onNext(res);
+                }
+                else{
+
+                    observableEmitter.onError(new Exception());
+                }
+            }
+        })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<List<Image>>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(@NonNull List<Image> images) {
+
+                        Log.d(TAG,"searchSuccess");
+                        context.onImageSearchSucceed(images);
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+
+                        Log.d(TAG,"searchError");
+                        context.onImageSearchFailed();
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+
+
+
+    }
+
+
+    @Override
+    public void getImagesLabels(List<Image> image, List<ImageSearch> imageSearchList) {
+
+        for(int i = 0 ; i < image.size(); ++i){
+
+            final int temp = i;
+            pictureAgent.getPicTags(image.get(i).uuid)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread()) // 可优化
+                    .subscribe(new Observer<List<String>>() {
+                        @Override
+                        public void onSubscribe(@NonNull Disposable d) {
+
+                        }
+
+                        @Override
+                        public void onNext(@NonNull List<String> strings) {
+
+                            Log.d(TAG,"getImageLabels success" );
+
+                            imageSearchList.add(new ImageSearch(image.get(temp),strings));
+                        }
+
+                        @Override
+                        public void onError(@NonNull Throwable e) {
+
+                            Log.d(TAG,"getImageLabels error" );
+                        }
+
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    });
+        }
+
+    }
+
+    @Override
+    public void getImagesByLabel(String label) {
+
+    }
 }
 
