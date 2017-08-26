@@ -6,7 +6,7 @@ import java.util.List;
  * Created by 36249 on 2017/6/24.
  */
 
-public class HistoryLabelContract {
+public interface HistoryLabelContract {
 
     public interface View extends BaseContract.View<HistoryLabelContract.Presenter>{
 
