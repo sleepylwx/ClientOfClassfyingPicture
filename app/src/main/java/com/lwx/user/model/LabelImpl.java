@@ -3,6 +3,7 @@ package com.lwx.user.model;
 import com.elvishew.xlog.XLog;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
+import com.lwx.user.App;
 import com.lwx.user.model.model.ImageLabel;
 import com.lwx.user.model.model.Label;
 
@@ -43,6 +44,13 @@ public class LabelImpl implements LabelRepo{
         return Completable.create(new CompletableOnSubscribe() {
             @Override
             public void subscribe(@NonNull CompletableEmitter e) throws Exception {
+
+                if(App.getInstance().isNoDataBase()){
+
+                    e.onComplete();
+                    return;
+                }
+
                 labelDAO.createOrUpdate(label);
                 e.onComplete();
             }
@@ -53,6 +61,13 @@ public class LabelImpl implements LabelRepo{
         return Completable.create(new CompletableOnSubscribe() {
             @Override
             public void subscribe(@NonNull CompletableEmitter e) throws Exception {
+
+                if(App.getInstance().isNoDataBase()){
+
+                    e.onComplete();
+                    return;
+                }
+
                 labelDAO.delete(label);
                 DeleteBuilder deleteBuilder = imageLabelLongDAO.deleteBuilder();
                 deleteBuilder.where()
@@ -67,6 +82,13 @@ public class LabelImpl implements LabelRepo{
         return Observable.create(new ObservableOnSubscribe<List<Label>>() {
             @Override
             public void subscribe(@NonNull ObservableEmitter<List<Label>> e) throws Exception {
+
+                if(App.getInstance().isNoDataBase()){
+
+                    e.onComplete();
+                    return;
+                }
+
                 e.onNext(labelDAO.queryForAll());
             }
         });
@@ -76,6 +98,12 @@ public class LabelImpl implements LabelRepo{
         return Observable.create(new ObservableOnSubscribe<Label>() {
             @Override
             public void subscribe(@NonNull ObservableEmitter<Label> e) throws Exception {
+
+                if(App.getInstance().isNoDataBase()){
+
+                    e.onComplete();
+                    return;
+                }
                 e.onNext(labelDAO.queryForId(label));
             }
         });

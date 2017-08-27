@@ -25,6 +25,7 @@ public class App extends Application {
     public int taskNum;
     public int finishNum;
 
+    private boolean noDataBase = true;
     //public static final String BASE_URL = "http://ttxs.ac.cn:8088/";
     public static final String BASE_URL = "http://hw.acoder.me:8088/";
 
@@ -52,6 +53,11 @@ public class App extends Application {
         RxJavaPlugins.setErrorHandler(t->{XLog.e("Unhandled Exception By RxJava" , t);});
 
         TypefaceProvider.registerDefaultIconSets();
+    }
+
+    public boolean isNoDataBase() {
+
+        return noDataBase;
     }
 
     public void setGetPicNum(int num){
