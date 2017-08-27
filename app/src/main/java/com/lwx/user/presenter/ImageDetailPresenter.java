@@ -6,8 +6,6 @@ import com.lwx.user.App;
 import com.lwx.user.contracts.ImageDetailContract;
 import com.lwx.user.model.ImageImpl;
 import com.lwx.user.model.ImageRepo;
-import com.lwx.user.model.LabelImpl;
-import com.lwx.user.model.LabelRepo;
 import com.lwx.user.model.model.Image;
 import com.lwx.user.model.model.Label;
 import com.lwx.user.net.PictureAgent;
@@ -36,7 +34,7 @@ public class ImageDetailPresenter implements ImageDetailContract.Presenter{
 
     private ImageDetailContract.View context;
     private ImageRepo imageRepo;
-    private LabelRepo labelRepo;
+
     private PictureAgent pictureAgent;
     private UserAgent userAgent;
     private boolean isLabeled;
@@ -48,7 +46,7 @@ public class ImageDetailPresenter implements ImageDetailContract.Presenter{
 
         this.context = context;
         this.imageRepo = ImageImpl.getInstance();
-        this.labelRepo = LabelImpl.getInstance();
+
         this.pictureAgent = PictureImpl.getInstance();
         this.userAgent = UserAgentImpl.getInstance();
         this.isLabeled = isLabeled;

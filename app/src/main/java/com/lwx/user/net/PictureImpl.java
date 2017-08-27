@@ -299,4 +299,18 @@ public class PictureImpl implements PictureAgent {
             }
         });
     }
+
+    @Override
+    public Observable<List<Image>> getPicByLabel(String label) {
+
+
+        return Observable.create(new ObservableOnSubscribe<List<Image>>() {
+            @Override
+            public void subscribe(@NonNull ObservableEmitter<List<Image>> e) throws Exception {
+
+
+
+            }
+        });
+    }
 }

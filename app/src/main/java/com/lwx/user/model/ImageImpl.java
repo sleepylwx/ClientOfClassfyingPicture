@@ -38,11 +38,7 @@ public class ImageImpl implements ImageRepo {
             @Override
             public void subscribe(@NonNull CompletableEmitter e) throws Exception {
 
-                if(App.getInstance().isNoDataBase()){
 
-                    e.onComplete();
-                    return;
-                }
                 QueryBuilder imageQuery = imageDAO.queryBuilder();
                 List<Image> imageList = imageQuery.where()
                         .eq(Image.UID_FIELD,uid)
@@ -77,11 +73,7 @@ public class ImageImpl implements ImageRepo {
             public void subscribe(@NonNull CompletableEmitter e) throws Exception {
 
 
-                if(App.getInstance().isNoDataBase()){
 
-                    e.onComplete();
-                    return;
-                }
 
                 QueryBuilder imageQuery = imageDAO.queryBuilder();
                 List<Image> imageList = imageQuery.where()
@@ -117,11 +109,7 @@ public class ImageImpl implements ImageRepo {
             @Override
             public void subscribe(@NonNull CompletableEmitter e) throws Exception {
 
-                if(App.getInstance().isNoDataBase()){
 
-                    e.onComplete();
-                    return;
-                }
                 for(Image image : images) {
 
                     image.uid = uid;
@@ -155,11 +143,7 @@ public class ImageImpl implements ImageRepo {
             @Override
             public void subscribe(@NonNull ObservableEmitter<Image> e) throws Exception {
 
-                if(App.getInstance().isNoDataBase()){
 
-                    e.onComplete();
-                    return;
-                }
 
                 List<Image> images = imageDAO.queryBuilder()
                         .where()
@@ -185,11 +169,7 @@ public class ImageImpl implements ImageRepo {
             @Override
             public void subscribe(@NonNull ObservableEmitter<List<Label>> e) throws Exception {
 
-                if(App.getInstance().isNoDataBase()){
 
-                    e.onComplete();
-                    return;
-                }
                 QueryBuilder imageQuery = imageDAO.queryBuilder();
                 List<Image> imageList = imageQuery.where()
                         .eq(Image.UID_FIELD,uid)
@@ -232,11 +212,7 @@ public class ImageImpl implements ImageRepo {
             @Override
             public void subscribe(@NonNull CompletableEmitter e) throws Exception {
 
-                if(App.getInstance().isNoDataBase()){
 
-                    e.onComplete();
-                    return;
-                }
 
                 Image image = null;
                 List<Image> images = imageDAO.queryBuilder()
@@ -288,11 +264,7 @@ public class ImageImpl implements ImageRepo {
             @Override
             public void subscribe(@NonNull CompletableEmitter e) throws Exception {
 
-                if(App.getInstance().isNoDataBase()){
 
-                    e.onComplete();
-                    return;
-                }
 
                 Image image = null;
 
@@ -355,11 +327,7 @@ public class ImageImpl implements ImageRepo {
             public void subscribe(@NonNull ObservableEmitter<List<Image>> e) throws Exception {
                // e.onNext(imageDAO.queryForEq(Image.UID_FIELD, uid));
 
-                if(App.getInstance().isNoDataBase()){
 
-                    e.onComplete();
-                    return;
-                }
 
                 List<Image> images = imageDAO.queryBuilder()
                         .where()
@@ -379,11 +347,7 @@ public class ImageImpl implements ImageRepo {
             @Override
             public void subscribe(@NonNull CompletableEmitter e) throws Exception {
 
-                if(App.getInstance().isNoDataBase()){
 
-                    e.onComplete();
-                    return;
-                }
                 image.uid = uid;
                 image.isLabeled = isLabeled;
                 try{
@@ -408,11 +372,7 @@ public class ImageImpl implements ImageRepo {
             @Override
             public void subscribe(@NonNull ObservableEmitter<List<Image>> e) throws Exception {
 
-                if(App.getInstance().isNoDataBase()){
 
-                    e.onComplete();
-                    return;
-                }
 
                 QueryBuilder labelQuery = labelDAO.queryBuilder();
 
@@ -459,11 +419,7 @@ public class ImageImpl implements ImageRepo {
             @Override
             public void subscribe(@NonNull ObservableEmitter<List<Label>> e) throws Exception {
 
-                if(App.getInstance().isNoDataBase()){
 
-                    e.onComplete();
-                    return;
-                }
 
                 QueryBuilder labelQuery = labelDAO.queryBuilder();
                 List<Label> list = labelQuery.where()
@@ -486,11 +442,7 @@ public class ImageImpl implements ImageRepo {
             @Override
             public void subscribe(@NonNull CompletableEmitter e) throws Exception {
 
-                if(App.getInstance().isNoDataBase()){
 
-                    e.onComplete();
-                    return;
-                }
 
                 QueryBuilder labelQuery = labelDAO.queryBuilder();
 
@@ -539,11 +491,7 @@ public class ImageImpl implements ImageRepo {
             public void subscribe(@NonNull CompletableEmitter e) throws Exception {
 
 
-                if(App.getInstance().isNoDataBase()){
 
-                    e.onComplete();
-                    return;
-                }
 
                 QueryBuilder labelQuery = labelDAO.queryBuilder();
 
@@ -581,11 +529,7 @@ public class ImageImpl implements ImageRepo {
             @Override
             public void subscribe(@NonNull CompletableEmitter e) throws Exception {
 
-                if(App.getInstance().isNoDataBase()){
 
-                    e.onComplete();
-                    return;
-                }
 
                 QueryBuilder imageQuery = imageDAO.queryBuilder();
 

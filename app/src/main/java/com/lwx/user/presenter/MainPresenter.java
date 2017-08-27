@@ -1,5 +1,6 @@
 package com.lwx.user.presenter;
 
+import android.content.pm.PackageInfo;
 import android.util.Log;
 
 import com.elvishew.xlog.XLog;
@@ -669,6 +670,42 @@ public class MainPresenter implements MainContract.Presenter {
     @Override
     public void getImagesByLabel(String label) {
 
+
+        pictureAgent.getPicByLabel(label)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<List<Image>>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(@NonNull List<Image> images) {
+
+                        if(images == null || images.size() == 0){
+
+                            context.onGetImagesByLabelFailed();
+                            return;
+                        }
+
+                        context.onGetImagesByLabelSucceed(images);
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+
+                        context.onNetWorkError();
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+
+                });
     }
+
+
 }
 
