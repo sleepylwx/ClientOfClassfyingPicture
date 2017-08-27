@@ -62,8 +62,8 @@ public class ImageDetailPresenter implements ImageDetailContract.Presenter{
     @Override
     public void getImage(long uid,String uuid) {
 
-        //this.imageId = uuid;
-        imageRepo.getImage(uid,uuid,isLabeled)
+
+        pictureAgent.getSpecificPic(uuid)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Image>() {
@@ -75,47 +75,17 @@ public class ImageDetailPresenter implements ImageDetailContract.Presenter{
                     @Override
                     public void onNext(Image image) {
 
-
-                        Log.d(TAG,"getImage success!");
-
+                        Log.d(TAG,"getPicture by net success!");
                         context.onImageLoadSucceed(image);
+                        saveImage(uid,image,isLabeled);
 
                     }
 
                     @Override
                     public void onError(Throwable e) {
 
-                        Log.d(TAG,"getImage onError");
-                        pictureAgent.getSpecificPic(uuid)
-                                .subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(new Observer<Image>() {
-                                    @Override
-                                    public void onSubscribe(Disposable d) {
+                        Log.d(TAG,"getPicture by net error!");
 
-                                    }
-
-                                    @Override
-                                    public void onNext(Image image) {
-
-                                        Log.d(TAG,"getPicture by net success!");
-                                        context.onImageLoadSucceed(image);
-                                        saveImage(uid,image,isLabeled);
-
-                                    }
-
-                                    @Override
-                                    public void onError(Throwable e) {
-
-                                        Log.d(TAG,"getPicture by net error!");
-
-                                    }
-
-                                    @Override
-                                    public void onComplete() {
-
-                                    }
-                                });
                     }
 
                     @Override
@@ -123,6 +93,8 @@ public class ImageDetailPresenter implements ImageDetailContract.Presenter{
 
                     }
                 });
+
+
 
     }
 
