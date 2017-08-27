@@ -45,6 +45,7 @@ public class ImageDetailActivity extends Activity implements ImageDetailContract
     @BindView(R.id.flowlayout)TagFlowLayout flowLayout;
     @BindView(R.id.add_label)Button addLabel;
     @BindView(R.id.post_label)Button postLabel;
+    @BindView(R.id.textview_bottom)TextView textView;
 
     @OnClick(R.id.add_label)
     public void onClick(){
@@ -113,9 +114,21 @@ public class ImageDetailActivity extends Activity implements ImageDetailContract
 
 
 
-
+        initTextView();
         initPhotoView(uuid);
         initLabels(uuid);
+    }
+
+    private void initTextView(){
+
+        if(isLabeled){
+
+            textView.setText("我的标记：");
+        }
+        else{
+
+            textView.setText("推荐标签：");
+        }
     }
 
     private void initPhotoView(String uuid){

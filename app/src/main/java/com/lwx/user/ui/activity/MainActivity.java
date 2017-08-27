@@ -316,6 +316,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                     manager.hideSoftInputFromWindow(editText.getWindowToken(),0);
                 }
 
+                editText.removeTextChangedListener(textWatcher);
+                editText.setText("");
                 //canScroll = true;
                 if(position == 0){
 
@@ -325,14 +327,14 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                     presenter.clearAndGetPicByNetWork(App.getInstance().getUid(),
                                 App.getInstance().getToken(), App.getInstance().getpullPicNum());
 
-                    editText.removeTextChangedListener(textWatcher);
+                    //editText.removeTextChangedListener(textWatcher);
                     editText.addTextChangedListener(textWatcher);
                 }
                 else if(position == 1){
 
                     swipeRefresh.setEnabled(true);
                     searchButton.setVisibility(View.INVISIBLE);
-                    editText.removeTextChangedListener(textWatcher);
+                   // editText.removeTextChangedListener(textWatcher);
                     editText.addTextChangedListener(textWatcher);
 
                     presenter.clearAndGetMoreRandomPicByNet(App.getInstance().getUid(), App.getInstance().getpullPicNum());
@@ -341,7 +343,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
                     swipeRefresh.setEnabled(false);
                     searchButton.setVisibility(View.VISIBLE);
-                    editText.removeTextChangedListener(textWatcher);
+                    //editText.removeTextChangedListener(textWatcher);
 
                     adapter.setData(new ArrayList<>());
                     adapter.notifyDataSetChanged();
