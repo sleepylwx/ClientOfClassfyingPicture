@@ -4,27 +4,39 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bigkoo.pickerview.OptionsPickerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.StringSignature;
+import com.j256.ormlite.stmt.query.In;
 import com.lwx.user.App;
 import com.lwx.user.R;
 import com.lwx.user.contracts.UserDetailContract;
 import com.lwx.user.model.model.User;
 import com.lwx.user.presenter.UserDetailPresenter;
 import com.lwx.user.utils.ImageLoader;
+import com.lwx.user.utils.PreferenceHelper;
+import com.zhy.view.flowlayout.FlowLayout;
+import com.zhy.view.flowlayout.TagAdapter;
+import com.zhy.view.flowlayout.TagFlowLayout;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import cn.finalteam.rxgalleryfinal.RxGalleryFinalApi;
 import cn.finalteam.rxgalleryfinal.rxbus.RxBusResultSubscriber;
 import cn.finalteam.rxgalleryfinal.ui.base.IRadioImageCheckedListener;
@@ -42,6 +54,63 @@ public class UserDetailActivity extends AppCompatActivity implements UserDetailC
     @BindView(R.id.favorite2)EditText favorite2;
     @BindView(R.id.favorite3)EditText favorite3;
 
+    @BindView(R.id.plus_button)
+    Button plusButton;
+    @BindView(R.id.subtract_button)
+    Button subtractButton;
+    @BindView(R.id.flowlayout)
+    TagFlowLayout flowLayout;
+
+    @OnClick(R.id.plus_button)
+    public void onClick(){
+
+        OptionsPickerView options = new OptionsPickerView.Builder(this, new OptionsPickerView.OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int options2, int options3, View v) {
+
+                String temp = secondMenu.get(options1).get(options2);
+                favs.add(temp);
+                initFlow();
+
+                StringBuffer sb = new StringBuffer(value);
+
+                int res = 0;
+                for(int i = 0; i < options1 ;++i){
+
+
+                    res += numCounter.get(i);
+                }
+
+                res += options2;
+
+                sb.setCharAt(res,'1');
+
+                value = sb.toString();
+
+            }
+        }).build();
+
+        options.setPicker(firstMenu,secondMenu);
+        options.show();
+    }
+
+    @OnClick(R.id.subtract_button)
+    public void onClic1k(){
+
+
+        Set<Integer> set = flowLayout.getSelectedList();
+
+        StringBuffer sb = new StringBuffer(value);
+        for(int i : set){
+
+            sb.setCharAt(arr.get(i),'0');
+            favs.remove(i);
+        }
+
+        value = sb.toString();
+        initFlow();
+    }
+
     private UserDetailContract.Presenter presenter;
 
     private ImageLoader imageLoader;
@@ -56,6 +125,9 @@ public class UserDetailActivity extends AppCompatActivity implements UserDetailC
     private boolean messageNeedPost;
 
     private boolean canSaved;
+
+    private List<String> firstMenu;
+    private List<List<String>> secondMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,9 +216,148 @@ public class UserDetailActivity extends AppCompatActivity implements UserDetailC
         initToolbar();
         initUser();
         initHeader();
+        initMenuData();
+        initFavorite();
+    }
+
+    private List<Integer> numCounter;
+
+    private void initMenuData(){
+
+        firstMenu = new ArrayList<>();
+        secondMenu = new ArrayList<>();
+        numCounter = new ArrayList<>();
+
+        firstMenu.add("自然与生物");
+        firstMenu.add("人文与历史");
+        firstMenu.add("社会与生活");
+
+        List<String> one = new ArrayList<>();
+        one.add("风景");
+        one.add("猫");
+        one.add("狗");
+        one.add("花");
+        secondMenu.add(one);
+        List<String> two = new ArrayList<>();
+        two.add("历史遗迹");
+        two.add("世界建筑");
+        two.add("绘画工艺");
+        two.add("文学戏剧");
+        secondMenu.add(two);
+        List<String> three = new ArrayList<>();
+        three.add("交通运输");
+        three.add("运动健康");
+        three.add("职业教育");
+        three.add("饮食活动");
+        secondMenu.add(three);
+
+        numCounter.add(4);
+        numCounter.add(4);
+        numCounter.add(4);
+    }
+
+    private List<Integer> arr;
+
+    private String value;
+
+    private List<String> favs;
+
+    private void initFavorite(){
+
+
+        PreferenceHelper preferenceHelper = new PreferenceHelper();
+
+        value = preferenceHelper.getFavorite(App.getInstance().getUid()+"");
+
+        arr = new ArrayList<>();
+        favs = new ArrayList<>();
+
+        if(value == null){
+
+            StringBuffer sb = new StringBuffer();
+            for(int i = 0; i < numCounter.size(); ++i){
+
+                for(int j = 0; j < numCounter.get(i); ++j){
+
+                    sb.append('0');
+                }
+            }
+
+            value = sb.toString();
+        }
+
+        for(int i = 0 ; i < value.length() ;++i){
+
+            if(value.charAt(i) == '1'){
+
+                arr.add(i);
+            }
+        }
+
+
+        for(int i = 0 ; i < arr.size(); ++i){
+
+            int f = getFirst(i);
+            int s = getSecond(i);
+            favs.add(secondMenu.get(f).get(s));
+        }
+
+        initFlow();
+
 
     }
 
+
+    private void initFlow(){
+
+
+        flowLayout.setAdapter(new TagAdapter<String>(favs) {
+            @Override
+            public View getView(FlowLayout parent, int position, String o) {
+
+
+                TextView textView = (TextView) LayoutInflater.from(UserDetailActivity.this)
+                        .inflate(R.layout.tv,flowLayout,false);
+                textView.setText(o);
+                return textView;
+            }
+        });
+
+    }
+
+    private int getFirst(int num){
+
+
+        int res = 0;
+        for(int i = 0 ; i < numCounter.size() ;++i){
+
+            if(num < numCounter.get(i)){
+
+                return res;
+            }
+            ++res;
+            num -= numCounter.get(i);
+        }
+
+        return res;
+    }
+
+    private int getSecond(int num){
+
+        for(int i = 0 ; i < numCounter.size(); ++i){
+
+
+            if(num < numCounter.get(i)){
+
+                return num;
+            }
+
+            num -= numCounter.get(i);
+
+        }
+
+        return num;
+    }
     private void initUser(){
 
         long uid = App.getInstance().getUid();

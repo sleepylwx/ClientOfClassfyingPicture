@@ -69,4 +69,22 @@ public class PreferenceHelper {
         editor.putLong(tag,value);
         editor.apply();
     }
+
+    public static final String FAVORITE = "FAVORITE";
+
+    public void setFavorite(String tag,String value){
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(App.getInstance());
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(FAVORITE+tag,value);
+        editor.apply();
+
+    }
+
+    public String getFavorite(String tag){
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(App.getInstance());
+        return preferences.getString(FAVORITE+tag,null);
+    }
+
 }

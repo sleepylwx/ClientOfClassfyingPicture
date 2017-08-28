@@ -60,6 +60,8 @@ dependencies {
     compile 'com.beardedhen:androidbootstrap:+'
     compile "com.ashokvarma.android:bottom-navigation-bar:+"
 
+    compile 'com.contrarywind:Android-PickerView:3.2.6'
+
     testCompile "org.robolectric:robolectric:3.3.1"
     testCompile "org.mockito:mockito-core:+"
     testCompile 'org.khronos:opengl-api:gl1.1-android-2.1_r1'
