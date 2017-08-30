@@ -21,6 +21,11 @@ public interface ImageDetailContract {
         void onChangeUnSignedImageToSignedSuccess();
         void onSaveSelectedLabelsByImageSuccess();
 
+
+        void onFirstLabelGetSuccess(List<String> list);
+
+        void onFirstLabelGetFailed();
+
     }
 
     public interface Presenter extends BaseContract.Presenter<ImageDetailContract.View>{
@@ -52,6 +57,8 @@ public interface ImageDetailContract {
         void finishTask(String token,int num);
 
         void addPostTimeNum(long uid,int year,int month,int day);
+
+        void getFirstLabel(String uuid);
 
     }
 

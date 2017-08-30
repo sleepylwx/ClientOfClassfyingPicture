@@ -23,11 +23,37 @@
         android:layout_alignParentBottom="true">
 
         <TextView
+            android:id="@+id/textview_first"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#ffffff"
+            android:text="图像识别标签"
+            android:visibility="gone"
+            />
+
+        <com.zhy.view.flowlayout.TagFlowLayout
+            android:id="@+id/flowlayoutfirst"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            app:max_select="-1"
+            android:visibility="gone"
+            >
+
+        </com.zhy.view.flowlayout.TagFlowLayout>
+
+
+        <TextView
             android:id="@+id/textview_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#ffffff"
-            android:text="推荐标签："/>
+            android:text="推荐标签："
+            android:visibility="gone"
+            />
+
         <com.zhy.view.flowlayout.TagFlowLayout
             android:id="@+id/flowlayout"
             android:layout_width="match_parent"
@@ -36,7 +62,9 @@
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:paddingBottom="20dp"
-            app:max_select="-1">
+            app:max_select="-1"
+            android:visibility="gone"
+            >
 
         </com.zhy.view.flowlayout.TagFlowLayout>
 

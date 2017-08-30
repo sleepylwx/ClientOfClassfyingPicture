@@ -536,4 +536,56 @@ public class ImageDetailPresenter implements ImageDetailContract.Presenter{
                 });
 
     }
+
+
+    @Override
+    public void getFirstLabel(String uuid) {
+
+        pictureAgent.getFirstLabel(uuid)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<List<String>>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+
+
+                    }
+
+                    @Override
+                    public void onNext(@NonNull List<String> strings) {
+
+                        if(strings == null || strings.size() == 0){
+
+                            context.onFirstLabelGetFailed();
+                        }
+                        else{
+
+                            context.onFirstLabelGetSuccess(strings);
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+
+                        if("none".equals(e.getMessage())){
+
+                            context.onFirstLabelGetFailed();
+
+                        }
+                        else{
+
+                            context.onFirstLabelGetFailed();
+                            //context.onNetWorkError();
+                        }
+
+                    }
+
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
 }

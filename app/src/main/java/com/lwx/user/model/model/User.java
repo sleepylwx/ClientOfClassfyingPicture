@@ -27,14 +27,10 @@ public class User {
     @DatabaseField(columnName = "num")
     public int num;
 
-    @DatabaseField(columnName = "favorite1")
-    public String favorite1;
+    @DatabaseField(columnName = "favorite")
+    public String favorite;
 
-    @DatabaseField(columnName = "favorite2")
-    public String favorite2;
 
-    @DatabaseField(columnName = "favorite3")
-    public String favorite3;
 
     public Object extra;
     public User(long uid, String token, String user, String nickName) {

@@ -309,8 +309,109 @@ public class PictureImpl implements PictureAgent {
             public void subscribe(@NonNull ObservableEmitter<List<Image>> e) throws Exception {
 
 
+                Response<String> response = picService.getPicsByTag(label).execute();
+                String content = response.body();
+                JSONObject jsonObject = new JSONObject(content);
+
+                JSONArray array = jsonObject.getJSONArray("uuids");
+
+                List<Image> images = new ArrayList<Image>();
+
+                for(int i = 0; i < array.length(); ++i){
+
+                    String uuid = array.getString(i);
+                    images.add(new Image(App.getInstance().getUid(),
+                            uuid,App.BASE_URL + "getpic.action?uuid=" + uuid));
+                }
+
+                e.onNext(images);
+            }
+        });
+    }
+
+
+    @Override
+    public Observable<List<String>> getFirstLabel(String uuid) {
+
+        return Observable.create(new ObservableOnSubscribe<List<String>>() {
+            @Override
+            public void subscribe(@NonNull ObservableEmitter<List<String>> e) throws Exception {
+
+                Response<String> response =picService.getFirstLabel(uuid,1).execute();
+                String content = response.body();
+                JSONObject jsonObject = new JSONObject(content);
+                JSONArray array = jsonObject.getJSONArray("tags");
+
+                List<String> list = new ArrayList<String>();
+
+                if(array.length() == 0){
+
+                    e.onNext(list);
+
+                }
+                else if(array.length() == 1){
+
+                    list.add(array.getJSONObject(0).getString("tagname"));
+                    e.onNext(list);
+
+                }
+                else{
+
+                    int firstScore = array.getJSONObject(0).getInt("score");
+                    int secondScore = array.getJSONObject(1).getInt("score");
+                    String firstStr;
+                    String secondStr;
+
+                    if(firstScore < secondScore){
+
+                        firstStr = array.getJSONObject(1).getString("tagname");
+                        secondStr = array.getJSONObject(0).getString("tagname");
+
+                        secondScore = firstScore^secondScore;
+                        firstScore = firstScore^secondScore;
+                        secondScore = firstScore^secondScore;
+
+                    }
+                    else{
+
+                        firstStr = array.getJSONObject(0).getString("tagname");
+                        secondStr = array.getJSONObject(1).getString("tagname");
+                    }
+
+
+
+                    for(int i = 2; i < array.length(); ++i){
+
+                        int temp = array.getJSONObject(i).getInt("score");
+                        if(temp > firstScore){
+
+                            secondScore =firstScore;
+                            secondStr = firstStr;
+
+                            firstScore = temp;
+                            firstStr = array.getJSONObject(i).getString("tagname");
+
+                        }
+                        else if(temp > secondScore){
+
+                            secondScore = temp;
+                            secondStr = array.getJSONObject(i).getString("tagname");
+                        }
+
+                    }
+
+
+                    list.add(firstStr.split(";")[0]);
+                    list.add(secondStr.split(";")[0]);
+
+                    e.onNext(list);
+                }
+
+
+
 
             }
         });
+
     }
 }

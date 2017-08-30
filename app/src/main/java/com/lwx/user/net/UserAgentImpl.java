@@ -304,32 +304,17 @@ public class UserAgentImpl implements UserAgent{
                     user.nickName = message.getString("nickname");
                     user.num = message.getInt("score");
                     user.headPath = App.BASE_URL + "headpic/" + user.uid;
-                    JSONArray jsonArray = message.getJSONArray("likedtags");
+                    String favorite = message.getString("likedtags");
 
 
-                    if(jsonArray == null || jsonArray.length() == 0){
+                    if(favorite == null || favorite.length() == 0){
 
-                        user.favorite1 = "";
-                        user.favorite2 = "";
-                        user.favorite3 = "";
+                        user.favorite = "";
                     }
-                    else if(jsonArray.length() == 1){
 
-                        user.favorite1 = jsonArray.getString(0);
-                        user.favorite2 = "";
-                        user.favorite3 = "";
-                    }
-                    else if(jsonArray.length() == 2){
-
-                        user.favorite1 = jsonArray.getString(0);
-                        user.favorite2 = jsonArray.getString(1);
-                        user.favorite3 = "";
-                    }
                     else{
 
-                        user.favorite1 = jsonArray.getString(0);
-                        user.favorite2 = jsonArray.getString(1);
-                        user.favorite3 = jsonArray.getString(2);
+                        user.favorite = favorite;
                     }
                     user.extra = message.getString("password");
                     if(user.extra == null){
@@ -407,13 +392,10 @@ public class UserAgentImpl implements UserAgent{
 //
 //        }
 
-        stringBuffer.append("{\"likedtags\": [\"");
-        stringBuffer.append(user.favorite1);
-        stringBuffer.append("\",\"");
-        stringBuffer.append(user.favorite2);
-        stringBuffer.append("\",\"");
-        stringBuffer.append(user.favorite3);
-        stringBuffer.append("\"],\"nickname\": \"");
+        stringBuffer.append("{\"likedtags\": \"");
+        stringBuffer.append(user.favorite);
+
+        stringBuffer.append("\",\"nickname\": \"");
         stringBuffer.append(user.nickName);
         stringBuffer.append("\",\"password\":\"");
         stringBuffer.append((String)user.extra);

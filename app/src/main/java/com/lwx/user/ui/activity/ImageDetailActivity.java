@@ -45,7 +45,9 @@ public class ImageDetailActivity extends Activity implements ImageDetailContract
     @BindView(R.id.flowlayout)TagFlowLayout flowLayout;
     @BindView(R.id.add_label)Button addLabel;
     @BindView(R.id.post_label)Button postLabel;
-    @BindView(R.id.textview_bottom)TextView textView;
+    @BindView(R.id.textview_bottom)TextView textViewSecond;
+    @BindView(R.id.textview_first)TextView textViewFirst;
+    @BindView(R.id.flowlayoutfirst)TagFlowLayout flowLayoutFirst;
 
     @OnClick(R.id.add_label)
     public void onClick(){
@@ -60,7 +62,9 @@ public class ImageDetailActivity extends Activity implements ImageDetailContract
 
 
         Set<Integer> set = flowLayout.getSelectedList();
-        if(set.size() < 1){
+        Set<Integer> setFirst = flowLayoutFirst.getSelectedList();
+
+        if(setFirst.size() + set.size() < 1){
 
             Toast.makeText(this,R.string.selected_non_label,Toast.LENGTH_SHORT).show();
             return;
@@ -70,6 +74,11 @@ public class ImageDetailActivity extends Activity implements ImageDetailContract
         for(Integer i : set){
 
             selectedLabels.add(curLables.get(i));
+        }
+
+        for(Integer i : setFirst){
+
+            selectedLabels.add(firstLabels.get(i));
         }
         presenter.postSelectedLabels(App.getInstance().getToken(),uuid,App.getInstance().getUid(),selectedLabels);
     }
@@ -117,17 +126,26 @@ public class ImageDetailActivity extends Activity implements ImageDetailContract
         initTextView();
         initPhotoView(uuid);
         initLabels(uuid);
+
+
+        initFirstLabel(uuid);
+    }
+
+    private void initFirstLabel(String uuid){
+
+
+        presenter.getFirstLabel(uuid);
     }
 
     private void initTextView(){
 
         if(isLabeled){
 
-            textView.setText("我的标记：");
+            textViewSecond.setText("我的标记：");
         }
         else{
 
-            textView.setText("推荐标签：");
+            textViewSecond.setText("推荐标签：");
         }
     }
 
@@ -198,6 +216,9 @@ public class ImageDetailActivity extends Activity implements ImageDetailContract
 //
 //            presenter.getSignedLabels(App.getInstance().getUid(),uuid);
 //        }
+
+        flowLayout.setVisibility(View.VISIBLE);
+        textViewSecond.setVisibility(View.VISIBLE);
 
     }
 
@@ -412,5 +433,37 @@ public class ImageDetailActivity extends Activity implements ImageDetailContract
         }
     }
 
+    private List<String> firstLabels;
+
+    @Override
+    public void onFirstLabelGetSuccess(List<String> list) {
+
+        textViewFirst.setVisibility(View.VISIBLE);
+        flowLayoutFirst.setVisibility(View.VISIBLE);
+
+        firstLabels = list;
+
+        initFlowLayoutFirst(list);
+    }
+
+    private void initFlowLayoutFirst(List<String> list){
+
+        flowLayoutFirst.setAdapter(new TagAdapter<String >(list) {
+            @Override
+            public View getView(FlowLayout parent, int position, String o) {
+
+                TextView textView = (TextView) LayoutInflater.from(ImageDetailActivity.this)
+                        .inflate(R.layout.tv,flowLayout,false);
+                textView.setText(o);
+                return textView;
+            }
+        });
+
+    }
+
+    @Override
+    public void onFirstLabelGetFailed() {
+
+    }
 
 }

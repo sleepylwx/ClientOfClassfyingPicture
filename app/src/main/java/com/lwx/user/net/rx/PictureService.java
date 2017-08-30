@@ -40,4 +40,14 @@ public interface PictureService {
     @POST("/getusertagcnt.action")
     @FormUrlEncoded
     Call<String> getLabelsNum(@Field("uid")long uid);
+
+
+    @POST("/getuserlikedpic.action")
+    @FormUrlEncoded
+    Call<String> getPicsByTag(@Field("tagname") String tag);
+
+    @POST("/getpictag.action")
+    @FormUrlEncoded
+    Call<String> getFirstLabel(@Field("uuid") String uuid,@Field("inittag") int initTag);
+
 }

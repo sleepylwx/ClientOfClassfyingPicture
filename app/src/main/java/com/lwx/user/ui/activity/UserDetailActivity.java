@@ -32,6 +32,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.UUID;
 
 import butterknife.BindView;
@@ -50,9 +51,7 @@ public class UserDetailActivity extends AppCompatActivity implements UserDetailC
     @BindView(R.id.user1) TextView user;
     @BindView(R.id.nickname1)EditText nickName;
     @BindView(R.id.num1)TextView num;
-    @BindView(R.id.favorite1)EditText favorite1;
-    @BindView(R.id.favorite2)EditText favorite2;
-    @BindView(R.id.favorite3)EditText favorite3;
+
 
     @BindView(R.id.plus_button)
     Button plusButton;
@@ -68,7 +67,18 @@ public class UserDetailActivity extends AppCompatActivity implements UserDetailC
             @Override
             public void onOptionsSelect(int options1, int options2, int options3, View v) {
 
+
+
                 String temp = secondMenu.get(options1).get(options2);
+
+                for(int i = 0 ; i < favs.size(); ++i){
+
+                    if(temp.equals(favs.get(i))){
+
+                        return;
+                    }
+                }
+
                 favs.add(temp);
                 initFlow();
 
@@ -85,6 +95,7 @@ public class UserDetailActivity extends AppCompatActivity implements UserDetailC
 
                 sb.setCharAt(res,'1');
 
+                arr.add(res);
                 value = sb.toString();
 
             }
@@ -101,11 +112,18 @@ public class UserDetailActivity extends AppCompatActivity implements UserDetailC
         Set<Integer> set = flowLayout.getSelectedList();
 
         StringBuffer sb = new StringBuffer(value);
-        for(int i : set){
+        int count = 0;
+        Set<Integer> set1 = new TreeSet<>(set);
+        for(int i : set1){
 
-            sb.setCharAt(arr.get(i),'0');
-            favs.remove(i);
+            sb.setCharAt(arr.get(i-count),'0');
+            favs.remove(i-count);
+            arr.remove(i-count);
+            ++count;
         }
+
+
+
 
         value = sb.toString();
         initFlow();
@@ -170,14 +188,10 @@ public class UserDetailActivity extends AppCompatActivity implements UserDetailC
         }
 
         curUser.nickName = nickName.getText().toString();
-        curUser.favorite1 = favorite1.getText().toString();
-        curUser.favorite2 = favorite2.getText().toString();
-        curUser.favorite3 = favorite3.getText().toString();
+        curUser.favorite = value;
 
         if(!isCroped && (curUser.nickName.equals(temp.nickName)
-                && curUser.favorite1.equals(temp.favorite1)
-                && curUser.favorite2.equals(temp.favorite2)
-                && curUser.favorite3.equals(temp.favorite3))){
+                && curUser.favorite.equals(temp.favorite))){
 
             success();
             return super.onOptionsItemSelected(item);
@@ -196,9 +210,7 @@ public class UserDetailActivity extends AppCompatActivity implements UserDetailC
         }
 
         if(!(curUser.nickName.equals(temp.nickName)
-                && curUser.favorite1.equals(temp.favorite1)
-                && curUser.favorite2.equals(temp.favorite2)
-                && curUser.favorite3.equals(temp.favorite3))){
+                && curUser.favorite.equals(temp.favorite))){
 
             messageNeedPost  = true;
             presenter.saveUserMessage(curUser);
@@ -239,7 +251,7 @@ public class UserDetailActivity extends AppCompatActivity implements UserDetailC
         one.add("花");
         secondMenu.add(one);
         List<String> two = new ArrayList<>();
-        two.add("历史遗迹");
+        two.add("历史文化");
         two.add("世界建筑");
         two.add("绘画工艺");
         two.add("文学戏剧");
@@ -265,14 +277,14 @@ public class UserDetailActivity extends AppCompatActivity implements UserDetailC
     private void initFavorite(){
 
 
-        PreferenceHelper preferenceHelper = new PreferenceHelper();
+        //PreferenceHelper preferenceHelper = new PreferenceHelper();
 
-        value = preferenceHelper.getFavorite(App.getInstance().getUid()+"");
+        //value = preferenceHelper.getFavorite(App.getInstance().getUid()+"");
 
         arr = new ArrayList<>();
         favs = new ArrayList<>();
 
-        if(value == null){
+        if(value == null || value.equals("")){
 
             StringBuffer sb = new StringBuffer();
             for(int i = 0; i < numCounter.size(); ++i){
@@ -432,9 +444,7 @@ public class UserDetailActivity extends AppCompatActivity implements UserDetailC
         curUser = user;
         temp = new User();
         temp.nickName = curUser.nickName;
-        temp.favorite1 = curUser.favorite1;
-        temp.favorite2 = curUser.favorite2;
-        temp.favorite3 = curUser.favorite3;
+        temp.favorite = curUser.favorite;
         temp.headPath = curUser.headPath;
 
         if(user.headPath == null || user.headPath.equals("")){
@@ -453,10 +463,9 @@ public class UserDetailActivity extends AppCompatActivity implements UserDetailC
         this.user.setText(user.user);
         this.nickName.setText(user.nickName);
         this.num.setText("" + user.num);
-        this.favorite1.setText(user.favorite1);
-        this.favorite2.setText(user.favorite2);
-        this.favorite3.setText(user.favorite3);
 
+        value = user.favorite;
+        initFavorite();
 
     }
 
