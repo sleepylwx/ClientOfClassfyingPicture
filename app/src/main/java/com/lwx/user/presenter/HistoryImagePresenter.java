@@ -136,6 +136,11 @@ public class HistoryImagePresenter implements HistoryImageContract.Presenter{
                     @Override
                     public void onNext(@NonNull List<Image> images) {
 
+                        if(images == null || images.equals("")){
+
+                            context.onImageLoadedFailed();
+                            return;
+                        }
                         context.onImageLoadedSucceed(images);
                     }
 
