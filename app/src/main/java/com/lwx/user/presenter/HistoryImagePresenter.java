@@ -6,11 +6,14 @@ import com.lwx.user.contracts.HistoryImageContract;
 import com.lwx.user.model.ImageImpl;
 import com.lwx.user.model.ImageRepo;
 import com.lwx.user.model.model.Image;
+import com.lwx.user.net.PictureAgent;
+import com.lwx.user.net.PictureImpl;
 
 import java.util.List;
 
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
@@ -24,11 +27,13 @@ public class HistoryImagePresenter implements HistoryImageContract.Presenter{
 
     private HistoryImageContract.View context;
     private ImageRepo imageRepo;
+    private PictureAgent pictureAgent;
 
     public HistoryImagePresenter(HistoryImageContract.View context){
 
         this.context = context;
         imageRepo = ImageImpl.getInstance();
+        pictureAgent = PictureImpl.getInstance();
     }
 
     @Override
@@ -113,5 +118,38 @@ public class HistoryImagePresenter implements HistoryImageContract.Presenter{
                         }
                     });
         }
+    }
+
+
+    @Override
+    public void getFinishedImages(long uid) {
+
+        pictureAgent.getFinishedPics(uid)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<List<Image>>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(@NonNull List<Image> images) {
+
+                        context.onImageLoadedSucceed(images);
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+
+                        context.onImageLoadedFailed();
+                        context.onNetWorkError();
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 }

@@ -401,8 +401,11 @@ public class PictureImpl implements PictureAgent {
                     }
 
 
-                    list.add(firstStr.split(";")[0]);
-                    list.add(secondStr.split(";")[0]);
+
+
+                    list.add(doStr(firstStr.split(";")[0]));
+
+                    list.add(doStr(secondStr.split(";")[0]));
 
                     e.onNext(list);
                 }
@@ -413,5 +416,58 @@ public class PictureImpl implements PictureAgent {
             }
         });
 
+    }
+
+
+    private String doStr(String str){
+
+
+        StringBuffer sb = new StringBuffer();
+
+        for(int i = 0; i <str.length(); ++i){
+
+            if(str.charAt(i) == ',' || str.charAt(i) == '，'){
+
+                continue;
+            }
+
+            sb.append(str.charAt(i));
+        }
+
+
+        return sb.toString();
+
+    }
+
+    @Override
+    public Observable<List<Image>> getFinishedPics(long uid) {
+
+        return Observable.create(new ObservableOnSubscribe<List<Image>>() {
+            @Override
+            public void subscribe(@NonNull ObservableEmitter<List<Image>> e) throws Exception {
+
+
+                Response<String> response = picService.getUserMarkedPics(uid).execute();
+                String content = response.body();
+
+                JSONObject jsonObject = new JSONObject(content);
+
+                JSONArray array = jsonObject.getJSONArray("pics");
+
+                List<Image> list = new ArrayList<Image>();
+                for(int i = 0; i < array.length();++i){
+
+
+                    if(array.getJSONObject(i).getBoolean("taged")){
+
+                        String uuid = array.getJSONObject(i).getString("uuid");
+                        list.add(new Image(App.getInstance().getUid(),uuid,App.BASE_URL + "getpic.action?uuid="+uuid));
+                    }
+                }
+
+                e.onNext(list);
+
+            }
+        });
     }
 }

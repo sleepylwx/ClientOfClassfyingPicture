@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,6 +42,10 @@ public class HistoryImageActivity extends AppCompatActivity implements HistoryIm
     private RecyclerViewAdapter adapter;
     private List<Image> list;
     private HistoryImageContract.Presenter presenter;
+
+    private Menu menu;
+    private int mode = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +59,53 @@ public class HistoryImageActivity extends AppCompatActivity implements HistoryIm
     }
 
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        if(!title.equals("标记过的图片")){
+
+            return false;
+        }
+        getMenuInflater().inflate(R.menu.main, menu);
+        this.menu = menu;
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if(mode == 0){
+
+            clearAdapterData();
+
+            mode = 1;
+
+            textView1.setText("还没有已完成的图片喔~");
+            presenter.getFinishedImages(App.getInstance().getUid());
+            menu.getItem(0).setTitle("全部");
+        }
+        else{
+
+            clearAdapterData();
+            mode = 0;
+            menu.getItem(0).setTitle("已完成");
+            textView1.setText("还没有被标记的图片哦(⊙o⊙)");
+            initPicture();
+        }
+
+        return super.onOptionsItemSelected(item);
+
+    }
+
+    private void clearAdapterData(){
+
+        textView1.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.GONE);
+
+        list = new ArrayList<>();
+        adapter.setData(list);
+        adapter.notifyDataSetChanged();
+    }
 
     @Override
     protected void onDestroy() {

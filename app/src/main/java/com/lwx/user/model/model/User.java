@@ -51,6 +51,8 @@ public class User {
                 ", user='" + user + '\'' +
                 ", headPath='" + headPath + '\'' +
                 ", nickName='" + nickName + '\'' +
+                ",favorite='" + favorite + '\'' +
+                ",object = '" + (String)extra + '\''+
                 '}';
     }
 }

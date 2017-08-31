@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -97,6 +98,7 @@ public class UserDetailActivity extends AppCompatActivity implements UserDetailC
 
                 arr.add(res);
                 value = sb.toString();
+                Log.d(TAG,"second_value" + value);
 
             }
         }).build();
@@ -178,6 +180,8 @@ public class UserDetailActivity extends AppCompatActivity implements UserDetailC
     }
 
     private User temp;
+
+    public static final String TAG = "UserDetailActivity";
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
 
@@ -190,6 +194,7 @@ public class UserDetailActivity extends AppCompatActivity implements UserDetailC
         curUser.nickName = nickName.getText().toString();
         curUser.favorite = value;
 
+        Log.d(TAG,"value + " + value);
         if(!isCroped && (curUser.nickName.equals(temp.nickName)
                 && curUser.favorite.equals(temp.favorite))){
 
@@ -229,7 +234,7 @@ public class UserDetailActivity extends AppCompatActivity implements UserDetailC
         initUser();
         initHeader();
         initMenuData();
-        initFavorite();
+        //initFavorite();
     }
 
     private List<Integer> numCounter;
@@ -283,7 +288,7 @@ public class UserDetailActivity extends AppCompatActivity implements UserDetailC
 
         arr = new ArrayList<>();
         favs = new ArrayList<>();
-
+        Log.d(TAG,"value:=" + value);
         if(value == null || value.equals("")){
 
             StringBuffer sb = new StringBuffer();
@@ -314,6 +319,7 @@ public class UserDetailActivity extends AppCompatActivity implements UserDetailC
             favs.add(secondMenu.get(f).get(s));
         }
 
+        Log.d(TAG,"value:ss="+value);
         initFlow();
 
 
@@ -375,8 +381,6 @@ public class UserDetailActivity extends AppCompatActivity implements UserDetailC
         long uid = App.getInstance().getUid();
         String token = App.getInstance().getToken();
         presenter.getUser(uid,token);
-
-
     }
     private void initHeader(){
 
@@ -464,6 +468,7 @@ public class UserDetailActivity extends AppCompatActivity implements UserDetailC
         this.nickName.setText(user.nickName);
         this.num.setText("" + user.num);
 
+        Log.d(TAG,"first_value"+ user.favorite);
         value = user.favorite;
         initFavorite();
 

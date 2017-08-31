@@ -59,4 +59,6 @@ public interface PictureAgent {
 
 
     Observable<List<String>>getFirstLabel(String uuid);
+
+    Observable<List<Image>> getFinishedPics(long uid);
 }

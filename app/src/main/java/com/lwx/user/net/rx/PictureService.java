@@ -50,4 +50,9 @@ public interface PictureService {
     @FormUrlEncoded
     Call<String> getFirstLabel(@Field("uuid") String uuid,@Field("inittag") int initTag);
 
+
+    @POST("/getusermarkedpic.action")
+    @FormUrlEncoded
+    Call<String> getUserMarkedPics(@Field("uid") long uid);
+
 }

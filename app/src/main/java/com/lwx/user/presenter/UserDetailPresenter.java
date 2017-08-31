@@ -40,36 +40,36 @@ public class UserDetailPresenter implements UserDetailContract.Presenter {
     public void getUser(long uid,String token) {
 
 
-        userRepo.getUser(uid)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<User>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onNext(User user) {
-
-                        Log.d("UserDetailPresenter","db success");
-
-                        context.onUserGetSuccess(user);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                        Log.d("UserDetailPresenter","db error");
-
-                        context.onUserGetNetWorkError();
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
+//        userRepo.getUser(uid)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Observer<User>() {
+//                    @Override
+//                    public void onSubscribe(Disposable d) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(User user) {
+//
+//                        Log.d("UserDetailPresenter","db success");
+//
+//                        context.onUserGetSuccess(user);
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//
+//                        Log.d("UserDetailPresenter","db error");
+//
+//                        context.onUserGetNetWorkError();
+//                    }
+//
+//                    @Override
+//                    public void onComplete() {
+//
+//                    }
+//                });
 
         userAgent.getUserAllMessage(uid,token)
                 .subscribeOn(Schedulers.io())

@@ -393,6 +393,7 @@ public class UserAgentImpl implements UserAgent{
 //        }
 
         stringBuffer.append("{\"likedtags\": \"");
+        Log.d("USERAGENT",user.favorite);
         stringBuffer.append(user.favorite);
 
         stringBuffer.append("\",\"nickname\": \"");

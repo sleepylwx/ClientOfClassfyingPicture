@@ -22,6 +22,6 @@ public interface HistoryImageContract {
 
 
         void getLabeledImagesInDb(long uid,String title);
-
+        void getFinishedImages(long uid);
     }
 }

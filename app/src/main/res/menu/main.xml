@@ -5,7 +5,7 @@
     <item
         android:id="@+id/user_mode"
         android:orderInCategory="100"
-        android:title="用户推送"
+        android:title="已完成"
         app:showAsAction="always"
         >
 
