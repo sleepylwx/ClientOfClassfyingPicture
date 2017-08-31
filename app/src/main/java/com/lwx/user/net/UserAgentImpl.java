@@ -306,12 +306,23 @@ public class UserAgentImpl implements UserAgent{
                     user.headPath = App.BASE_URL + "headpic/" + user.uid;
                     String favorite = message.getString("likedtags");
 
+                    if(favorite == null){
+
+                        Log.d("isNull","favorite");
+                    }
+                    else{
+
+                        Log.d("isNull",favorite);
+                    }
 
                     if(favorite == null || favorite.length() == 0){
 
                         user.favorite = "";
                     }
+                    else if(favorite.equals("null")){
 
+                        user.favorite = "";
+                    }
                     else{
 
                         user.favorite = favorite;
@@ -393,7 +404,7 @@ public class UserAgentImpl implements UserAgent{
 //        }
 
         stringBuffer.append("{\"likedtags\": \"");
-        Log.d("USERAGENT",user.favorite);
+        Log.d("isNull_upload",user.favorite);
         stringBuffer.append(user.favorite);
 
         stringBuffer.append("\",\"nickname\": \"");

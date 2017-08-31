@@ -64,6 +64,7 @@ public class UserDetailActivity extends AppCompatActivity implements UserDetailC
     @OnClick(R.id.plus_button)
     public void onClick(){
 
+        Log.d(TAG,"second_value11=" + value);
         OptionsPickerView options = new OptionsPickerView.Builder(this, new OptionsPickerView.OnOptionsSelectListener() {
             @Override
             public void onOptionsSelect(int options1, int options2, int options3, View v) {
@@ -113,6 +114,10 @@ public class UserDetailActivity extends AppCompatActivity implements UserDetailC
 
         Set<Integer> set = flowLayout.getSelectedList();
 
+        if(set.size() == 0){
+
+            return;
+        }
         StringBuffer sb = new StringBuffer(value);
         int count = 0;
         Set<Integer> set1 = new TreeSet<>(set);
@@ -230,10 +235,11 @@ public class UserDetailActivity extends AppCompatActivity implements UserDetailC
     }
     private void init(){
 
+        initMenuData();
         initToolbar();
         initUser();
         initHeader();
-        initMenuData();
+
         //initFavorite();
     }
 
@@ -308,15 +314,17 @@ public class UserDetailActivity extends AppCompatActivity implements UserDetailC
             if(value.charAt(i) == '1'){
 
                 arr.add(i);
+                Log.d(TAG,"arr " + i);
             }
         }
 
 
         for(int i = 0 ; i < arr.size(); ++i){
 
-            int f = getFirst(i);
-            int s = getSecond(i);
+            int f = getFirst(arr.get(i));
+            int s = getSecond(arr.get(i));
             favs.add(secondMenu.get(f).get(s));
+            Log.d(TAG,"fs " + f + " " + s);
         }
 
         Log.d(TAG,"value:ss="+value);
