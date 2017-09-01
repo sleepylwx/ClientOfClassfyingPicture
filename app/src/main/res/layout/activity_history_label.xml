@@ -36,17 +36,11 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <com.zhy.view.flowlayout.TagFlowLayout
-        android:id="@+id/flowlayout"
+    <com.moxun.tagcloudlib.view.TagCloudView
+        android:id="@+id/tagcloud"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/appbarlayout"
-        android:layout_centerInParent="true"
-        android:padding="20dp"
-        app:max_select="1"
-        android:visibility="gone">
-
-    </com.zhy.view.flowlayout.TagFlowLayout>
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/textview_historylabel"
@@ -56,4 +50,6 @@
 
         android:layout_centerInParent="true"
         android:visibility="gone"/>
+
+
 </RelativeLayout>

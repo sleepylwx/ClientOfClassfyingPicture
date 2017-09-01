@@ -12,8 +12,11 @@ import android.widget.Toast;
 
 import com.lwx.user.App;
 import com.lwx.user.R;
+import com.lwx.user.adapter.TagCloudAdapter;
 import com.lwx.user.contracts.HistoryLabelContract;
 import com.lwx.user.presenter.HistoryLabelPresenter;
+import com.moxun.tagcloudlib.view.TagCloudView;
+import com.moxun.tagcloudlib.view.TagsAdapter;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
@@ -32,9 +35,13 @@ public class HistoryLabelActivity extends AppCompatActivity implements HistoryLa
     public static final String TAG = "HistoryLabelActivity";
 
     private HistoryLabelContract.Presenter presenter;
-    @BindView(R.id.flowlayout)TagFlowLayout flowLayout;
+    //@BindView(R.id.flowlayout)TagFlowLayout flowLayout;
     @BindView(R.id.textview_historylabel)TextView textView;
     @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.tagcloud) TagCloudView tagCloudView;
+
+    private TagsAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +69,7 @@ public class HistoryLabelActivity extends AppCompatActivity implements HistoryLa
     private void init(){
 
         initToolbar();
-        //initLabel();
+        initLabel();
 
     }
 
@@ -91,48 +98,11 @@ public class HistoryLabelActivity extends AppCompatActivity implements HistoryLa
     public void onSignedLabelsLoadedSuccess(List<String> labels) {
 
         Log.d(TAG,"onSignedLabelsLoadedSuccess");
-        flowLayout.setVisibility(View.VISIBLE);
+        tagCloudView.setVisibility(View.VISIBLE);
         textView.setVisibility(View.GONE);
 
-
-
-        flowLayout.setAdapter(new TagAdapter<String >(labels) {
-            @Override
-            public View getView(FlowLayout parent, int position, String o) {
-
-                TextView textView = (TextView) LayoutInflater.from(HistoryLabelActivity.this)
-                        .inflate(R.layout.tv,flowLayout,false);
-                textView.setText(o);
-                return textView;
-            }
-        });
-
-        flowLayout.setOnSelectListener(new TagFlowLayout.OnSelectListener() {
-            @Override
-            public void onSelected(Set<Integer> selectPosSet) {
-
-                if(selectPosSet == null){
-
-                    return;
-                }
-                if(selectPosSet.size() != 1){
-
-                    return;
-                }
-                String ss = null;
-                for(int i : selectPosSet){
-
-                    ss = labels.get(i);
-                }
-
-
-                Intent intent = new Intent(HistoryLabelActivity.this,HistoryImageActivity.class);
-                intent.putExtra(HistoryImageActivity.TITLE,ss);
-                startActivity(intent);
-
-                flowLayout.getAdapter().setSelectedList();
-            }
-        });
+        adapter = new TagCloudAdapter(labels);
+        tagCloudView.setAdapter(adapter);
 
     }
 
@@ -140,7 +110,7 @@ public class HistoryLabelActivity extends AppCompatActivity implements HistoryLa
     public void onSignedLabelsLoadedFailed() {
 
         Log.d(TAG,"onSignedLabelsLoadedFailed");
-        flowLayout.setVisibility(View.GONE);
+        tagCloudView.setVisibility(View.GONE);
         textView.setVisibility(View.VISIBLE);
     }
 

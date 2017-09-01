@@ -38,6 +38,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile(name: 'photoview-release', ext: 'aar')
+
     compile 'com.android.support:appcompat-v7:25.1.1'
     compile 'com.android.support:appcompat-v7:25.1.1'
     compile 'com.android.support:design:25.1.1'
@@ -61,7 +62,7 @@ dependencies {
     compile "com.ashokvarma.android:bottom-navigation-bar:+"
 
     compile 'com.contrarywind:Android-PickerView:3.2.6'
-
+    compile 'com.moxun:tagcloudlib:1.2.0'
     testCompile "org.robolectric:robolectric:3.3.1"
     testCompile "org.mockito:mockito-core:+"
     testCompile 'org.khronos:opengl-api:gl1.1-android-2.1_r1'
