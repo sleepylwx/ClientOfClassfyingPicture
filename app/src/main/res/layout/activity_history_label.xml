@@ -44,6 +44,18 @@
         app:autoScrollMode="uniform"
         />
 
+    <com.zhy.view.flowlayout.TagFlowLayout
+        android:id="@+id/flowlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/appbarlayout"
+        android:layout_centerInParent="true"
+        android:padding="20dp"
+        app:max_select="1"
+        android:visibility="gone">
+    </com.zhy.view.flowlayout.TagFlowLayout>
+
+
     <TextView
         android:id="@+id/textview_historylabel"
         android:layout_width="wrap_content"

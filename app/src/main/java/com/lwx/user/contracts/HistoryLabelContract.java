@@ -13,6 +13,8 @@ public interface HistoryLabelContract {
 
         void onSignedLabelsLoadedSuccess(List<String> labels);
         void onSignedLabelsLoadedFailed();
+
+        void jumpToHistoryImageActivity(String label);
     }
 
     public interface Presenter extends  BaseContract.Presenter<HistoryLabelContract.View>{

@@ -8,6 +8,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.lwx.user.R;
+import com.lwx.user.contracts.HistoryLabelContract;
+import com.lwx.user.ui.activity.HistoryLabelActivity;
 import com.moxun.tagcloudlib.view.TagsAdapter;
 
 import java.util.List;
@@ -21,12 +23,15 @@ public class TagCloudAdapter extends TagsAdapter {
 
     private List<String> list;
 
+    private HistoryLabelContract.View activity;
+
     public TagCloudAdapter() {
         super();
     }
 
-    public TagCloudAdapter(List<String > list){
+    public TagCloudAdapter(HistoryLabelContract.View activity,List<String > list){
 
+        this.activity = activity;
         this.list = list;
 
     }
@@ -48,6 +53,13 @@ public class TagCloudAdapter extends TagsAdapter {
         LinearLayout linearLayout = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.item_tagcloud,null);
 
         ((TextView)linearLayout.getChildAt(0)).setText(str);
+        linearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                activity.jumpToHistoryImageActivity(((TextView) linearLayout.getChildAt(0)).getText().toString());
+            }
+        });
         return linearLayout;
     }
 
