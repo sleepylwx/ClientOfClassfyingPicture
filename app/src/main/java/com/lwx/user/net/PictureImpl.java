@@ -7,6 +7,7 @@ import com.lwx.user.model.model.Image;
 import com.lwx.user.model.model.Pair;
 import com.lwx.user.net.rx.PictureService;
 import com.lwx.user.net.rx.StringConverterFactory;
+import com.lwx.user.utils.ConstStringMessages;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -467,6 +468,147 @@ public class PictureImpl implements PictureAgent {
 
                 e.onNext(list);
 
+            }
+        });
+    }
+
+
+    @Override
+    public Observable<List<Image>> getMarkedPics(long uid) {
+
+
+        return Observable.create(new ObservableOnSubscribe<List<Image>>() {
+            @Override
+            public void subscribe(@NonNull ObservableEmitter<List<Image>> e) throws Exception {
+
+                Response<String> response = picService.getUserMarkedPics(uid).execute();
+                String content = response.body();
+
+                JSONObject jsonObject = new JSONObject(content);
+
+                JSONArray array = jsonObject.getJSONArray("pics");
+
+                List<Image> list = new ArrayList<Image>();
+
+
+                for(int i = 0; i < array.length();++i){
+
+
+                    String uuid = array.getJSONObject(i).getString("uuid");
+                    list.add(new Image(App.getInstance().getUid(),uuid,App.BASE_URL + "getpic.action?uuid="+uuid));
+                }
+
+                e.onNext(list);
+
+            }
+        });
+
+
+    }
+
+
+    @Override
+    public Observable<List<Image>> getCertainLabelMarkedPics(long uid, String label) {
+
+        return Observable.create(new ObservableOnSubscribe<List<Image>>() {
+            @Override
+            public void subscribe(@NonNull ObservableEmitter<List<Image>> e) throws Exception {
+
+                Response<String> response = picService.getCertainLabelMarkedPics(uid,label).execute();
+                String content = response.body();
+
+                JSONObject jsonObject = new JSONObject(content);
+
+                JSONArray array = jsonObject.getJSONArray("uuids");
+
+                List<Image> list = new ArrayList<Image>();
+
+                for(int i = 0; i < array.length(); ++i){
+
+                    String uuid = array.getString(i);
+                    list.add(new Image(App.getInstance().getUid(),
+                            uuid,App.BASE_URL + "getpic.action?uuid="+uuid));
+                }
+
+                e.onNext(list);
+
+            }
+        });
+    }
+
+    @Override
+    public Observable<List<String>> getPicMarkedLabels(long uid, String uuid) {
+
+        return Observable.create(new ObservableOnSubscribe<List<String>>() {
+            @Override
+            public void subscribe(@NonNull ObservableEmitter<List<String>> e) throws Exception {
+
+                Response<String> response = picService.getPicMarkedLabels(uid,uuid).execute();
+                String content = response.body();
+
+                JSONObject jsonObject = new JSONObject(content);
+
+                JSONArray array = jsonObject.getJSONArray("tagname");
+
+                List<String> list = new ArrayList<String>();
+
+
+                for(int i = 0; i <array.length() ;++i){
+
+                    list.add(array.getString(i));
+
+                }
+
+                e.onNext(list);
+            }
+        });
+    }
+
+    @Override
+    public Observable<List<String>> getUserMarkedLabels(long uid) {
+
+        return Observable.create(new ObservableOnSubscribe<List<String>>() {
+            @Override
+            public void subscribe(@NonNull ObservableEmitter<List<String>> e) throws Exception {
+
+                Response<String> response = picService.getUserMarkedTag(uid).execute();
+                String content = response.body();
+
+                JSONObject jsonObject = new JSONObject(content);
+
+                JSONArray array = jsonObject.getJSONArray("tags");
+                List<String> list = new ArrayList<String>();
+                for(int i = 0; i < array.length(); ++i){
+
+                    list.add(array.getString(i));
+                }
+
+                e.onNext(list);
+
+            }
+        });
+    }
+
+    @Override
+    public Completable removePicTag(String token, String uuid, String tag) {
+
+        return Completable.create(new CompletableOnSubscribe() {
+            @Override
+            public void subscribe(@NonNull CompletableEmitter e) throws Exception {
+
+                Response<String> response = picService.removePicTags(token,uuid,tag).execute();
+
+                String content = response.body();
+
+                JSONObject jsonObject = new JSONObject(content);
+
+                if(ConstStringMessages.TOKEN_ERROR.equals(jsonObject.getString("msg"))){
+
+                    e.onError(new Throwable(ConstStringMessages.TOKEN_ERROR));
+                    return;
+                }
+
+                e.onComplete();
             }
         });
     }

@@ -57,12 +57,15 @@ public class ImageDetailActivity extends Activity implements ImageDetailContract
 
     }
 
+    Set<Integer> set;
+    Set<Integer> setFirst;
+
     @OnClick(R.id.post_label)
     public void onClick1(){
 
 
-        Set<Integer> set = flowLayout.getSelectedList();
-        Set<Integer> setFirst = flowLayoutFirst.getSelectedList();
+        set = flowLayout.getSelectedList();
+        setFirst = flowLayoutFirst.getSelectedList();
 
         if(setFirst.size() + set.size() < 1){
 
@@ -70,17 +73,17 @@ public class ImageDetailActivity extends Activity implements ImageDetailContract
             return;
         }
 
-        List<String> selectedLabels = new ArrayList<>();
-        for(Integer i : set){
+        if(isLabeled){
 
-            selectedLabels.add(curLables.get(i));
+            removePicTags();
+        }
+        else{
+
+            post();
         }
 
-        for(Integer i : setFirst){
 
-            selectedLabels.add(firstLabels.get(i));
-        }
-        presenter.postSelectedLabels(App.getInstance().getToken(),uuid,App.getInstance().getUid(),selectedLabels);
+
     }
     private String uuid;
     private ImageDetailContract.Presenter presenter;
@@ -116,6 +119,33 @@ public class ImageDetailActivity extends Activity implements ImageDetailContract
         Log.d(TAG,"onDestroy");
         super.onDestroy();
         presenter = null;
+    }
+
+    private void removePicTags(){
+
+
+        for(int i = 0; i < curLables.size(); ++i){
+
+            presenter.removePicTag(App.getInstance().getToken(),uuid,curLables.get(i));
+        }
+
+    }
+
+    private void post(){
+
+
+        List<String> selectedLabels = new ArrayList<>();
+        for(Integer i : set){
+
+            selectedLabels.add(curLables.get(i));
+        }
+
+        for(Integer i : setFirst){
+
+            selectedLabels.add(firstLabels.get(i));
+        }
+        presenter.postSelectedLabels(App.getInstance().getToken(),uuid,App.getInstance().getUid(),selectedLabels);
+
     }
 
     private void init(){
@@ -159,35 +189,7 @@ public class ImageDetailActivity extends Activity implements ImageDetailContract
         presenter.getLabels(App.getInstance().getUid(),uuid,isLabeled);
     }
 
-//    @Override
-//    public void onSignedLabelsLoadSucceed(List<Label> labels) {
-//
-//
-//        Log.d(TAG,"onSignedLabelsLoadSucceed");
-//
-//        if(labels == null || labels.size() == 0){
-//
-//            return ;
-//        }
-//
-//        Set<Integer> set = new HashSet<>();
-//
-//        for(int i = 0; i < labels.size() ; ++i){
-//
-//
-//            for(int j = 0; j < curLables.size() ; ++j){
-//
-//                if(labels.get(i).label.equals(curLables.get(j))){
-//
-//                    set.add(j);
-//                    break;
-//                }
-//
-//            }
-//        }
-//        flowLayout.getAdapter().setSelectedList(set);
-//
-//    }
+
 
     public static final String TAG = "ImageDetailActivity";
     @Override
@@ -211,11 +213,7 @@ public class ImageDetailActivity extends Activity implements ImageDetailContract
             }
         });
 
-//        if(isLabeled){
-//
-//
-//            presenter.getSignedLabels(App.getInstance().getUid(),uuid);
-//        }
+
 
         flowLayout.setVisibility(View.VISIBLE);
         textViewSecond.setVisibility(View.VISIBLE);
@@ -304,30 +302,18 @@ public class ImageDetailActivity extends Activity implements ImageDetailContract
 
         postedLabels = labels;
         tempLabels = labels;
-        presenter.changeUnSignedImageToSigned(App.getInstance().getUid(),uuid,isLabeled,true);
 
         Calendar date = Calendar.getInstance();
         presenter.addPostTimeNum(App.getInstance().getUid(),
                 date.get(Calendar.YEAR),date.get(Calendar.MONTH)+1,date.get(Calendar.DAY_OF_MONTH));
 
+        jumpToMainActivity();
     }
 
-    @Override
-    public void onChangeUnSignedImageToSignedSuccess() {
-
-        for(int i = 0 ; i < postedLabels.size() ;++i){
-
-            Log.d(TAG,"postedLabels " + postedLabels.get(i));
-        }
-
-        Log.d(TAG,"presenter + " + presenter);
-        presenter.saveSelectedLabelsByImage(App.getInstance().getUid(),curImage,postedLabels);
 
 
-    }
 
-    @Override
-    public void onSaveSelectedLabelsByImageSuccess() {
+    private void jumpToMainActivity() {
 
 
         if(!isLabeled){
@@ -380,10 +366,7 @@ public class ImageDetailActivity extends Activity implements ImageDetailContract
     @Override
     public void onImageLabelAddedSucceed(String label) {
 
-        if(!isLabeled){
 
-            presenter.saveImageLabel(label,uuid);
-        }
         onLabelsLoadSucceed(curLables);
     }
 
@@ -466,4 +449,16 @@ public class ImageDetailActivity extends Activity implements ImageDetailContract
 
     }
 
+    private int counter = 0;
+
+    @Override
+    public void onRemovePicTagSuccess() {
+
+        ++counter;
+
+        if(counter == curLables.size()){
+
+            post();
+        }
+    }
 }

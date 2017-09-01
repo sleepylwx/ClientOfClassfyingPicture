@@ -3,8 +3,8 @@ package com.lwx.user.presenter;
 import android.util.Log;
 
 import com.lwx.user.contracts.HistoryStatisticsContract;
-import com.lwx.user.model.ImageImpl;
-import com.lwx.user.model.ImageRepo;
+import com.lwx.user.model.CounterImpl;
+import com.lwx.user.model.CounterRepo;
 import com.lwx.user.model.model.Pair;
 import com.lwx.user.net.PictureAgent;
 import com.lwx.user.net.PictureImpl;
@@ -27,12 +27,12 @@ public class HistoryStatisticsPresenter implements HistoryStatisticsContract.Pre
 
     private HistoryStatisticsContract.View context;
     private PictureAgent pictureAgent;
-    private ImageRepo imageRepo;
+    private CounterRepo counterRepo;
     public HistoryStatisticsPresenter(HistoryStatisticsContract.View context){
 
         this.context = context;
         pictureAgent = PictureImpl.getInstance();
-        imageRepo = ImageImpl.getInstance();
+        counterRepo = CounterImpl.getInstance();
     }
 
     @Override
@@ -43,7 +43,7 @@ public class HistoryStatisticsPresenter implements HistoryStatisticsContract.Pre
     @Override
     public void getTimeNum(long uid, int kind, Calendar start,Calendar end) {
 
-        imageRepo.getTimeNum(uid,kind,start,end)
+        counterRepo.getTimeNum(uid,kind,start,end)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<List<Integer>>() {

@@ -9,9 +9,6 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import com.lwx.user.App;
 import com.lwx.user.model.model.DayNum;
-import com.lwx.user.model.model.Image;
-import com.lwx.user.model.model.ImageLabel;
-import com.lwx.user.model.model.Label;
 import com.lwx.user.model.model.MonthNum;
 import com.lwx.user.model.model.User;
 import com.lwx.user.model.model.YearNum;
@@ -33,9 +30,6 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
     public void onCreate(SQLiteDatabase database, ConnectionSource connectionSource) {
         try{
             TableUtils.createTable(connectionSource, User.class);
-            TableUtils.createTable(connectionSource, Image.class);
-            TableUtils.createTable(connectionSource, ImageLabel.class);
-            TableUtils.createTable(connectionSource, Label.class);
             TableUtils.createTable(connectionSource, DayNum.class);
             TableUtils.createTable(connectionSource, MonthNum.class);
             TableUtils.createTable(connectionSource, YearNum.class);

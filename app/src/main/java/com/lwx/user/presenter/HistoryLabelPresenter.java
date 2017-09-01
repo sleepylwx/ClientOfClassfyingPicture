@@ -3,18 +3,14 @@ package com.lwx.user.presenter;
 import android.util.Log;
 
 import com.lwx.user.contracts.HistoryLabelContract;
-import com.lwx.user.model.ImageImpl;
-import com.lwx.user.model.ImageRepo;
-import com.lwx.user.model.model.Label;
+import com.lwx.user.net.PictureAgent;
+import com.lwx.user.net.PictureImpl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -24,14 +20,14 @@ import io.reactivex.schedulers.Schedulers;
 public class HistoryLabelPresenter implements HistoryLabelContract.Presenter {
 
     private HistoryLabelContract.View context;
-    private ImageRepo imageRepo;
+    private PictureAgent pictureAgent;
 
     public static final String TAG = "HistoryLabelPresenter";
 
     public HistoryLabelPresenter(HistoryLabelContract.View context){
 
         this.context = context;
-        imageRepo = ImageImpl.getInstance();
+        this.pictureAgent = PictureImpl.getInstance();
 
     }
 
@@ -44,22 +40,7 @@ public class HistoryLabelPresenter implements HistoryLabelContract.Presenter {
     @Override
     public void getSignedLabels(long uid) {
 
-        imageRepo.getAllLabels(uid,true)
-                .map(new Function<List<Label>, List<String>>() {
-
-                    @Override
-                    public List<String> apply(@NonNull List<Label> labels) throws Exception {
-
-                        List<String> temp = new ArrayList<String>();
-
-                        for(int i = 0; i < labels.size(); ++i){
-
-                            temp.add(labels.get(i).label);
-                        }
-
-                        return temp;
-                    }
-                })
+        pictureAgent.getUserMarkedLabels(uid)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<List<String>>() {
@@ -90,6 +71,7 @@ public class HistoryLabelPresenter implements HistoryLabelContract.Presenter {
                     public void onError(Throwable e) {
 
                         context.onSignedLabelsLoadedFailed();
+                        context.onNetWorkError();
                         Log.d(TAG,"getSignedLabels error labels null or empty!");
 
                     }

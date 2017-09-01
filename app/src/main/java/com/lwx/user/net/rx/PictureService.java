@@ -42,7 +42,7 @@ public interface PictureService {
     Call<String> getLabelsNum(@Field("uid")long uid);
 
 
-    @POST("/getuserlikedpic.action")
+    @POST("/getpicbytagname.action")
     @FormUrlEncoded
     Call<String> getPicsByTag(@Field("tagname") String tag);
 
@@ -55,4 +55,21 @@ public interface PictureService {
     @FormUrlEncoded
     Call<String> getUserMarkedPics(@Field("uid") long uid);
 
+    @POST("/getusermarkedtag.action")
+    @FormUrlEncoded
+    Call<String> getUserMarkedTag(@Field("uid")long uid);
+
+    @POST("/getusermarkedpicwithtag.action")
+    @FormUrlEncoded
+    Call<String> getCertainLabelMarkedPics(@Field("uid")long uid,@Field("tagname")String tag);
+
+
+    @POST("/getusermarkedtagonpic.action")
+    @FormUrlEncoded
+    Call<String> getPicMarkedLabels(@Field("uid") long uid,@Field("uuid") String uuid);
+
+
+    @POST("/unmarkpictag.action")
+    @FormUrlEncoded
+    Call<String> removePicTags(@Field("token")String token,@Field("uuid")String uuid,@Field("tagname")String tagname);
 }

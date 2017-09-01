@@ -61,4 +61,14 @@ public interface PictureAgent {
     Observable<List<String>>getFirstLabel(String uuid);
 
     Observable<List<Image>> getFinishedPics(long uid);
+
+    Observable<List<Image>> getMarkedPics(long uid);
+
+    Observable<List<Image>> getCertainLabelMarkedPics(long uid,String label);
+
+    Observable<List<String>> getPicMarkedLabels(long uid,String uuid);
+
+    Observable<List<String>> getUserMarkedLabels(long uid);
+
+    Completable removePicTag(String token,String uuid,String tag);
 }

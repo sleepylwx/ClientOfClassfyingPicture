@@ -366,12 +366,11 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
     private void initSet(){
 
-        presenter.getAllPicturesInDb(App.getInstance().getUid(),
-                true);
+        presenter.getAllMarkedPictures(App.getInstance().getUid());
     }
 
     @Override
-    public void onAllPictureLoadedInDBSuccess(List<Image> images) {
+    public void onAllMarkedPictureLoaded(List<Image> images) {
 
         for(int i = 0; i < images.size(); ++i){
 
@@ -488,8 +487,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
         userName.setText(user.nickName);
 
-        //strenthenToolBar.setHeaderPicture(imageLoader,user.headPath);
-        //nickNameText.setText(curUser.nickName);
+
     }
 
     @Override
@@ -512,29 +510,10 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         canScroll = true;
         Log.d(TAG,"tempSize " + temp.size() + " " + imageList.size() );
         addImages(temp);
-        presenter.savePicturesInDb(App.getInstance().getUid(),temp);
+
     }
 
-    @Override
-    public void onImageLoadedDBSucceed(List<Image> imageList) {
 
-        Log.d(TAG, "imageLoadedDB succeed!");
-        List<Image> temp = new ArrayList<>();
-        for (int i = 0; i < imageList.size(); ++i) {
-
-            Log.d(TAG, "uuid:" + imageList.get(i).uuid + " path:" + imageList.get(i).imagePath);
-
-//            if(!set.contains(imageList.get(i))){
-//
-//
-//                temp.add(imageList.get(i));
-//            }
-
-        }
-        canScroll = true;
-
-        addImages(temp);
-    }
 
     @Override
     public void clearAndSaveList(List<Image> imageList) {
@@ -563,7 +542,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
         imageSearchList = new ArrayList<>();
         presenter.getImagesLabels(this.list,imageSearchList);
-        presenter.refreshUnLabeledImageDb(App.getInstance().getUid(),list);
+
     }
 
     private void addImages(List<Image> images) {
@@ -652,17 +631,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     }
 
-    @Override
-    public void showWaitingNetWork() {
 
 
-    }
-
-    @Override
-    public void nonShowWaitingNetWork() {
-
-
-    }
 
     @Override
     public void nonShowSwipe() {
@@ -691,18 +661,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     }
 
-//    @Override
-//    public void onImageAddedSucceed(List<Image> imageList) {
-//
-//        addImages(imageList);
-//    }
 
 
-    @Override
-    public void onLoadPicInDbError() {
 
-        Toast.makeText(this, "读取缓存图片失败，下拉刷新试试吧...", Toast.LENGTH_SHORT).show();
-    }
 
     @Override
     public void onImageLoadedFailed() {

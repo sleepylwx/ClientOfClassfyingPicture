@@ -163,7 +163,7 @@ public class HistoryImageActivity extends AppCompatActivity implements HistoryIm
 
     private void initPicture(){
 
-        presenter.getLabeledImagesInDb(App.getInstance().getUid(),title);
+        presenter.getMarkedPics(App.getInstance().getUid(),title);
     }
 
     @Override

@@ -19,28 +19,25 @@ public interface MainContract {
         void onUserLoadedFailed();
 
         void onImageLoadedSucceed(List<Image> imageList);
-        //void onImageAddedSucceed(List<Image> imageList);
+
 
         void clearAndSaveList(List<Image> imageList);
 
+        void onAllMarkedPictureLoaded(List<Image> images);
         //adapter
 
         void startGetMorePicByNetWork();
 
         //view
 
-        void showWaitingNetWork();
-        void nonShowWaitingNetWork();
+
         void nonShowSwipe();
 
 
-        void onLoadPicInDbError();
 
         void onImageLoadedFailed();
 
-        void onAllPictureLoadedInDBSuccess(List<Image> images);
 
-        void onImageLoadedDBSucceed(List<Image> images);
 
         void onImageSearchSucceed(List<Image> images);
 
@@ -64,11 +61,9 @@ public interface MainContract {
 
         void getMoreRandomPicturesByNetWork(long uid,int num);
 
-        void getAllPicturesInDb(long uid,boolean isLabeled);
+        void getAllMarkedPictures(long uid);
 
-        void savePicturesInDb(long uid,List<Image> images);
 
-        void refreshUnLabeledImageDb(long uid,List<Image> images);
 
         void searchImages(String label, List<ImageSearch> imageSearchList);
 

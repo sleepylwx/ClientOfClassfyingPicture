@@ -21,7 +21,7 @@ public interface HistoryImageContract {
     public interface Presenter extends  BaseContract.Presenter<HistoryImageContract.View>{
 
 
-        void getLabeledImagesInDb(long uid,String title);
+        void getMarkedPics(long uid,String title);
         void getFinishedImages(long uid);
     }
 }

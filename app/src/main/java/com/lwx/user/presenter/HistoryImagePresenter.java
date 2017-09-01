@@ -3,8 +3,6 @@ package com.lwx.user.presenter;
 import android.util.Log;
 
 import com.lwx.user.contracts.HistoryImageContract;
-import com.lwx.user.model.ImageImpl;
-import com.lwx.user.model.ImageRepo;
 import com.lwx.user.model.model.Image;
 import com.lwx.user.net.PictureAgent;
 import com.lwx.user.net.PictureImpl;
@@ -26,13 +24,13 @@ public class HistoryImagePresenter implements HistoryImageContract.Presenter{
     public static final String TAG = "HistoryImagePresenter";
 
     private HistoryImageContract.View context;
-    private ImageRepo imageRepo;
+
     private PictureAgent pictureAgent;
 
     public HistoryImagePresenter(HistoryImageContract.View context){
 
         this.context = context;
-        imageRepo = ImageImpl.getInstance();
+
         pictureAgent = PictureImpl.getInstance();
     }
 
@@ -43,11 +41,11 @@ public class HistoryImagePresenter implements HistoryImageContract.Presenter{
     }
 
     @Override
-    public void getLabeledImagesInDb(long uid,String title) {
+    public void getMarkedPics(long uid,String title) {
 
         if(title.equals("标记过的图片")){
 
-            imageRepo.getAllImages(uid,true)
+            pictureAgent.getMarkedPics(uid)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Observer<List<Image>>() {
@@ -75,6 +73,7 @@ public class HistoryImagePresenter implements HistoryImageContract.Presenter{
                         public void onError(Throwable e) {
 
                             context.onImageLoadedFailed();
+                            context.onNetWorkError();
                             Log.d(TAG,"getLabeledImagesInDb error!");
                             e.printStackTrace();
 
@@ -88,7 +87,7 @@ public class HistoryImagePresenter implements HistoryImageContract.Presenter{
         }
         else{
 
-            imageRepo.getImagesByLabel(uid,title,true)
+            pictureAgent.getCertainLabelMarkedPics(uid,title)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Observer<List<Image>>() {
@@ -100,6 +99,11 @@ public class HistoryImagePresenter implements HistoryImageContract.Presenter{
                         @Override
                         public void onNext(List<Image> images) {
 
+                            if(images == null || images.size() == 0){
+
+                                context.onImageLoadedFailed();
+                                return;
+                            }
                             context.onImageLoadedSucceed(images);
                             Log.d(TAG,"getLabeledImagesInDb success!");
 
@@ -109,6 +113,8 @@ public class HistoryImagePresenter implements HistoryImageContract.Presenter{
                         public void onError(Throwable e) {
 
                             Log.d(TAG,"getLabeledImagesInDb error!");
+                            context.onImageLoadedFailed();
+                            context.onNetWorkError();
                             e.printStackTrace();
                         }
 

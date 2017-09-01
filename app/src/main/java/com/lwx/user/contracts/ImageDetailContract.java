@@ -17,15 +17,15 @@ public interface ImageDetailContract {
         void onLabelsLoadSucceed(List<String> labels);
         void onLabelsPostSucceed(List<String> labels);
         void onImageLabelAddedSucceed(String label);
-        //void onSignedLabelsLoadSucceed(List<Label> labels);
-        void onChangeUnSignedImageToSignedSuccess();
-        void onSaveSelectedLabelsByImageSuccess();
+
+
 
 
         void onFirstLabelGetSuccess(List<String> list);
 
         void onFirstLabelGetFailed();
 
+        void onRemovePicTagSuccess();
     }
 
     public interface Presenter extends BaseContract.Presenter<ImageDetailContract.View>{
@@ -41,18 +41,7 @@ public interface ImageDetailContract {
          */
         void postSelectedLabels(String token,String uuid,long uid,List<String> labels);
 
-        /**
-         *
-         * @param label
-         * 将用户自定义的label添加到本地数据库
-         */
-        void saveImageLabel(String label,String uuid);
 
-        //void getSignedLabels(long uid,String uuid);
-
-        void changeUnSignedImageToSigned(long uid,String uuid,boolean oddLabeledState,boolean isLabeled);
-
-        void saveSelectedLabelsByImage(long uid,Image image,List<String> labels);
 
         void finishTask(String token,int num);
 
@@ -60,6 +49,7 @@ public interface ImageDetailContract {
 
         void getFirstLabel(String uuid);
 
+        void removePicTag(String token,String uuid,String tag);
     }
 
 }
