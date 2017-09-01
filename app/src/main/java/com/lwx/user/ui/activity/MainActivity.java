@@ -49,6 +49,7 @@ import com.lwx.user.utils.PreferenceHelper;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -704,11 +705,42 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 set.add(list.get(position).uuid);
                 Log.d(TAG,"setNum " + set.size());
 
-                list.remove(position);
-                Log.d(TAG,"position size " + list.size());
-                imageSearchList.remove(position);
-                adapter.notifyItemRemoved(position);
-                adapter.notifyItemRangeChanged(position,list.size()-position);
+//                Iterator<Image> it = list.iterator();
+//                String str = list.get(position).uuid;
+//                canScroll = false;
+//                while(it.hasNext()){
+//
+//                    String temp = it.next().uuid;
+//                    if(str.equals(temp)){
+//
+//                        it.remove();
+//                    }
+//                }
+//                canScroll = true;
+                int count = 0;
+                String str = list.get(position).uuid;
+                int num = list.size();
+                for(int i = 0; i < num; ++i){
+
+
+                    String temp = list.get(i-count).uuid;
+                    if(str.equals(temp)){
+
+                        list.remove(i-count);
+                        imageSearchList.remove(i-count);
+                        adapter.notifyItemRemoved(i-count);
+                        adapter.notifyItemRangeChanged(i-count,list.size()-(i-count));
+                        ++count;
+                    }
+
+
+                }
+                //list.remove(position);
+                //Log.d(TAG,"position size " + list.size());
+                //imageSearchList.remove(position);
+                //adapter.notifyDataSetChanged();
+                //adapter.notifyItemRemoved(position);
+                //adapter.notifyItemRangeChanged(position,list.size()-position);
                 break;
 
             case RESULTCODE1:
