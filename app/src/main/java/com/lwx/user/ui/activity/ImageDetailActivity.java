@@ -175,7 +175,7 @@ public class ImageDetailActivity extends Activity implements ImageDetailContract
         }
         else{
 
-            textViewSecond.setText("推荐标签：");
+            textViewSecond.setText("标签：");
         }
     }
 

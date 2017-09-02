@@ -614,8 +614,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
             return;
         }
-        presenter.getMorePicturesByNetWork(App.getInstance().getUid()
-                , App.getInstance().getToken(), App.getInstance().getpullPicNum());
+        presenter.getMoreRandomPicturesByNetWork(App.getInstance().getUid(),App.getInstance().getpullPicNum());
 
     }
 
