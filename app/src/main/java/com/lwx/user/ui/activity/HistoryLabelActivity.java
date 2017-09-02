@@ -138,8 +138,17 @@ public class HistoryLabelActivity extends AppCompatActivity implements HistoryLa
 
         this.labels = labels;
         Log.d(TAG,"onSignedLabelsLoadedSuccess");
-        tagCloudView.setVisibility(View.VISIBLE);
-        textView.setVisibility(View.GONE);
+
+        if(mode == 0){
+
+            tagCloudView.setVisibility(View.VISIBLE);
+            textView.setVisibility(View.GONE);
+        }
+        else{
+
+            flowLayout.setVisibility(View.VISIBLE);
+            textView.setVisibility(View.GONE);
+        }
 
 
         adapter = new TagCloudAdapter(this,this.labels);

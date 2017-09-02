@@ -18,15 +18,15 @@
 
             <item
                 android:id="@+id/nav_history"
-                android:title="统计信息"/>
+                android:title="标签统计"/>
 
             <item
                 android:id="@+id/nav_label"
-                android:title="标记的标签" />
+                android:title="历史标签" />
 
             <item
                 android:id="@+id/nav_image"
-                android:title="标记的图片"/>
+                android:title="历史图片"/>
 
         </menu>
 

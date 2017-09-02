@@ -300,8 +300,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
         //bottomNavigationView.setAutoHideEnabled(false);
         bottomNavigationView.addItem(new BottomNavigationItem(R.drawable.first,"画像"))
+                .addItem(new BottomNavigationItem(R.drawable.third,"关键字"))
                 .addItem(new BottomNavigationItem(R.drawable.second,"随机"))
-                .addItem(new BottomNavigationItem(R.drawable.third,"兴趣"))
                 .initialise();
 
         bottomNavigationView.setTabSelectedListener(new BottomNavigationBar.OnTabSelectedListener() {
@@ -322,7 +322,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 //canScroll = true;
                 if(position == 0){
 
-
+                    userMode = 0;
                     swipeRefresh.setEnabled(true);
                     searchButton.setVisibility(View.INVISIBLE);
                     presenter.clearAndGetPicByNetWork(App.getInstance().getUid(),
@@ -331,8 +331,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                     //editText.removeTextChangedListener(textWatcher);
                     editText.addTextChangedListener(textWatcher);
                 }
-                else if(position == 1){
+                else if(position == 2){
 
+                    userMode = 1;
                     swipeRefresh.setEnabled(true);
                     searchButton.setVisibility(View.INVISIBLE);
                    // editText.removeTextChangedListener(textWatcher);
