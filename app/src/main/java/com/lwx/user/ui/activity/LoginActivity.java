@@ -518,6 +518,8 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     public void onUsersEmpty() {
 
         userEdittext.setComponentItemVisibility(1,View.GONE);
+        userEdittext.setComponentItemRight(0);
+        userEdittext.setText("");
         popupWindow.dismiss();
     }
 

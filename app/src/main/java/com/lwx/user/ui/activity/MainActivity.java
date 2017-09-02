@@ -200,6 +200,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
                     Log.d(TAG, "exit login" + " " + App.getInstance().getUid());
 
+                    new PreferenceHelper().deleteLogInUID();
                     startActivity(intent);
                     finish();
                 }

@@ -2,9 +2,11 @@ package com.lwx.user.model;
 
 import com.elvishew.xlog.XLog;
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.query.Exists;
 import com.lwx.user.model.model.User;
 
 import java.util.List;
+import java.util.concurrent.Exchanger;
 
 import io.reactivex.Completable;
 import io.reactivex.CompletableEmitter;
@@ -112,13 +114,23 @@ public class UserImpl implements UserRepo {
         return Observable.create(new ObservableOnSubscribe<String>() {
             @Override
             public void subscribe(@NonNull ObservableEmitter<String> e) throws Exception {
-                User user = userDao.queryForId(uid);
-                if(user != null)
-                    e.onNext(user.token);
-                else
-                    e.onNext(null);
-                XLog.v("(数据库)获取Token:" +  (user == null ? "空" : user.token));
-                e.onComplete();
+
+                try{
+
+                    User user = userDao.queryForId(uid);
+                    if(user != null)
+                        e.onNext(user.token);
+                    else
+                        e.onNext(null);
+                    XLog.v("(数据库)获取Token:" +  (user == null ? "空" : user.token));
+                    e.onComplete();
+
+                }
+                catch (Exception ex){
+
+                    e.onError(ex);
+                }
+
             }
         });
     }

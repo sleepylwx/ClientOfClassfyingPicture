@@ -12,7 +12,9 @@ import com.lwx.user.net.UserAgentImpl;
 import com.lwx.user.utils.PreferenceHelper;
 
 import io.reactivex.CompletableObserver;
+import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
@@ -65,9 +67,14 @@ public class SplashPresenter implements SplashContract.Presenter {
         userRepo.getToken(uid)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<String>() {
+                .subscribe(new Observer<String>() {
                     @Override
-                    public void accept(String s) throws Exception {
+                    public void onSubscribe(@NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(@NonNull String s) {
 
                         if (s == null || s.equals("")) {
 
@@ -125,6 +132,18 @@ public class SplashPresenter implements SplashContract.Presenter {
 
                                     });
                         }
+                    }
+
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+
+                        context.dispatch(1,uid,false);
+                    }
+
+                    @Override
+                    public void onComplete() {
+
                     }
                 });
 

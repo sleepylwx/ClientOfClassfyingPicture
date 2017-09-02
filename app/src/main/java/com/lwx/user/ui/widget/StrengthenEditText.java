@@ -150,6 +150,20 @@ public class StrengthenEditText extends RelativeLayout {
         density = displayMetrics.density;
     }
 
+    public void setComponentItemRight(int i){
+
+
+        LayoutParams lp = new LayoutParams(
+                LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT
+        );
+
+        lp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+
+        imageViewList.get(i).setPadding(componentPadding,0,componentPadding,0);
+
+        imageViewList.get(i).setLayoutParams(lp);
+    }
+
     public void setEditTextOnClickListener(OnClickListener listener){
 
         editText.setOnClickListener(listener);

@@ -28,6 +28,14 @@ public class PreferenceHelper {
 
     }
 
+    public void deleteLogInUID(){
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(App.getInstance());
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.remove(LOGINUSERID);
+        editor.apply();
+
+    }
     public int getInt(String tag,int defaultValue){
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(App.getInstance());
@@ -86,5 +94,7 @@ public class PreferenceHelper {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(App.getInstance());
         return preferences.getString(FAVORITE+tag,null);
     }
+
+
 
 }
