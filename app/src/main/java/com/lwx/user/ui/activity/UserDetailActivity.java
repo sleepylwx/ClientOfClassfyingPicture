@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.bigkoo.pickerview.OptionsPickerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.StringSignature;
+import com.j256.ormlite.stmt.query.Exists;
 import com.j256.ormlite.stmt.query.In;
 import com.lwx.user.App;
 import com.lwx.user.R;
@@ -213,23 +214,7 @@ public class UserDetailActivity extends AppCompatActivity implements UserDetailC
 
             //curUser.headPath = path;
             headerNeedPost = true;
-
-            try{
-
-                File file = new Compressor(this)
-                        .setCompressFormat(Bitmap.CompressFormat.JPEG)
-                        .compressToFile(new File(path));
-                path = file.getPath();
-            }
-            catch (Exception e){
-
-
-            }
-            finally {
-
-                presenter.saveUserHeader(curUser.token,path);
-            }
-
+            presenter.saveUserHeader(curUser.token,path);
 
 
         }
@@ -438,6 +423,22 @@ public class UserDetailActivity extends AppCompatActivity implements UserDetailC
 
                         isCroped = true;
                         path = ((File)t).getAbsolutePath();
+
+                        try{
+
+                            File file = new Compressor(UserDetailActivity.this)
+                                    .setCompressFormat(Bitmap.CompressFormat.JPEG)
+                                    .compressToFile(new File(path));
+                            path = file.getPath();
+
+                        }
+                        catch (Exception ex){
+
+
+                        }
+
+
+
                         imageLoader.loadImage(UserDetailActivity.this,path,header);
 
                     }

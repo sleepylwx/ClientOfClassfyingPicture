@@ -66,6 +66,5 @@ dependencies {
     testCompile "org.robolectric:robolectric:3.3.1"
     testCompile "org.mockito:mockito-core:+"
     testCompile 'org.khronos:opengl-api:gl1.1-android-2.1_r1'
-    compile 'com.tencent.bugly:crashreport:latest.release'
     compile 'id.zelory:compressor:2.1.0'
 }
