@@ -1,6 +1,7 @@
 package com.lwx.user.ui.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -43,6 +44,7 @@ import cn.finalteam.rxgalleryfinal.RxGalleryFinalApi;
 import cn.finalteam.rxgalleryfinal.rxbus.RxBusResultSubscriber;
 import cn.finalteam.rxgalleryfinal.ui.base.IRadioImageCheckedListener;
 import de.hdodenhof.circleimageview.CircleImageView;
+import id.zelory.compressor.Compressor;
 
 public class UserDetailActivity extends AppCompatActivity implements UserDetailContract.View{
 
@@ -211,7 +213,25 @@ public class UserDetailActivity extends AppCompatActivity implements UserDetailC
 
             //curUser.headPath = path;
             headerNeedPost = true;
-            presenter.saveUserHeader(curUser.token,path);
+
+            try{
+
+                File file = new Compressor(this)
+                        .setCompressFormat(Bitmap.CompressFormat.JPEG)
+                        .compressToFile(new File(path));
+                path = file.getPath();
+            }
+            catch (Exception e){
+
+
+            }
+            finally {
+
+                presenter.saveUserHeader(curUser.token,path);
+            }
+
+
+
         }
         else{
 

@@ -7,6 +7,7 @@ import com.beardedhen.androidbootstrap.TypefaceProvider;
 import com.elvishew.xlog.LogConfiguration;
 import com.elvishew.xlog.LogLevel;
 import com.elvishew.xlog.XLog;
+import com.tencent.bugly.crashreport.CrashReport;
 
 import io.reactivex.plugins.RxJavaPlugins;
 
@@ -44,6 +45,7 @@ public class App extends Application {
                 .b()                                                   // Enable border, disabled by default
                 .build();
 
+        CrashReport.initCrashReport(getApplicationContext(), "d4fbd8c855", true);
 
 
         XLog.init(config);
